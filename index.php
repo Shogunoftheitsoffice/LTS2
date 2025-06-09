@@ -35,18 +35,21 @@
         }
     </script>
 </head>
-<body>‎ 
-    <a href="add.php"><button title="Add new entries to my databse.">Add Entries</button></a>
-    <a href="copy.php"><button title="Copy selected entries in my database.">Copy Entries</button></a>    
-    <button onclick="deleteEntries()" title="Delete selected entries from my database.">Delete Entries</button>
-    <a href="excelimport.php"><button title="Import entries from an .xlsx file.">Import Excel</button></a> 
-     <a href="excelexport.php"><button title="Export entries to an .xlsx file.">Export Excel</button></a>
-    <a href="table.php"><button title="Go to the just table view. To come back replace table.php with index.php in the URL.">Go To Table</button></a> 
-    <a href="help.php"><button title="Submit feedback.">Help/Feedback</button></a> 
-    <strong>L</strong>ibrary <strong>T</strong>extbook <strong>S</strong>ystem <strong>V1.3   </strong><strong>Tokyo Version</strong>
-    <hr>
-    <div id="table-container">
-        <?php include 'table.php'; ?>
+<body>
+    <div class="container">
+        <h1 class="LTS-title">Library Textbook System V1.3 - Tokyo Version</h1>
+        <hr class="mb-3">
+        <a href="add.php" class="button btn-success" title="Add new entries to my database.">Add Entries</a>
+        <a href="copy.php" class="button btn-success" title="Copy selected entries in my database.">Copy Entries</a>    
+        <button onclick="deleteEntries()" class="btn-danger" title="Delete selected entries from my database.">Delete Entries</button>
+        <a href="excelimport.php" class="button btn-success" title="Import entries from an .xlsx file.">Import Excel</a> 
+        <a href="excelexport.php" class="button btn-success" title="Export entries to an .xlsx file.">Export Excel</a>
+        <a href="table.php" class="button btn-secondary" title="Go to the just table view. To come back replace table.php with index.php in the URL.">Go To Table</a> 
+        <a href="help.php" class="button btn-info" title="Submit feedback.">Help/Feedback</a> 
+        <hr>
+        <div id="table-container">
+            <?php include 'table.php'; ?>
+        </div>
     </div>
 </body>
 </html>
