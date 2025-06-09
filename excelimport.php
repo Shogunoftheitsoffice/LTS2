@@ -84,14 +84,17 @@ $dbname = "LTS";
 <html>
 <head>
     <title>Import</title>
+    <link rel="stylesheet" type="text/css" href="CSS/styles.css">
 </head>
 <body>
-    <h2>Import to my database</h2>
-    <form method="post" enctype="multipart/form-data">
-        <input type="file" name="file">
-        <button type="submit" name="submit">Import</button>
-    </form>
-    <br>
-    <a href="index.php"><button>Back</button></a>
+    <div class="container">
+        <h2>Import to my database</h2>
+        <form method="post" enctype="multipart/form-data">
+            <input type="file" name="file" required>
+            <button type="submit" name="submit" class="btn-success">Import</button>
+        </form>
+        <br>
+        <a href="index.php"><button class="btn-secondary">Back</button></a>
+    </div>
 </body>
 </html>
