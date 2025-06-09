@@ -42,29 +42,30 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add</title>
+    <link rel="stylesheet" type="text/css" href="CSS/styles.css"> <title>Add</title>
 </head>
 <body>
-    ‎<h2>New Textbook Entry</h2>
-    <form method="POST">
-        ‎<label for="barcode">Item Barcode:</label>
-        ‎<input type="text" id="barcode" name="barcode" required><br><br>
-<label for="book_title">Book Title:</label>
-        ‎<input type="text" id="book_title" name="book_title" required><br><br>
-<label for="course">Course:</label>
-        ‎<input type="text" id="course" name="course" required><br><br>
-‎<label for="course_title">Course Title:</label>
-        ‎<input type="text" id="course_title" name="course_title" required><br><br>
-‎<label for="name">Prof Name:</label>
-        ‎<input type="text" id="name" name="name" required><br><br>
-‎<label for="book">Book ID:</label>
-        ‎<input type="text" id="book" name="book" required><br><br>
-‎<input type="submit" name="submit" value="Submit">
-    </form>
-<br><br>
-    <!-- Back button -->
-    <form action="index.php">
-        ‎<input type="submit" value="Go Back">
-    </form>
+    <div class="container">
+        <h2>New Textbook Entry</h2>
+        <form method="POST">
+            <label for="barcode">Item Barcode:</label>
+            <input type="text" id="barcode" name="barcode" required><br>
+            <label for="book_title">Book Title:</label>
+            <input type="text" id="book_title" name="book_title" required><br>
+            <label for="course">Course:</label>
+            <input type="text" id="course" name="course" required><br>
+            <label for="course_title">Course Title:</label>
+            <input type="text" id="course_title" name="course_title" required><br>
+            <label for="name">Prof Name:</label>
+            <input type="text" id="name" name="name" required><br>
+            <label for="book">Book ID:</label>
+            <input type="text" id="book" name="book" required><br>
+            <input type="submit" name="submit" value="Submit">
+        </form>
+        <br>
+        <form action="index.php">
+            <input type="submit" value="Go Back" class="btn-secondary">
+        </form>
+    </div>
 </body>
 </html>
