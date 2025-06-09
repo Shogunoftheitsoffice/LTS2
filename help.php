@@ -2,22 +2,22 @@
 <html>
 <head>
   <title>Help/Feedback</title>
-</head>
+  <link rel="stylesheet" type="text/css" href="CSS/styles.css"> </head>
 <body>
-  <center><h2>Help page</h2></center>
-  <hr>
-  <center><p>If you need help find Tyler T</p></center>
-  <center><a href="index.php"><button>Back</button></a></center>
+  <div class="container text-center">
+    <h2>Help page</h2>
+    <hr>
+    <p>If you need help find Tyler T</p>
+    <a href="index.php" class="button btn-secondary">Back</a>
 
-  <center>
-    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" class="mt-3">
       <label for="text">Send Feedback</label><br>
       <textarea id="text" name="text" rows="10" cols="50" oninput="updateCountdown()" maxlength="1000"></textarea><br>
       <p>Characters left: <span id="countdown">1000</span></p>
       <button type="submit" name="submit" id="submitBtn">Submit</button>
       <br><br><br><br>
     </form>
-  </center>
+  </div>
 
 <?php
 $servername = "localhost";
