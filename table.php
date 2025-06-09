@@ -69,45 +69,73 @@ $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     $sql_count = "SELECT COUNT(*) AS total_entries FROM textbooks";
-$result_count = $conn->query($sql_count);
-$row_count = $result_count->fetch_assoc();
-$total_entries = $row_count['total_entries'];
+    $result_count = $conn->query($sql_count);
+    $row_count = $result_count->fetch_assoc();
+    $total_entries = $row_count['total_entries'];
 
-echo "<form id='textbooksForm' method='post'>";
-echo "TUID: <input type='text' name='tuid' required>";
-echo "Item Barcode: <input type='text' name='barcode' required>";
-echo "<input type='submit' value='Submit'>";
-echo "&nbsp;&nbsp;<span>Total Entries: " . $total_entries . "</span><hr>";
-echo "</form>";
+    echo "<form id='textbooksForm' method='post' class='mb-3'>";
+    echo "<label for='tuid-input'>TUID:</label>"; // Added labels for accessibility
+    echo "<input type='text' id='tuid-input' name='tuid' required class='mr-2'>";
+    echo "<label for='barcode-input'>Item Barcode:</label>"; // Added labels
+    echo "<input type='text' id='barcode-input' name='barcode' required class='mr-2'>";
+    echo "<input type='submit' value='Submit'>";
+    echo "&nbsp;&nbsp;<span class='total-entries'>Total Entries: " . $total_entries . "</span><hr>";
+    echo "</form>";
 
 
-
+    echo "<div class='table-responsive'>"; // Wrapper for responsive table
     echo "<table border='1' cellspacing='0' cellpadding='5'>";
-    echo "<tr><th><input type='checkbox' id='selectAllCheckbox' onchange='selectAll(this)'></th><th onclick='sortTable(0)'>TUID</th><th onclick='sortTable(9)'>Book ID</th><th onclick='sortTable(8)'>Barcode</th><th onclick='sortTable(1)'>Course</th><th onclick='sortTable(2)'>Course Title</th><th onclick='sortTable(3)'>Book Title</th><th onclick='sortTable(4)'>Prof Name</th><th onclick='sortTable(5)'>C/O</th><th onclick='sortTable(6)'>Last C/O</th><th onclick='sortTable(7)'>Expected Return</th><th>Actions</th></tr>";
-   while($row = $result->fetch_assoc()) {
-    $class = $row["CheckedOut"] == "yes" ? "checked-out" : "";
-   echo "<tr class='".$class."'><td><input type='checkbox' name='checked' value='1' data-barcode='".$row["Barcode"]."' onchange='toggleSelected(this)'";
-// Check if barcode is selected and mark checkbox accordingly
-$sql_selected = "SELECT COUNT(*) AS count FROM selected WHERE barcode='".$row["Barcode"]."'";
-$result_selected = $conn->query($sql_selected);
-$row_selected = $result_selected->fetch_assoc();
-if ($row_selected["count"] > 0) {
-    echo " checked";
-}
-echo "></td><td><span class='popup' onmouseover='loadPopupContent(\"".$row["TUID"]."\", this.querySelector(\".popuptext\"))'>".$row["TUID"]."<span class='popuptext'><div></div></span></span></td><td>".$row["Book"]."</td><td>".$row["Barcode"]."</td><td>".$row["Course"]."</td><td>".$row["course title"]."</td><td>".$row["book title"]."</td><td>".$row["Name"]."</td><td>".$row["CheckedOut"]."</td><td>".$row["Last Checkout"]."</td><td>".$row["Expected Return"]."</td>";
-    
-    // If checkedout is 'yes', display a return button
-    if($row["CheckedOut"] == "yes") {
-        echo "<td><form method='post' onsubmit='return confirmReturn()'><input type='hidden' name='return_barcode' value='".$row["Barcode"]."'><input type='submit' value='Return'></form></td>";
-    } else {
-        echo "<td></td>"; // Empty cell if not checked out
+    echo "<thead><tr>"; // Added thead for semantic HTML
+    echo "<th><input type='checkbox' id='selectAllCheckbox' onchange='selectAll(this)'></th>";
+    echo "<th onclick='sortTable(0)'>TUID</th>";
+    echo "<th onclick='sortTable(9)'>Book ID</th>";
+    echo "<th onclick='sortTable(8)'>Barcode</th>";
+    echo "<th onclick='sortTable(1)'>Course</th>";
+    echo "<th onclick='sortTable(2)'>Course Title</th>";
+    echo "<th onclick='sortTable(3)'>Book Title</th>";
+    echo "<th onclick='sortTable(4)'>Prof Name</th>";
+    echo "<th onclick='sortTable(5)'>C/O</th>";
+    echo "<th onclick='sortTable(6)'>Last C/O</th>";
+    echo "<th onclick='sortTable(7)'>Expected Return</th>";
+    echo "<th>Actions</th>";
+    echo "</tr></thead><tbody>"; // Added tbody
+    while($row = $result->fetch_assoc()) {
+        $class = $row["CheckedOut"] == "yes" ? "checked-out" : "";
+        echo "<tr class='".$class."'>";
+        echo "<td><input type='checkbox' name='checked' value='1' data-barcode='".$row["Barcode"]."' onchange='toggleSelected(this)'";
+        // Check if barcode is selected and mark checkbox accordingly
+        $sql_selected = "SELECT COUNT(*) AS count FROM selected WHERE barcode='".$row["Barcode"]."'";
+        $result_selected = $conn->query($sql_selected);
+        $row_selected = $result_selected->fetch_assoc();
+        if ($row_selected["count"] > 0) {
+            echo " checked";
+        }
+        echo "></td>";
+        // Added data-label for mobile responsiveness
+        echo "<td data-label='TUID:'><span class='popup' onmouseover='loadPopupContent(\"".$row["TUID"]."\", this.querySelector(\".popuptext\"))'>".$row["TUID"]."<span class='popuptext'><div></div></span></span></td>";
+        echo "<td data-label='Book ID:'>".$row["Book"]."</td>";
+        echo "<td data-label='Barcode:'>".$row["Barcode"]."</td>";
+        echo "<td data-label='Course:'>".$row["Course"]."</td>";
+        echo "<td data-label='Course Title:'>".$row["course title"]."</td>";
+        echo "<td data-label='Book Title:'>".$row["book title"]."</td>";
+        echo "<td data-label='Prof Name:'>".$row["Name"]."</td>";
+        echo "<td data-label='C/O:'>".$row["CheckedOut"]."</td>";
+        echo "<td data-label='Last C/O:'>".$row["Last Checkout"]."</td>";
+        echo "<td data-label='Expected Return:'>".$row["Expected Return"]."</td>";
+        
+        // If checkedout is 'yes', display a return button
+        if($row["CheckedOut"] == "yes") {
+            echo "<td><form method='post' onsubmit='return confirmReturn()'><input type='hidden' name='return_barcode' value='".$row["Barcode"]."'><input type='submit' value='Return' class='btn-secondary btn-small'></form></td>";
+        } else {
+            echo "<td></td>"; // Empty cell if not checked out
+        }
+        
+        echo "</tr>";
     }
-    
-    echo "</tr>";
-}
-    echo "</table>";
+    echo "</tbody></table>"; // Close tbody and table
+    echo "</div>"; // Close table-responsive wrapper
 } else {
-    echo "‎ No textbooks added.";
+    echo "No textbooks added.";
 }
 $conn->close();
 ?>
@@ -231,10 +259,10 @@ function removeFromSelected(barcode) {
 // Function to select all checkboxes
 function selectAll(checkbox) {
     var checkboxes = document.querySelectorAll('input[name="checked"]');
-    checkboxes.forEach(function(checkbox) {
-        checkbox.checked = !checkbox.checked; // Toggle the checked state
-        var barcode = checkbox.getAttribute('data-barcode');
-        toggleSelected(checkbox); // Toggle selected state
+    checkboxes.forEach(function(cb) { // Changed 'checkbox' to 'cb' to avoid conflict
+        cb.checked = !cb.checked; // Toggle the checked state
+        var barcode = cb.getAttribute('data-barcode');
+        toggleSelected(cb); // Toggle selected state
     });
 }
 
