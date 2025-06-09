@@ -1,0 +1,100 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+button, input[type="submit"] {
+    margin-top: 10px;
+    background-color: #ffffff;
+    color: black;
+    padding: 10px 15px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Optional: Style on hover */
+button:hover, input[type="submit"]:hover {
+    background-color: #e6e6e6;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th, td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+input[type="text"] {
+    padding: 10px 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    box-sizing: border-box;
+    border: 1px solid #000;
+    border-radius: 5px;
+}
+
+/* Responsive styles */
+@media only screen and (max-width: 600px) {
+    th, td {
+        padding: 5px; /* Adjust padding for small screens */
+    }
+    
+    input[type="text"] {
+        width: 100%; /* Make the text input take up 100% width on small screens */
+    }
+}
+
+#logo {
+            display: block;
+            margin: 0 auto;
+            width: 100px; /* Set the width to 100 pixels */
+        }
+
+.checked-out {
+            background-color: lightgreen;
+            border: 2px solid #03fc62;
+        }
+        /* Style for the popup */
+        .popup {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .popup .popuptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: #fff;
+            color: #000;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            border: 3px solid #03a1fc;
+            left: 50%;
+            margin-left: -100px;
+        }
+        .popup:hover .popuptext {
+            visibility: visible;
+        }
+        .popup .popuptext div {
+            display: none;
+        }
