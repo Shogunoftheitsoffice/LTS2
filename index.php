@@ -134,7 +134,7 @@ if ($result && $result->num_rows > 0) {
                 <table class="book-table">
                     <thead>
                         <tr>
-                            <th style="width: 40px;"><input type="checkbox" title="Select all"></th>
+                            <th style="width: 40px;"></th>
                             <th>Book Title</th>
                             <th>TUID</th>
                             <th>Course</th>
@@ -145,7 +145,7 @@ if ($result && $result->num_rows > 0) {
                     <tbody>
                         <?php foreach ($checkedOutBooks as $row): ?>
                             <tr class="main-row">
-                                <td onclick="event.stopPropagation()"><input type="checkbox" class="item-checkbox"></td>
+                                <td onclick="event.stopPropagation()"></td>
                                 <td class="item-title"><?php echo htmlspecialchars($row['book title'] ?? 'N/A'); ?></td>
                                 <td><?php echo htmlspecialchars($row['tuid'] ?? 'N/A'); ?></td>
                                 <td><?php echo htmlspecialchars($row['course'] ?? 'N/A'); ?></td>
