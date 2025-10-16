@@ -134,7 +134,6 @@ if ($result && $result->num_rows > 0) {
                 <table class="book-table">
                     <thead>
                         <tr>
-                            <th style="width: 40px;"><input type="checkbox" title="Select all"></th>
                             <th>Book Title</th>
                             <th>TUID</th>
                             <th>Course</th>
