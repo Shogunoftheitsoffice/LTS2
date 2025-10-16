@@ -65,13 +65,13 @@ $result = $conn->query($sql);
         .book-table tbody tr.main-row:hover {
             background-color: #f8f9fa;
         }
-        .main-row { cursor: pointer; } /* Make the main row clickable */
+        .main-row { cursor: pointer; }
         .item-title { font-weight: 600; color: #333; }
         .status-available { color: #28a745; font-weight: 500; }
         .status-out { color: #dc3545; font-weight: 500; }
 
-        /* --- NEW: Expandable Area Styles --- */
-        .details-row { display: none; } /* Hide details row by default */
+        /* --- Expandable Area Styles --- */
+        .details-row { display: none; }
         .details-cell { padding: 0 !important; }
         .details-container {
             background-color: #fafafa;
@@ -86,12 +86,7 @@ $result = $conn->query($sql);
         .detail-item strong {
             display: inline-block;
             width: 120px;
-            color: #6c757d; /* Softer color for labels */
-        }
-        .expand-icon {
-            font-weight: bold;
-            display: inline-block;
-            width: 20px;
+            color: #6c757d;
         }
     </style>
 </head>
@@ -113,7 +108,7 @@ $result = $conn->query($sql);
                 <thead>
                     <tr>
                         <th style="width: 40px;"><input type="checkbox" title="Select all"></th>
-                        <th style="width: 25px;"></th> <th>Book Title</th>
+                        <th>Book Title</th>
                         <th>TUID</th>
                         <th>Course</th>
                         <th>Barcode</th>
@@ -127,7 +122,6 @@ $result = $conn->query($sql);
                     ?>
                             <tr class="main-row">
                                 <td onclick="event.stopPropagation()"><input type="checkbox" class="item-checkbox"></td>
-                                <td><span class="expand-icon">+</span></td>
                                 <td class="item-title"><?php echo htmlspecialchars($row['book title'] ?? 'N/A'); ?></td>
                                 <td><?php echo htmlspecialchars($row['tuid'] ?? 'N/A'); ?></td>
                                 <td><?php echo htmlspecialchars($row['course'] ?? 'N/A'); ?></td>
@@ -145,7 +139,7 @@ $result = $conn->query($sql);
                                 </td>
                             </tr>
                             <tr class="details-row">
-                                <td colspan="7" class="details-cell">
+                                <td colspan="6" class="details-cell">
                                     <div class="details-container">
                                         <div class="details-grid">
                                             <div class="detail-item"><strong>Course Title:</strong> <?php echo htmlspecialchars($row['course title'] ?? 'N/A'); ?></div>
@@ -160,7 +154,7 @@ $result = $conn->query($sql);
                     <?php
                         }
                     } else {
-                        echo "<tr><td colspan='7' style='text-align:center; padding: 20px;'>No results found</td></tr>";
+                        echo "<tr><td colspan='6' style='text-align:center; padding: 20px;'>No results found</td></tr>";
                     }
                     ?>
                 </tbody>
@@ -174,20 +168,13 @@ $result = $conn->query($sql);
 
             mainRows.forEach(row => {
                 row.addEventListener('click', () => {
-                    // Toggle the active class for styling
-                    row.classList.toggle('active');
-
-                    // Find the next element sibling, which is the details row
                     const detailsRow = row.nextElementSibling;
-                    const icon = row.querySelector('.expand-icon');
 
                     if (detailsRow && detailsRow.classList.contains('details-row')) {
                         if (detailsRow.style.display === 'table-row') {
                             detailsRow.style.display = 'none';
-                            icon.textContent = '+';
                         } else {
                             detailsRow.style.display = 'table-row';
-                            icon.textContent = '−';
                         }
                     }
                 });
