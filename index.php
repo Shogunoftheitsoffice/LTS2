@@ -31,7 +31,7 @@ $result = $conn->query($sql);
             width: 250px;
             height: 100vh;
             background-color: #ffffff;
-            padding: 0; /* CHANGED: Removed padding to make buttons full-width */
+            padding: 0;
             box-sizing: border-box;
             position: sticky;
             top: 0;
@@ -60,10 +60,11 @@ $result = $conn->query($sql);
             transition: background-color 0.2s, color 0.2s;
         }
 
+        /* CHANGED: Reverted hover color from red to grey */
         .sidebar-nav .nav-button:hover,
         .sidebar-nav .nav-button.active {
-            background-color: #9d2235;
-            color: #ffffff;
+            background-color: #e9e9e9;
+            color: #333;
         }
         
         .nav-icon {
@@ -71,7 +72,6 @@ $result = $conn->query($sql);
             height: 20px;
             margin-right: 12px;
         }
-
 
         /* --- Main Content Area --- */
         .main-content {
@@ -94,31 +94,31 @@ $result = $conn->query($sql);
             background-color: #f9f9f9;
             cursor: pointer;
             transition: background-color 0.2s ease-in-out;
-            display: flex; /* ADDED: To align checkbox and text */
-            align-items: center; /* ADDED: To align checkbox and text */
+            display: flex;
+            align-items: center;
         }
         .book-title-row:hover td {
             background-color: #f1f1f1;
         }
-        .book-title-row td::before {
-            content: '+';
-            display: inline-block;
-            margin-right: 10px;
-            font-size: 1.2em;
-            color: #333;
-        }
-        .book-title-row.active td::before {
-            content: '−';
-        }
         
-        /* --- ADDED: Checkbox Styling --- */
         .row-checkbox {
             margin-right: 10px;
             cursor: pointer;
         }
+
+        /* ADDED: Styling for the new +/- span element */
+        .expand-icon {
+            display: inline-block;
+            margin-right: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+            width: 1em;
+            text-align: center;
+        }
         
         .book-title-text {
-            flex-grow: 1; /* Allows title to take remaining space */
+            flex-grow: 1;
         }
         
         .book-details-row {
@@ -128,15 +128,35 @@ $result = $conn->query($sql);
             border-bottom: 1px solid #ddd;
             padding: 0;
         }
+        
+        /* UPDATED: Details content styling */
         .details-content {
-            padding: 15px 20px 15px 45px;
+            padding: 15px 20px 15px 25px;
             background-color: #ffffff;
-            line-height: 1.6;
         }
-        .details-content strong {
+        
+        /* ADDED: Styling for new detail items and copy icons */
+        .detail-item {
+            display: flex;
+            align-items: center;
+            padding: 4px 0;
+        }
+        .copy-icon {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            cursor: pointer;
+            opacity: 0.5;
+            transition: opacity 0.2s;
+        }
+        .copy-icon:hover {
+            opacity: 1;
+        }
+        .detail-item strong {
             display: inline-block;
             width: 150px;
             color: #9d2235;
+            flex-shrink: 0; /* Prevents the label from shrinking */
         }
     </style>
 </head>
@@ -145,26 +165,11 @@ $result = $conn->query($sql);
     <div class="container">
         <div class="sidebar">
             <nav class="sidebar-nav">
-                <a href="#" class="nav-button active">
-                    <img src="Assets/add.png" alt="" class="nav-icon">
-                    <span>Add Entries</span>
-                </a>
-                <a href="#" class="nav-button">
-                    <img src="Assets/remove.png" alt="" class="nav-icon">
-                    <span>Delete Entries</span>
-                </a>
-                <a href="#" class="nav-button">
-                    <img src="Assets/import.png" alt="" class="nav-icon">
-                    <span>Import Excel</span>
-                </a>
-                <a href="#" class="nav-button">
-                    <img src="Assets/export.png" alt="" class="nav-icon">
-                    <span>Export Excel</span>
-                </a>
-                <a href="#" class="nav-button">
-                    <img src="Assets/exit.png" alt="" class="nav-icon">
-                    <span>Exit Admin Mode</span>
-                </a>
+                <a href="#" class="nav-button active"><img src="Assets/add.png" alt="" class="nav-icon"><span>Add Entries</span></a>
+                <a href="#" class="nav-button"><img src="Assets/remove.png" alt="" class="nav-icon"><span>Delete Entries</span></a>
+                <a href="#" class="nav-button"><img src="Assets/import.png" alt="" class="nav-icon"><span>Import Excel</span></a>
+                <a href="#" class="nav-button"><img src="Assets/export.png" alt="" class="nav-icon"><span>Export Excel</span></a>
+                <a href="#" class="nav-button"><img src="Assets/exit.png" alt="" class="nav-icon"><span>Exit Admin Mode</span></a>
             </nav>
         </div>
 
@@ -179,27 +184,25 @@ $result = $conn->query($sql);
 
                             <tr class="book-title-row" data-target="#<?php echo $details_id; ?>">
                                 <td>
-                                    <input type="checkbox" class="row-checkbox" onclick="event.stopPropagation()">
-                                    
-                                    <span class="book-title-text">
-                                        <?php echo htmlspecialchars($row['book title'] ?? 'No Title'); ?>
-                                    </span>
+                                    <input type="checkbox" class="row-checkbox">
+                                    <span class="expand-icon">+</span>
+                                    <span class="book-title-text"><?php echo htmlspecialchars($row['book title'] ?? 'No Title'); ?></span>
                                 </td>
                             </tr>
 
                             <tr class="book-details-row" id="<?php echo $details_id; ?>">
                                 <td>
                                     <div class="details-content">
-                                        <strong>TUID:</strong> <?php echo htmlspecialchars($row['tuid'] ?? 'N/A'); ?><br>
-                                        <strong>Course:</strong> <?php echo htmlspecialchars($row['course'] ?? 'N/A'); ?><br>
-                                        <strong>Course Title:</strong> <?php echo htmlspecialchars($row['course title'] ?? 'N/A'); ?><br>
-                                        <strong>Name:</strong> <?php echo htmlspecialchars($row['name'] ?? 'N/A'); ?><br>
-                                        <strong>Checked Out:</strong> <?php echo htmlspecialchars($row['checkedout'] ?? 'N/A'); ?><br>
-                                        <strong>Last Checkout:</strong> <?php echo htmlspecialchars($row['last checkout'] ?? 'N/A'); ?><br>
-                                        <strong>Expected Return:</strong> <?php echo htmlspecialchars($row['expected return'] ?? 'N/A'); ?><br>
-                                        <strong>Barcode:</strong> <?php echo htmlspecialchars($row['barcode'] ?? 'N/A'); ?><br>
-                                        <strong>Book:</strong> <?php echo htmlspecialchars($row['book'] ?? 'N/A'); ?><br>
-                                        <strong>ID:</strong> <?php echo htmlspecialchars($row['id'] ?? 'N/A'); ?>
+                                        <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong >TUID:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['tuid'] ?? 'N/A'); ?></span></div>
+                                        <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong >Course:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['course'] ?? 'N/A'); ?></span></div>
+                                        <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong >Course Title:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['course title'] ?? 'N/A'); ?></span></div>
+                                        <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong >Name:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['name'] ?? 'N/A'); ?></span></div>
+                                        <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong >Checked Out:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['checkedout'] ?? 'N/A'); ?></span></div>
+                                        <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong >Last Checkout:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['last checkout'] ?? 'N/A'); ?></span></div>
+                                        <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong >Expected Return:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['expected return'] ?? 'N/A'); ?></span></div>
+                                        <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong >Barcode:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['barcode'] ?? 'N/A'); ?></span></div>
+                                        <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong >Book:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['book'] ?? 'N/A'); ?></span></div>
+                                        <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong >ID:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['id'] ?? 'N/A'); ?></span></div>
                                     </div>
                                 </td>
                             </tr>
@@ -217,24 +220,45 @@ $result = $conn->query($sql);
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Updated to handle clicks on the row but not on the checkbox
             document.querySelectorAll('.book-title-row td').forEach(cell => {
                 cell.addEventListener('click', (e) => {
-                    // Only toggle if the click is not on the checkbox itself
-                    if (e.target.type !== 'checkbox') {
-                        const row = cell.parentElement;
-                        row.classList.toggle('active');
-                        const targetSelector = row.getAttribute('data-target');
-                        const detailsRow = document.querySelector(targetSelector);
-
-                        if (detailsRow) {
-                            if (detailsRow.style.display === 'table-row') {
-                                detailsRow.style.display = 'none';
-                            } else {
-                                detailsRow.style.display = 'table-row';
-                            }
-                        }
+                    // Prevent toggle if the click was on the checkbox
+                    if (e.target.type === 'checkbox') {
+                        return;
                     }
+
+                    const row = cell.parentElement;
+                    row.classList.toggle('active');
+
+                    // UPDATED: Toggle the text content of the expand icon
+                    const icon = row.querySelector('.expand-icon');
+                    if (row.classList.contains('active')) {
+                        icon.textContent = '−';
+                    } else {
+                        icon.textContent = '+';
+                    }
+                    
+                    const targetSelector = row.getAttribute('data-target');
+                    const detailsRow = document.querySelector(targetSelector);
+
+                    if (detailsRow) {
+                        detailsRow.style.display = (detailsRow.style.display === 'table-row') ? 'none' : 'table-row';
+                    }
+                });
+            });
+
+            // ADDED: Functionality for the new copy buttons
+            document.querySelectorAll('.copy-icon').forEach(icon => {
+                icon.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevents the main row from collapsing
+                    const dataToCopy = e.target.parentElement.querySelector('.detail-data').textContent;
+                    
+                    navigator.clipboard.writeText(dataToCopy).then(() => {
+                        // You could add a "Copied!" tooltip here for user feedback
+                        console.log('Copied:', dataToCopy); 
+                    }).catch(err => {
+                        console.error('Failed to copy text: ', err);
+                    });
                 });
             });
         });
