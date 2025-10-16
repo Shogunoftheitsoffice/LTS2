@@ -121,6 +121,8 @@ if ($result && $result->num_rows > 0) {
                 <a href="#" class="nav-button"><img src="Assets/remove.png" alt="" class="nav-icon"><span>Delete</span></a>
                 <a href="#" class="nav-button"><img src="Assets/import.png" alt="" class="nav-icon"><span>Import</span></a>
                 <a href="#" class="nav-button"><img src="Assets/export.png" alt="" class="nav-icon"><span>Export</span></a>
+                <a href="#" class="nav-button"><img src="Assets/settings.png" alt="" class="nav-icon"><span>Settings</span></a>
+                <a href="#" class="nav-button"><img src="Assets/help.png" alt="" class="nav-icon"><span>Help</span></a>
                 <a href="#" class="nav-button"><img src="Assets/exit.png" alt="" class="nav-icon"><span>Exit</span></a>
             </nav>
         </div>
