@@ -41,55 +41,40 @@ $result = $conn->query($sql);
         /* --- Main Content Area --- */
         .main-content { flex-grow: 1; padding: 25px; overflow-y: auto; }
 
-        /* --- NEW: Modern List Table Styles --- */
+        /* --- NEW: Hot List Table Styles --- */
         .book-table {
             width: 100%;
-            border-collapse: separate; /* Allows for space between rows */
-            border-spacing: 0 15px; /* Creates vertical gap between list items */
-        }
-        .book-table td {
-            padding: 0; /* Padding is handled by the inner container */
-        }
-        .list-item-container {
+            border-collapse: collapse; /* Changed for a classic table look */
             background-color: #ffffff;
-            padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.07);
-            border: 1px solid #e0e0e0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            overflow: hidden; /* Ensures border-radius is respected by children */
         }
-        .item-header {
-            display: flex;
-            align-items: center;
-            padding-bottom: 15px;
-            margin-bottom: 15px;
-            border-bottom: 1px solid #f0f0f0;
+        .book-table th, .book-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eef0f2; /* Lighter border for a softer look */
         }
-        .item-checkbox { margin-right: 15px; }
+        .book-table thead th {
+            background-color: #f9fafb;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #6c757d;
+        }
+        .book-table tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+        .book-table td:first-child, .book-table th:first-child {
+            width: 40px; /* Fixed width for checkbox column */
+            text-align: center;
+        }
         .item-title {
-            font-size: 1.2em;
             font-weight: 600;
-            margin: 0;
-            flex-grow: 1;
+            color: #333;
         }
-        .details-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive 2-column grid */
-            gap: 8px 20px; /* Row and Column gap */
-        }
-
-        /* --- Detail & Copy Icon Styles --- */
-        .detail-item {
-            display: flex;
-            align-items: center;
-            font-size: 0.9em;
-        }
-        .copy-icon { width: 16px; height: 16px; margin-right: 8px; cursor: pointer; opacity: 1; }
-        .detail-item strong {
-            display: inline-block;
-            width: 120px;
-            color: #9d2235;
-            flex-shrink: 0;
-        }
+        .status-available { color: #28a745; font-weight: 500; }
+        .status-out { color: #dc3545; font-weight: 500; }
     </style>
 </head>
 <body>
@@ -107,37 +92,46 @@ $result = $conn->query($sql);
 
         <div class="main-content">
             <table class="book-table">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" title="Select all"></th>
+                        <th>Book Title</th>
+                        <th>TUID</th>
+                        <th>Course</th>
+                        <th>Barcode</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
                 <tbody>
                     <?php
                     if ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
                     ?>
                             <tr>
+                                <td><input type="checkbox" class="item-checkbox"></td>
+                                <td class="item-title"><?php echo htmlspecialchars($row['book title'] ?? 'N/A'); ?></td>
+                                <td><?php echo htmlspecialchars($row['tuid'] ?? 'N/A'); ?></td>
+                                <td><?php echo htmlspecialchars($row['course'] ?? 'N/A'); ?></td>
+                                <td><?php echo htmlspecialchars($row['barcode'] ?? 'N/A'); ?></td>
                                 <td>
-                                    <div class="list-item-container">
-                                        <div class="item-header">
-                                            <input type="checkbox" class="item-checkbox">
-                                            <h3 class="item-title"><?php echo htmlspecialchars($row['book title'] ?? 'No Title'); ?></h3>
-                                        </div>
-                                        <div class="details-grid">
-                                            <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"> <span class="detail-data"><?php echo htmlspecialchars($row['tuid'] ?? 'N/A'); ?></span></div>
-                                            <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"> <span class="detail-data"><?php echo htmlspecialchars($row['course'] ?? 'N/A'); ?></span></div>
-                                            <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"> <span class="detail-data"><?php echo htmlspecialchars($row['course title'] ?? 'N/A'); ?></span></div>
-                                            <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"> <span class="detail-data"><?php echo htmlspecialchars($row['name'] ?? 'N/A'); ?></span></div>
-                                            <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"> <span class="detail-data"><?php echo htmlspecialchars($row['checkedout'] ?? 'N/A'); ?></span></div>
-                                            <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"> <span class="detail-data"><?php echo htmlspecialchars($row['last checkout'] ?? 'N/A'); ?></span></div>
-                                            <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"> <span class="detail-data"><?php echo htmlspecialchars($row['expected return'] ?? 'N/A'); ?></span></div>
-                                            <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"> <span class="detail-data"><?php echo htmlspecialchars($row['barcode'] ?? 'N/A'); ?></span></div>
-                                            <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"> <span class="detail-data"><?php echo htmlspecialchars($row['book'] ?? 'N/A'); ?></span></div>
-                                            <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"> <span class="detail-data"><?php echo htmlspecialchars($row['id'] ?? 'N/A'); ?></span></div>
-                                        </div>
-                                    </div>
+                                    <?php
+                                    // Logic for the status column
+                                    $isCheckedOut = isset($row['checkedout']) && strtolower(trim($row['checkedout'])) === 'yes';
+                                    if ($isCheckedOut) {
+                                        echo '<span class="status-out">Checked Out</span>';
+                                        if (!empty($row['expected return'])) {
+                                            echo ' (' . htmlspecialchars($row['expected return']) . ')';
+                                        }
+                                    } else {
+                                        echo '<span class="status-available">Available</span>';
+                                    }
+                                    ?>
                                 </td>
                             </tr>
                     <?php
                         }
                     } else {
-                        echo "<tr><td>No results found</td></tr>";
+                        echo "<tr><td colspan='6' style='text-align:center; padding: 20px;'>No results found</td></tr>";
                     }
                     ?>
                 </tbody>
@@ -145,42 +139,7 @@ $result = $conn->query($sql);
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const copyToClipboard = (text, iconElement) => {
-                const performAnimation = () => {
-                    const originalSrc = iconElement.src;
-                    iconElement.src = 'Assets/check.gif';
-                    setTimeout(() => { iconElement.src = originalSrc; }, 1500);
-                };
-
-                if (navigator.clipboard && window.isSecureContext) {
-                    navigator.clipboard.writeText(text).then(performAnimation);
-                } else {
-                    const textArea = document.createElement("textarea");
-                    textArea.value = text;
-                    textArea.style.position = "absolute";
-                    textArea.style.left = "-9999px";
-                    document.body.appendChild(textArea);
-                    textArea.select();
-                    try {
-                        document.execCommand('copy');
-                        performAnimation();
-                    } catch (err) { console.error('Fallback copy failed:', err); }
-                    document.body.removeChild(textArea);
-                }
-            };
-
-            document.querySelectorAll('.copy-icon').forEach(icon => {
-                icon.addEventListener('click', (e) => {
-                    const dataToCopy = e.target.parentElement.querySelector('.detail-data').textContent;
-                    copyToClipboard(dataToCopy, e.target);
-                });
-            });
-        });
-    </script>
-
-</body>
+    </body>
 </html>
 <?php
 // --- Close Connection ---
