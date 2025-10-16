@@ -31,9 +31,9 @@ $result = $conn->query($sql);
             width: 250px;
             height: 100vh;
             background-color: #ffffff;
-            padding: 20px;
+            padding: 0; /* CHANGED: Removed padding to make buttons full-width */
             box-sizing: border-box;
-            position: sticky; /* This makes the menu stay in place on scroll */
+            position: sticky;
             top: 0;
             border-right: 1px solid #e0e0e0;
             box-shadow: 3px 0px 15px rgba(0, 0, 0, 0.05);
@@ -46,12 +46,11 @@ $result = $conn->query($sql);
             list-style: none;
             padding: 0;
             margin: 0;
-            border-top: 1px solid #ddd;
         }
 
         .sidebar-nav .nav-button {
-            display: flex; /* ADDED: Use flexbox for icon alignment */
-            align-items: center; /* ADDED: Vertically center icon and text */
+            display: flex;
+            align-items: center;
             padding: 12px 15px;
             text-decoration: none;
             color: #333;
@@ -67,11 +66,10 @@ $result = $conn->query($sql);
             color: #ffffff;
         }
         
-        /* --- ADDED: Icon Styling --- */
         .nav-icon {
-            width: 20px; /* Set a reasonable size for the icon */
+            width: 20px;
             height: 20px;
-            margin-right: 12px; /* Add space between icon and text */
+            margin-right: 12px;
         }
 
 
@@ -96,6 +94,8 @@ $result = $conn->query($sql);
             background-color: #f9f9f9;
             cursor: pointer;
             transition: background-color 0.2s ease-in-out;
+            display: flex; /* ADDED: To align checkbox and text */
+            align-items: center; /* ADDED: To align checkbox and text */
         }
         .book-title-row:hover td {
             background-color: #f1f1f1;
@@ -110,6 +110,17 @@ $result = $conn->query($sql);
         .book-title-row.active td::before {
             content: '−';
         }
+        
+        /* --- ADDED: Checkbox Styling --- */
+        .row-checkbox {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        
+        .book-title-text {
+            flex-grow: 1; /* Allows title to take remaining space */
+        }
+        
         .book-details-row {
             display: none;
         }
@@ -155,7 +166,6 @@ $result = $conn->query($sql);
                     <span>Exit Admin Mode</span>
                 </a>
             </nav>
-            
         </div>
 
         <div class="main-content">
@@ -168,7 +178,13 @@ $result = $conn->query($sql);
                     ?>
 
                             <tr class="book-title-row" data-target="#<?php echo $details_id; ?>">
-                                <td><?php echo htmlspecialchars($row['book title'] ?? 'No Title'); ?></td>
+                                <td>
+                                    <input type="checkbox" class="row-checkbox" onclick="event.stopPropagation()">
+                                    
+                                    <span class="book-title-text">
+                                        <?php echo htmlspecialchars($row['book title'] ?? 'No Title'); ?>
+                                    </span>
+                                </td>
                             </tr>
 
                             <tr class="book-details-row" id="<?php echo $details_id; ?>">
@@ -201,19 +217,22 @@ $result = $conn->query($sql);
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const titleRows = document.querySelectorAll('.book-title-row');
+            // Updated to handle clicks on the row but not on the checkbox
+            document.querySelectorAll('.book-title-row td').forEach(cell => {
+                cell.addEventListener('click', (e) => {
+                    // Only toggle if the click is not on the checkbox itself
+                    if (e.target.type !== 'checkbox') {
+                        const row = cell.parentElement;
+                        row.classList.toggle('active');
+                        const targetSelector = row.getAttribute('data-target');
+                        const detailsRow = document.querySelector(targetSelector);
 
-            titleRows.forEach(row => {
-                row.addEventListener('click', () => {
-                    row.classList.toggle('active');
-                    const targetSelector = row.getAttribute('data-target');
-                    const detailsRow = document.querySelector(targetSelector);
-
-                    if (detailsRow) {
-                        if (detailsRow.style.display === 'table-row') {
-                            detailsRow.style.display = 'none';
-                        } else {
-                            detailsRow.style.display = 'table-row';
+                        if (detailsRow) {
+                            if (detailsRow.style.display === 'table-row') {
+                                detailsRow.style.display = 'none';
+                            } else {
+                                detailsRow.style.display = 'table-row';
+                            }
                         }
                     }
                 });
