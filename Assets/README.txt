@@ -1,1 +1,1 @@
-This Folder is for all image assets.
+This Folder is for all assets.
