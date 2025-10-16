@@ -24,7 +24,7 @@ $result = $conn->query($sql);
 
         /* --- Sidebar Styles (Unchanged) --- */
         .sidebar {
-            width: 250px; height: 100vh; background-color: #ffffff;
+            width: 200px; height: 100vh; background-color: #ffffff;
             padding: 0; box-sizing: border-box; position: sticky; top: 0;
             border-right: 1px solid #e0e0e0; box-shadow: 3px 0px 15px rgba(0, 0, 0, 0.05);
             display: flex; flex-direction: column;
