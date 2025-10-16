@@ -57,21 +57,21 @@ $result = $conn->query($sql);
             overflow-y: auto;
         }
 
-        /* --- NEW: Card Grid Layout --- */
+        /* --- Card Grid Layout --- */
         .card-grid {
             display: grid;
-            /* Create as many columns as can fit, with a minimum width of 380px each */
-            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-            gap: 20px; /* Space between cards */
+            /* CHANGED: Reduced minimum card width to fit more columns */
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px; /* CHANGED: Reduced space between cards */
         }
         
-        /* --- NEW: Individual Card Styling --- */
+        /* --- Individual Card Styling --- */
         .book-card {
             background-color: #ffffff;
             border: 1px solid #e0e0e0;
-            border-radius: 8px; /* Rounded corners for modern look */
+            border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            padding: 20px;
+            padding: 15px; /* CHANGED: Reduced internal padding */
             display: flex;
             flex-direction: column;
         }
@@ -80,20 +80,33 @@ $result = $conn->query($sql);
             align-items: center;
             justify-content: space-between;
             border-bottom: 1px solid #eee;
-            padding-bottom: 15px;
-            margin-bottom: 15px;
+            /* CHANGED: Reduced spacing below header */
+            padding-bottom: 10px;
+            margin-bottom: 10px;
         }
         .card-title {
             font-weight: bold;
-            font-size: 1.1em;
+            font-size: 1.05em;
             margin: 0;
         }
-        .card-content { line-height: 1.6; }
+        .card-content {
+            line-height: 1.5; /* CHANGED: Reduced line height */
+            font-size: 0.9em; /* CHANGED: Made font slightly smaller */
+        }
 
-        /* --- Detail & Copy Icon Styles (Unchanged) --- */
-        .detail-item { display: flex; align-items: center; padding: 4px 0; }
+        /* --- Detail & Copy Icon Styles --- */
+        .detail-item {
+            display: flex;
+            align-items: center;
+            padding: 2px 0; /* CHANGED: Reduced vertical padding */
+        }
         .copy-icon { width: 16px; height: 16px; margin-right: 8px; cursor: pointer; opacity: 1; }
-        .detail-item strong { display: inline-block; width: 150px; color: #9d2235; flex-shrink: 0; }
+        .detail-item strong {
+            display: inline-block;
+            width: 120px; /* CHANGED: Reduced label width */
+            color: #9d2235;
+            flex-shrink: 0;
+        }
     </style>
 </head>
 <body>
@@ -145,9 +158,6 @@ $result = $conn->query($sql);
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // UPDATED: The expand/collapse functionality is no longer needed.
-            
-            // Function to copy text to clipboard with animation
             const copyToClipboard = (text, iconElement) => {
                 const performAnimation = () => {
                     const originalSrc = iconElement.src;
@@ -174,7 +184,6 @@ $result = $conn->query($sql);
                 }
             };
 
-            // Attach event listener to all copy icons
             document.querySelectorAll('.copy-icon').forEach(icon => {
                 icon.addEventListener('click', (e) => {
                     const dataToCopy = e.target.parentElement.querySelector('.detail-data').textContent;
