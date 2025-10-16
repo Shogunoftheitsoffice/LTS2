@@ -26,7 +26,7 @@ $result = $conn->query($sql);
             display: flex;
         }
 
-        /* --- Sidebar Styles --- */
+        /* --- Sidebar Styles (Unchanged) --- */
         .sidebar {
             width: 250px;
             height: 100vh;
@@ -40,37 +40,15 @@ $result = $conn->query($sql);
             display: flex;
             flex-direction: column;
         }
-
-        /* --- Navigation Menu Styles --- */
-        .sidebar-nav {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
+        .sidebar-nav { list-style: none; padding: 0; margin: 0; }
         .sidebar-nav .nav-button {
-            display: flex;
-            align-items: center;
-            padding: 12px 15px;
-            text-decoration: none;
-            color: #333;
-            font-weight: bold;
-            background-color: #f9f9f9;
-            border-bottom: 1px solid #ddd;
+            display: flex; align-items: center; padding: 12px 15px;
+            text-decoration: none; color: #333; font-weight: bold;
+            background-color: #f9f9f9; border-bottom: 1px solid #ddd;
             transition: background-color 0.2s, color 0.2s;
         }
-
-        .sidebar-nav .nav-button:hover,
-        .sidebar-nav .nav-button.active {
-            background-color: #e9e9e9;
-            color: #333;
-        }
-        
-        .nav-icon {
-            width: 20px;
-            height: 20px;
-            margin-right: 12px;
-        }
+        .sidebar-nav .nav-button:hover { background-color: #e9e9e9; color: #333; }
+        .nav-icon { width: 20px; height: 20px; margin-right: 12px; }
 
         /* --- Main Content Area --- */
         .main-content {
@@ -79,78 +57,43 @@ $result = $conn->query($sql);
             overflow-y: auto;
         }
 
-        /* --- Table Styles --- */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: #ffffff;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        /* --- NEW: Card Grid Layout --- */
+        .card-grid {
+            display: grid;
+            /* Create as many columns as can fit, with a minimum width of 380px each */
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 20px; /* Space between cards */
         }
-        .book-title-row td {
-            padding: 12px 15px;
-            border-bottom: 1px solid #ddd;
-            font-weight: bold;
-            background-color: #f9f9f9;
-            cursor: pointer;
-            transition: background-color 0.2s ease-in-out;
+        
+        /* --- NEW: Individual Card Styling --- */
+        .book-card {
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px; /* Rounded corners for modern look */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        .card-header {
             display: flex;
             align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
         }
-        .book-title-row:hover td {
-            background-color: #f1f1f1;
-        }
-        
-        .row-checkbox {
-            margin-right: 10px;
-            cursor: pointer;
-        }
-        
-        .expand-icon {
-            display: inline-block;
-            margin-right: 10px;
-            font-size: 1.2em;
+        .card-title {
             font-weight: bold;
-            color: #333;
-            width: 1em;
-            text-align: center;
+            font-size: 1.1em;
+            margin: 0;
         }
-        
-        .book-title-text {
-            flex-grow: 1;
-        }
-        
-        .book-details-row {
-            display: none;
-        }
-        .book-details-row td {
-            border-bottom: 1px solid #ddd;
-            padding: 0;
-        }
-        
-        .details-content {
-            padding: 15px 20px 15px 25px;
-            background-color: #ffffff;
-        }
-        
-        .detail-item {
-            display: flex;
-            align-items: center;
-            padding: 4px 0;
-        }
-        .copy-icon {
-            width: 16px;
-            height: 16px;
-            margin-right: 8px;
-            cursor: pointer;
-            opacity: 1; /* CHANGED: Set to 1 to make it fully visible */
-        }
-        
-        .detail-item strong {
-            display: inline-block;
-            width: 150px;
-            color: #9d2235;
-            flex-shrink: 0;
-        }
+        .card-content { line-height: 1.6; }
+
+        /* --- Detail & Copy Icon Styles (Unchanged) --- */
+        .detail-item { display: flex; align-items: center; padding: 4px 0; }
+        .copy-icon { width: 16px; height: 16px; margin-right: 8px; cursor: pointer; opacity: 1; }
+        .detail-item strong { display: inline-block; width: 150px; color: #9d2235; flex-shrink: 0; }
     </style>
 </head>
 <body>
@@ -167,88 +110,54 @@ $result = $conn->query($sql);
         </div>
 
         <div class="main-content">
-            <table>
-                <tbody>
-                    <?php
-                    if ($result->num_rows > 0) {
-                        while ($row = $result->fetch_assoc()) {
-                            $details_id = "details-" . htmlspecialchars($row['id']);
-                    ?>
-
-                            <tr class="book-title-row" data-target="#<?php echo $details_id; ?>">
-                                <td>
-                                    <input type="checkbox" class="row-checkbox">
-                                    <span class="expand-icon">+</span>
-                                    <span class="book-title-text"><?php echo htmlspecialchars($row['book title'] ?? 'No Title'); ?></span>
-                                </td>
-                            </tr>
-
-                            <tr class="book-details-row" id="<?php echo $details_id; ?>">
-                                <td>
-                                    <div class="details-content">
-                                        <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong>TUID:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['tuid'] ?? 'N/A'); ?></span></div>
-                                        <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong>Course:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['course'] ?? 'N/A'); ?></span></div>
-                                        <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong>Course Title:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['course title'] ?? 'N/A'); ?></span></div>
-                                        <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong>Name:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['name'] ?? 'N/A'); ?></span></div>
-                                        <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong>Checked Out:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['checkedout'] ?? 'N/A'); ?></span></div>
-                                        <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong>Last Checkout:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['last checkout'] ?? 'N/A'); ?></span></div>
-                                        <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong>Expected Return:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['expected return'] ?? 'N/A'); ?></span></div>
-                                        <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong>Barcode:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['barcode'] ?? 'N/A'); ?></span></div>
-                                        <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong>Book:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['book'] ?? 'N/A'); ?></span></div>
-                                        <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong>ID:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['id'] ?? 'N/A'); ?></span></div>
-                                    </div>
-                                </td>
-                            </tr>
-
-                    <?php
-                        }
-                    } else {
-                        echo "<tr><td>0 results found</td></tr>";
+            <div class="card-grid">
+                <?php
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                ?>
+                        <div class="book-card">
+                            <div class="card-header">
+                                <p class="card-title"><?php echo htmlspecialchars($row['book title'] ?? 'No Title'); ?></p>
+                                <input type="checkbox" class="row-checkbox">
+                            </div>
+                            <div class="card-content">
+                                <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong>TUID:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['tuid'] ?? 'N/A'); ?></span></div>
+                                <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong>Course:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['course'] ?? 'N/A'); ?></span></div>
+                                <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong>Course Title:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['course title'] ?? 'N/A'); ?></span></div>
+                                <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong>Name:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['name'] ?? 'N/A'); ?></span></div>
+                                <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong>Checked Out:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['checkedout'] ?? 'N/A'); ?></span></div>
+                                <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong>Last Checkout:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['last checkout'] ?? 'N/A'); ?></span></div>
+                                <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong>Expected Return:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['expected return'] ?? 'N/A'); ?></span></div>
+                                <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong>Barcode:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['barcode'] ?? 'N/A'); ?></span></div>
+                                <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong>Book:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['book'] ?? 'N/A'); ?></span></div>
+                                <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong>ID:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['id'] ?? 'N/A'); ?></span></div>
+                            </div>
+                        </div>
+                <?php
                     }
-                    ?>
-                </tbody>
-            </table>
+                } else {
+                    echo "<p>0 results found</p>";
+                }
+                ?>
+            </div>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            document.querySelectorAll('.book-title-row td').forEach(cell => {
-                cell.addEventListener('click', (e) => {
-                    if (e.target.type === 'checkbox') return;
-
-                    const row = cell.parentElement;
-                    row.classList.toggle('active');
-                    
-                    const icon = row.querySelector('.expand-icon');
-                    icon.textContent = row.classList.contains('active') ? '−' : '+';
-                    
-                    const targetSelector = row.getAttribute('data-target');
-                    const detailsRow = document.querySelector(targetSelector);
-
-                    if (detailsRow) {
-                        detailsRow.style.display = (detailsRow.style.display === 'table-row') ? 'none' : 'table-row';
-                    }
-                });
-            });
-
-            // UPDATED: More robust copy function with fallback for http://
+            // UPDATED: The expand/collapse functionality is no longer needed.
+            
+            // Function to copy text to clipboard with animation
             const copyToClipboard = (text, iconElement) => {
                 const performAnimation = () => {
                     const originalSrc = iconElement.src;
                     iconElement.src = 'Assets/check.gif';
-                    setTimeout(() => {
-                        iconElement.src = originalSrc;
-                    }, 1500); // 1.5 seconds
+                    setTimeout(() => { iconElement.src = originalSrc; }, 1500);
                 };
 
-                // Use modern Clipboard API if available (https or localhost)
                 if (navigator.clipboard && window.isSecureContext) {
-                    navigator.clipboard.writeText(text).then(performAnimation).catch(err => {
-                        console.error('Modern copy failed:', err);
-                    });
+                    navigator.clipboard.writeText(text).then(performAnimation);
                 } else {
-                    // Fallback for older browsers or insecure (http) pages
                     const textArea = document.createElement("textarea");
                     textArea.value = text;
                     textArea.style.position = "absolute";
@@ -265,9 +174,9 @@ $result = $conn->query($sql);
                 }
             };
 
+            // Attach event listener to all copy icons
             document.querySelectorAll('.copy-icon').forEach(icon => {
                 icon.addEventListener('click', (e) => {
-                    e.stopPropagation(); 
                     const dataToCopy = e.target.parentElement.querySelector('.detail-data').textContent;
                     copyToClipboard(dataToCopy, e.target);
                 });
@@ -277,7 +186,6 @@ $result = $conn->query($sql);
 
 </body>
 </html>
-
 <?php
 // --- Close Connection ---
 $conn->close();
