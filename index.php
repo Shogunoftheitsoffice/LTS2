@@ -30,21 +30,48 @@ $result = $conn->query($sql);
         .sidebar {
             width: 250px;
             height: 100vh;
-            background-color: #ffffff; /* CHANGED: Set to white */
+            background-color: #ffffff;
             padding: 20px;
             box-sizing: border-box;
             position: sticky;
             top: 0;
-            border-right: 1px solid #e0e0e0; /* ADDED: Subtle border for clean separation */
-            box-shadow: 3px 0px 15px rgba(0, 0, 0, 0.05); /* ADDED: Shadow for 'above the page' effect */
+            border-right: 1px solid #e0e0e0;
+            box-shadow: 3px 0px 15px rgba(0, 0, 0, 0.05);
+            display: flex; /* ADDED: Use flexbox for vertical alignment */
+            flex-direction: column; /* ADDED: Stack items vertically */
         }
 
         .sidebar .logo {
             width: 150px;
             height: auto;
             display: block;
-            margin: 0 auto 30px auto;
+            margin: 0 0 30px 0; /* CHANGED: Aligned logo to the left */
         }
+
+        /* --- ADDED: Navigation Menu Styles --- */
+        .sidebar-nav {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-nav .nav-button {
+            display: block;
+            padding: 12px 15px;
+            margin-bottom: 8px; /* Space between buttons */
+            text-decoration: none;
+            color: #333; /* Dark gray text */
+            font-weight: 500;
+            border-radius: 6px; /* Slightly rounded corners */
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .sidebar-nav .nav-button:hover,
+        .sidebar-nav .nav-button.active {
+            background-color: #9d2235; /* Temple cherry red for hover/active */
+            color: #ffffff; /* White text on hover/active */
+        }
+
 
         /* --- Main Content Area --- */
         .main-content {
@@ -106,11 +133,18 @@ $result = $conn->query($sql);
         <div class="sidebar">
             <img src="Assets/logo.png" alt="Company Logo" class="logo">
             
-            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-button active">Dashboard</a>
+                <a href="#" class="nav-button">All Textbooks</a>
+                <a href="#" class="nav-button">Check Out</a>
+                <a href="#" class="nav-button">Reports</a>
+                <a href="#" class="nav-button">Settings</a>
+            </nav>
+            
+        </div>
 
         <div class="main-content">
-
-            <table>
+             <table>
                 <tbody>
                     <?php
                     if ($result->num_rows > 0) {
