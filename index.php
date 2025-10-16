@@ -40,7 +40,7 @@ $result = $conn->query($sql);
         }
 
         .sidebar .logo {
-            width: 200px;
+            width: 150px;
             height: auto;
             display: block;
             margin: 0 auto 30px auto;
@@ -109,7 +109,6 @@ $result = $conn->query($sql);
             </div>
 
         <div class="main-content">
-            <h2>All Textbooks from LTS2 Database</h2>
 
             <table>
                 <tbody>
