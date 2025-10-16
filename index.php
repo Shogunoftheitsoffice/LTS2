@@ -16,9 +16,9 @@ $result = $conn->query($sql);
     <style>
         /* --- Basic Reset and Body Styles --- */
         body {
-            margin: 0; /* Remove default body margin */
+            margin: 0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f4f7f6; /* Light gray background for the content area */
+            background-color: #f4f7f6;
         }
 
         /* --- Main Layout Container (Flexbox) --- */
@@ -28,28 +28,29 @@ $result = $conn->query($sql);
 
         /* --- Sidebar Styles --- */
         .sidebar {
-            width: 250px; /* Fixed width for the sidebar */
-            height: 100vh; /* Make sidebar full screen height */
-            background-color: #2c3e50; /* Dark blue/gray background */
+            width: 250px;
+            height: 100vh;
+            background-color: #ffffff; /* CHANGED: Set to white */
             padding: 20px;
-            box-sizing: border-box; /* Include padding in the width calculation */
-            color: white;
-            position: sticky; /* Stick to the top left on scroll */
+            box-sizing: border-box;
+            position: sticky;
             top: 0;
+            border-right: 1px solid #e0e0e0; /* ADDED: Subtle border for clean separation */
+            box-shadow: 3px 0px 15px rgba(0, 0, 0, 0.05); /* ADDED: Shadow for 'above the page' effect */
         }
 
         .sidebar .logo {
-            width: 200px; /* Set logo width as requested */
-            height: auto;  /* Maintain aspect ratio */
+            width: 200px;
+            height: auto;
             display: block;
-            margin: 0 auto 30px auto; /* Center logo and add space below */
+            margin: 0 auto 30px auto;
         }
 
         /* --- Main Content Area --- */
         .main-content {
-            flex-grow: 1; /* Allow this area to grow and fill remaining space */
+            flex-grow: 1;
             padding: 25px;
-            overflow-y: auto; /* Add a scrollbar if content is too long */
+            overflow-y: auto;
         }
 
         /* --- Table Styles (Unchanged) --- */
@@ -88,7 +89,7 @@ $result = $conn->query($sql);
             padding: 0;
         }
         .details-content {
-            padding: 15px 20px 15px 45px; /* Indent content to align with title text */
+            padding: 15px 20px 15px 45px;
             background-color: #ffffff;
             line-height: 1.6;
         }
