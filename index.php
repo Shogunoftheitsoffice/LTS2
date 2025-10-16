@@ -37,39 +37,40 @@ $result = $conn->query($sql);
             top: 0;
             border-right: 1px solid #e0e0e0;
             box-shadow: 3px 0px 15px rgba(0, 0, 0, 0.05);
-            display: flex; /* ADDED: Use flexbox for vertical alignment */
-            flex-direction: column; /* ADDED: Stack items vertically */
+            display: flex;
+            flex-direction: column;
         }
 
         .sidebar .logo {
             width: 150px;
             height: auto;
             display: block;
-            margin: 0 0 30px 0; /* CHANGED: Aligned logo to the left */
+            margin: 0 0 30px 0;
         }
 
-        /* --- ADDED: Navigation Menu Styles --- */
+        /* --- Navigation Menu Styles --- */
         .sidebar-nav {
             list-style: none;
             padding: 0;
             margin: 0;
+            border-top: 1px solid #ddd; /* Add a top border to contain the list look */
         }
 
         .sidebar-nav .nav-button {
             display: block;
-            padding: 12px 15px;
-            margin-bottom: 8px; /* Space between buttons */
+            padding: 12px 15px; /* Match list padding */
             text-decoration: none;
-            color: #333; /* Dark gray text */
-            font-weight: 500;
-            border-radius: 6px; /* Slightly rounded corners */
+            color: #333;
+            font-weight: bold; /* Match list font weight */
+            background-color: #f9f9f9; /* Match list background */
+            border-bottom: 1px solid #ddd; /* Match list border */
             transition: background-color 0.2s, color 0.2s;
         }
 
         .sidebar-nav .nav-button:hover,
         .sidebar-nav .nav-button.active {
             background-color: #9d2235; /* Temple cherry red for hover/active */
-            color: #ffffff; /* White text on hover/active */
+            color: #ffffff;
         }
 
 
@@ -80,7 +81,7 @@ $result = $conn->query($sql);
             overflow-y: auto;
         }
 
-        /* --- Table Styles (Unchanged) --- */
+        /* --- Table Styles --- */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -123,7 +124,7 @@ $result = $conn->query($sql);
         .details-content strong {
             display: inline-block;
             width: 150px;
-            color: #555;
+            color: #9d2235; /* CHANGED: Set label color to Temple Red */
         }
     </style>
 </head>
