@@ -146,23 +146,23 @@ $result = $conn->query($sql);
         <div class="sidebar">
             <nav class="sidebar-nav">
                 <a href="#" class="nav-button active">
-                    <img src="Assets/test.png" alt="" class="nav-icon">
+                    <img src="Assets/add.png" alt="" class="nav-icon">
                     <span>Add Entries</span>
                 </a>
                 <a href="#" class="nav-button">
-                    <img src="Assets/test.png" alt="" class="nav-icon">
+                    <img src="Assets/remove.png" alt="" class="nav-icon">
                     <span>Delete Entries</span>
                 </a>
                 <a href="#" class="nav-button">
-                    <img src="Assets/test.png" alt="" class="nav-icon">
+                    <img src="Assets/import.png" alt="" class="nav-icon">
                     <span>Import Excel</span>
                 </a>
                 <a href="#" class="nav-button">
-                    <img src="Assets/test.png" alt="" class="nav-icon">
+                    <img src="Assets/export.png" alt="" class="nav-icon">
                     <span>Export Excel</span>
                 </a>
                 <a href="#" class="nav-button">
-                    <img src="Assets/test.png" alt="" class="nav-icon">
+                    <img src="Assets/exit.png" alt="" class="nav-icon">
                     <span>Exit Admin Mode</span>
                 </a>
             </nav>
