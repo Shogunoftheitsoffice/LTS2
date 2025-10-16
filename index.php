@@ -142,11 +142,8 @@ $result = $conn->query($sql);
             height: 16px;
             margin-right: 8px;
             cursor: pointer;
-            opacity: 0.5;
-            transition: opacity 0.2s;
+            opacity: 1; /* CHANGED: Set to 1 to make it fully visible */
         }
-        
-        /* REMOVED: The hover effect for the copy icon is now gone */
         
         .detail-item strong {
             display: inline-block;
@@ -235,27 +232,44 @@ $result = $conn->query($sql);
                 });
             });
 
-            // UPDATED: Functionality for the copy buttons with success animation
+            // UPDATED: More robust copy function with fallback for http://
+            const copyToClipboard = (text, iconElement) => {
+                const performAnimation = () => {
+                    const originalSrc = iconElement.src;
+                    iconElement.src = 'Assets/check.gif';
+                    setTimeout(() => {
+                        iconElement.src = originalSrc;
+                    }, 1500); // 1.5 seconds
+                };
+
+                // Use modern Clipboard API if available (https or localhost)
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(text).then(performAnimation).catch(err => {
+                        console.error('Modern copy failed:', err);
+                    });
+                } else {
+                    // Fallback for older browsers or insecure (http) pages
+                    const textArea = document.createElement("textarea");
+                    textArea.value = text;
+                    textArea.style.position = "absolute";
+                    textArea.style.left = "-9999px";
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    try {
+                        document.execCommand('copy');
+                        performAnimation();
+                    } catch (err) {
+                        console.error('Fallback copy failed:', err);
+                    }
+                    document.body.removeChild(textArea);
+                }
+            };
+
             document.querySelectorAll('.copy-icon').forEach(icon => {
                 icon.addEventListener('click', (e) => {
                     e.stopPropagation(); 
-                    
-                    const clickedIcon = e.target;
-                    const dataToCopy = clickedIcon.parentElement.querySelector('.detail-data').textContent;
-                    
-                    navigator.clipboard.writeText(dataToCopy).then(() => {
-                        const originalSrc = clickedIcon.src;
-                        // Change icon to the animated checkmark
-                        clickedIcon.src = 'Assets/check.gif';
-
-                        // Set a timer to switch back after the GIF has played
-                        setTimeout(() => {
-                            clickedIcon.src = originalSrc;
-                        }, 1500); // 1.5 seconds, adjust if your GIF is longer/shorter
-                        
-                    }).catch(err => {
-                        console.error('Failed to copy text: ', err);
-                    });
+                    const dataToCopy = e.target.parentElement.querySelector('.detail-data').textContent;
+                    copyToClipboard(dataToCopy, e.target);
                 });
             });
         });
