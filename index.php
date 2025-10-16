@@ -60,7 +60,6 @@ $result = $conn->query($sql);
             transition: background-color 0.2s, color 0.2s;
         }
 
-        /* CHANGED: Reverted hover color from red to grey */
         .sidebar-nav .nav-button:hover,
         .sidebar-nav .nav-button.active {
             background-color: #e9e9e9;
@@ -105,8 +104,7 @@ $result = $conn->query($sql);
             margin-right: 10px;
             cursor: pointer;
         }
-
-        /* ADDED: Styling for the new +/- span element */
+        
         .expand-icon {
             display: inline-block;
             margin-right: 10px;
@@ -129,13 +127,11 @@ $result = $conn->query($sql);
             padding: 0;
         }
         
-        /* UPDATED: Details content styling */
         .details-content {
             padding: 15px 20px 15px 25px;
             background-color: #ffffff;
         }
         
-        /* ADDED: Styling for new detail items and copy icons */
         .detail-item {
             display: flex;
             align-items: center;
@@ -149,14 +145,14 @@ $result = $conn->query($sql);
             opacity: 0.5;
             transition: opacity 0.2s;
         }
-        .copy-icon:hover {
-            opacity: 1;
-        }
+        
+        /* REMOVED: The hover effect for the copy icon is now gone */
+        
         .detail-item strong {
             display: inline-block;
             width: 150px;
             color: #9d2235;
-            flex-shrink: 0; /* Prevents the label from shrinking */
+            flex-shrink: 0;
         }
     </style>
 </head>
@@ -165,7 +161,7 @@ $result = $conn->query($sql);
     <div class="container">
         <div class="sidebar">
             <nav class="sidebar-nav">
-                <a href="#" class="nav-button active"><img src="Assets/add.png" alt="" class="nav-icon"><span>Add Entries</span></a>
+                <a href="#" class="nav-button"><img src="Assets/add.png" alt="" class="nav-icon"><span>Add Entries</span></a>
                 <a href="#" class="nav-button"><img src="Assets/remove.png" alt="" class="nav-icon"><span>Delete Entries</span></a>
                 <a href="#" class="nav-button"><img src="Assets/import.png" alt="" class="nav-icon"><span>Import Excel</span></a>
                 <a href="#" class="nav-button"><img src="Assets/export.png" alt="" class="nav-icon"><span>Export Excel</span></a>
@@ -193,16 +189,16 @@ $result = $conn->query($sql);
                             <tr class="book-details-row" id="<?php echo $details_id; ?>">
                                 <td>
                                     <div class="details-content">
-                                        <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong >TUID:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['tuid'] ?? 'N/A'); ?></span></div>
-                                        <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong >Course:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['course'] ?? 'N/A'); ?></span></div>
-                                        <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong >Course Title:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['course title'] ?? 'N/A'); ?></span></div>
-                                        <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong >Name:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['name'] ?? 'N/A'); ?></span></div>
-                                        <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong >Checked Out:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['checkedout'] ?? 'N/A'); ?></span></div>
-                                        <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong >Last Checkout:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['last checkout'] ?? 'N/A'); ?></span></div>
-                                        <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong >Expected Return:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['expected return'] ?? 'N/A'); ?></span></div>
-                                        <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong >Barcode:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['barcode'] ?? 'N/A'); ?></span></div>
-                                        <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong >Book:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['book'] ?? 'N/A'); ?></span></div>
-                                        <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong >ID:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['id'] ?? 'N/A'); ?></span></div>
+                                        <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong>TUID:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['tuid'] ?? 'N/A'); ?></span></div>
+                                        <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong>Course:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['course'] ?? 'N/A'); ?></span></div>
+                                        <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong>Course Title:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['course title'] ?? 'N/A'); ?></span></div>
+                                        <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong>Name:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['name'] ?? 'N/A'); ?></span></div>
+                                        <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong>Checked Out:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['checkedout'] ?? 'N/A'); ?></span></div>
+                                        <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong>Last Checkout:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['last checkout'] ?? 'N/A'); ?></span></div>
+                                        <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong>Expected Return:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['expected return'] ?? 'N/A'); ?></span></div>
+                                        <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong>Barcode:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['barcode'] ?? 'N/A'); ?></span></div>
+                                        <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong>Book:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['book'] ?? 'N/A'); ?></span></div>
+                                        <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong>ID:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['id'] ?? 'N/A'); ?></span></div>
                                     </div>
                                 </td>
                             </tr>
@@ -222,21 +218,13 @@ $result = $conn->query($sql);
         document.addEventListener('DOMContentLoaded', function () {
             document.querySelectorAll('.book-title-row td').forEach(cell => {
                 cell.addEventListener('click', (e) => {
-                    // Prevent toggle if the click was on the checkbox
-                    if (e.target.type === 'checkbox') {
-                        return;
-                    }
+                    if (e.target.type === 'checkbox') return;
 
                     const row = cell.parentElement;
                     row.classList.toggle('active');
-
-                    // UPDATED: Toggle the text content of the expand icon
+                    
                     const icon = row.querySelector('.expand-icon');
-                    if (row.classList.contains('active')) {
-                        icon.textContent = '−';
-                    } else {
-                        icon.textContent = '+';
-                    }
+                    icon.textContent = row.classList.contains('active') ? '−' : '+';
                     
                     const targetSelector = row.getAttribute('data-target');
                     const detailsRow = document.querySelector(targetSelector);
@@ -247,15 +235,24 @@ $result = $conn->query($sql);
                 });
             });
 
-            // ADDED: Functionality for the new copy buttons
+            // UPDATED: Functionality for the copy buttons with success animation
             document.querySelectorAll('.copy-icon').forEach(icon => {
                 icon.addEventListener('click', (e) => {
-                    e.stopPropagation(); // Prevents the main row from collapsing
-                    const dataToCopy = e.target.parentElement.querySelector('.detail-data').textContent;
+                    e.stopPropagation(); 
+                    
+                    const clickedIcon = e.target;
+                    const dataToCopy = clickedIcon.parentElement.querySelector('.detail-data').textContent;
                     
                     navigator.clipboard.writeText(dataToCopy).then(() => {
-                        // You could add a "Copied!" tooltip here for user feedback
-                        console.log('Copied:', dataToCopy); 
+                        const originalSrc = clickedIcon.src;
+                        // Change icon to the animated checkmark
+                        clickedIcon.src = 'Assets/check.gif';
+
+                        // Set a timer to switch back after the GIF has played
+                        setTimeout(() => {
+                            clickedIcon.src = originalSrc;
+                        }, 1500); // 1.5 seconds, adjust if your GIF is longer/shorter
+                        
                     }).catch(err => {
                         console.error('Failed to copy text: ', err);
                     });
