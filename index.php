@@ -120,16 +120,16 @@ $result = $conn->query($sql);
                                             <h3 class="item-title"><?php echo htmlspecialchars($row['book title'] ?? 'No Title'); ?></h3>
                                         </div>
                                         <div class="details-grid">
-                                            <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong>TUID:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['tuid'] ?? 'N/A'); ?></span></div>
-                                            <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong>Course:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['course'] ?? 'N/A'); ?></span></div>
-                                            <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong>Course Title:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['course title'] ?? 'N/A'); ?></span></div>
-                                            <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong>Name:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['name'] ?? 'N/A'); ?></span></div>
-                                            <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong>Checked Out:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['checkedout'] ?? 'N/A'); ?></span></div>
-                                            <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong>Last Checkout:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['last checkout'] ?? 'N/A'); ?></span></div>
-                                            <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong>Expected Return:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['expected return'] ?? 'N/A'); ?></span></div>
-                                            <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong>Barcode:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['barcode'] ?? 'N/A'); ?></span></div>
-                                            <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong>Book:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['book'] ?? 'N/A'); ?></span></div>
-                                            <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"><strong>ID:</strong> <span class="detail-data"><?php echo htmlspecialchars($row['id'] ?? 'N/A'); ?></span></div>
+                                            <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"> <span class="detail-data"><?php echo htmlspecialchars($row['tuid'] ?? 'N/A'); ?></span></div>
+                                            <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"> <span class="detail-data"><?php echo htmlspecialchars($row['course'] ?? 'N/A'); ?></span></div>
+                                            <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"> <span class="detail-data"><?php echo htmlspecialchars($row['course title'] ?? 'N/A'); ?></span></div>
+                                            <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"> <span class="detail-data"><?php echo htmlspecialchars($row['name'] ?? 'N/A'); ?></span></div>
+                                            <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"> <span class="detail-data"><?php echo htmlspecialchars($row['checkedout'] ?? 'N/A'); ?></span></div>
+                                            <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"> <span class="detail-data"><?php echo htmlspecialchars($row['last checkout'] ?? 'N/A'); ?></span></div>
+                                            <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"> <span class="detail-data"><?php echo htmlspecialchars($row['expected return'] ?? 'N/A'); ?></span></div>
+                                            <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"> <span class="detail-data"><?php echo htmlspecialchars($row['barcode'] ?? 'N/A'); ?></span></div>
+                                            <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"> <span class="detail-data"><?php echo htmlspecialchars($row['book'] ?? 'N/A'); ?></span></div>
+                                            <div class="detail-item"><img src="Assets/copy.png" class="copy-icon" alt="Copy"> <span class="detail-data"><?php echo htmlspecialchars($row['id'] ?? 'N/A'); ?></span></div>
                                         </div>
                                     </div>
                                 </td>
