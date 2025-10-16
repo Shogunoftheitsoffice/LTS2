@@ -33,7 +33,7 @@ $result = $conn->query($sql);
             background-color: #ffffff;
             padding: 20px;
             box-sizing: border-box;
-            position: sticky;
+            position: sticky; /* This makes the menu stay in place on scroll */
             top: 0;
             border-right: 1px solid #e0e0e0;
             box-shadow: 3px 0px 15px rgba(0, 0, 0, 0.05);
@@ -41,36 +41,37 @@ $result = $conn->query($sql);
             flex-direction: column;
         }
 
-        .sidebar .logo {
-            width: 150px;
-            height: auto;
-            display: block;
-            margin: 0 0 30px 0;
-        }
-
         /* --- Navigation Menu Styles --- */
         .sidebar-nav {
             list-style: none;
             padding: 0;
             margin: 0;
-            border-top: 1px solid #ddd; /* Add a top border to contain the list look */
+            border-top: 1px solid #ddd;
         }
 
         .sidebar-nav .nav-button {
-            display: block;
-            padding: 12px 15px; /* Match list padding */
+            display: flex; /* ADDED: Use flexbox for icon alignment */
+            align-items: center; /* ADDED: Vertically center icon and text */
+            padding: 12px 15px;
             text-decoration: none;
             color: #333;
-            font-weight: bold; /* Match list font weight */
-            background-color: #f9f9f9; /* Match list background */
-            border-bottom: 1px solid #ddd; /* Match list border */
+            font-weight: bold;
+            background-color: #f9f9f9;
+            border-bottom: 1px solid #ddd;
             transition: background-color 0.2s, color 0.2s;
         }
 
         .sidebar-nav .nav-button:hover,
         .sidebar-nav .nav-button.active {
-            background-color: #9d2235; /* Temple cherry red for hover/active */
+            background-color: #9d2235;
             color: #ffffff;
+        }
+        
+        /* --- ADDED: Icon Styling --- */
+        .nav-icon {
+            width: 20px; /* Set a reasonable size for the icon */
+            height: 20px;
+            margin-right: 12px; /* Add space between icon and text */
         }
 
 
@@ -124,7 +125,7 @@ $result = $conn->query($sql);
         .details-content strong {
             display: inline-block;
             width: 150px;
-            color: #9d2235; /* CHANGED: Set label color to Temple Red */
+            color: #9d2235;
         }
     </style>
 </head>
@@ -132,20 +133,33 @@ $result = $conn->query($sql);
 
     <div class="container">
         <div class="sidebar">
-            <img src="Assets/logo.png" alt="Company Logo" class="logo">
-            
             <nav class="sidebar-nav">
-                <a href="#" class="nav-button active">Dashboard</a>
-                <a href="#" class="nav-button">All Textbooks</a>
-                <a href="#" class="nav-button">Check Out</a>
-                <a href="#" class="nav-button">Reports</a>
-                <a href="#" class="nav-button">Settings</a>
+                <a href="#" class="nav-button active">
+                    <img src="Assets/test.png" alt="" class="nav-icon">
+                    <span>Add Entries</span>
+                </a>
+                <a href="#" class="nav-button">
+                    <img src="Assets/test.png" alt="" class="nav-icon">
+                    <span>Delete Entries</span>
+                </a>
+                <a href="#" class="nav-button">
+                    <img src="Assets/test.png" alt="" class="nav-icon">
+                    <span>Import Excel</span>
+                </a>
+                <a href="#" class="nav-button">
+                    <img src="Assets/test.png" alt="" class="nav-icon">
+                    <span>Export Excel</span>
+                </a>
+                <a href="#" class="nav-button">
+                    <img src="Assets/test.png" alt="" class="nav-icon">
+                    <span>Exit Admin Mode</span>
+                </a>
             </nav>
             
         </div>
 
         <div class="main-content">
-             <table>
+            <table>
                 <tbody>
                     <?php
                     if ($result->num_rows > 0) {
@@ -175,14 +189,17 @@ $result = $conn->query($sql);
                             </tr>
 
                     <?php
-                        } // end while loop
+                        }
                     } else {
                         echo "<tr><td>0 results found</td></tr>";
                     }
                     ?>
                 </tbody>
             </table>
-        </div> </div> <script>
+        </div>
+    </div>
+
+    <script>
         document.addEventListener('DOMContentLoaded', function () {
             const titleRows = document.querySelectorAll('.book-title-row');
 
