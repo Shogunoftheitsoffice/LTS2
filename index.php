@@ -51,7 +51,10 @@ $result = $conn->query($sql);
             overflow: hidden;
         }
         .book-table th, .book-table td {
-            padding: 15px;
+            padding-left: 5px;
+            padding-right: 5px;
+            padding-top: 10px;
+            padding-bottom: 10px;
             text-align: left;
             border-bottom: 1px solid #eef0f2;
         }
