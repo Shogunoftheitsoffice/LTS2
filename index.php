@@ -61,9 +61,8 @@ if ($result && $result->num_rows > 0) {
                             <th>Barcode</th>
                             <th>Book Title</th>
                             <th>TUID</th>
-                            <th>Checked Out To</th>
-                            <th>Last Checkout</th>
-                        </tr>
+                            <th>Professor</th> <th>Last Checkout</th>
+                            <th>Time Remaining</th> </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($checkedOutBooks as $row): ?>
@@ -75,10 +74,12 @@ if ($result && $result->num_rows > 0) {
                                 <td><?php echo htmlspecialchars($row['tuid'] ?? 'N/A'); ?></td>
                                 <td><?php echo htmlspecialchars($row['name'] ?? 'N/A'); ?></td>
                                 <td><?php echo htmlspecialchars($row['last checkout'] ?? 'N/A'); ?></td>
+                                <td class="countdown-cell" data-return-time="<?php echo htmlspecialchars($row['expected return'] ?? ''); ?>">
+                                    --:--:--
+                                </td>
                             </tr>
                             <tr class="details-row">
-                                <td colspan="7" class="details-cell">
-                                    <div class="details-container">
+                                <td colspan="8" class="details-cell"> <div class="details-container">
                                         <div class="details-grid">
                                             <div class="detail-item"><strong>Course:</strong> <?php echo htmlspecialchars($row['course'] ?? 'N/A'); ?></div>
                                             <div class="detail-item"><strong>Course Title:</strong> <?php echo htmlspecialchars($row['course title'] ?? 'N/A'); ?></div>
@@ -123,8 +124,7 @@ if ($result && $result->num_rows > 0) {
                                     <div class="details-container">
                                         <div class="details-grid">
                                             <div class="detail-item"><strong>TUID:</strong> <?php echo htmlspecialchars($row['tuid'] ?? 'N/A'); ?></div>
-                                            <div class="detail-item"><strong>Checked Out To:</strong> <?php echo htmlspecialchars($row['name'] ?? 'N/A'); ?></div>
-                                            <div class="detail-item"><strong>Last Checkout:</strong> <?php echo htmlspecialchars($row['last checkout'] ?? 'N/A'); ?></div>
+                                            <div class="detail-item"><strong>Professor:</strong> <?php echo htmlspecialchars($row['name'] ?? 'N/A'); ?></div> <div class="detail-item"><strong>Last Checkout:</strong> <?php echo htmlspecialchars($row['last checkout'] ?? 'N/A'); ?></div>
                                             <div class="detail-item"><strong>Database ID:</strong> <?php echo htmlspecialchars($row['id'] ?? 'N/A'); ?></div>
                                             </div>
                                     </div>
