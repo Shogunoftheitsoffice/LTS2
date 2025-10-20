@@ -1,8 +1,17 @@
 document.addEventListener('DOMContentLoaded', function() {
     
-    // --- Existing script for details row ---
+    // --- UPDATED: script for details row ---
     document.querySelectorAll('.main-row').forEach(row => {
-        row.addEventListener('click', () => {
+        row.addEventListener('click', (e) => { // <-- Get the event object 'e'
+            
+            // --- NEW: Check if the click was on a button or link ---
+            // .closest() checks the clicked element and its parents
+            if (e.target.closest('button, a')) {
+                return; // If so, do nothing and don't expand the row
+            }
+            // --- END OF CHANGE ---
+
+            // If the click was not on a button or link, expand the row
             const detailsRow = row.nextElementSibling;
             if (detailsRow && detailsRow.classList.contains('details-row')) {
                 detailsRow.style.display = (detailsRow.style.display === 'table-row') ? 'none' : 'table-row';
@@ -227,7 +236,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // --- NEW: AD Info Modal Logic ---
+    // --- AD Info Modal Logic ---
     const adInfoModal = document.getElementById('ad-info-modal');
     const adInfoContent = document.getElementById('ad-info-content');
     const adInfoCloseBtn = adInfoModal.querySelector('.modal-close');
@@ -245,6 +254,7 @@ document.addEventListener('DOMContentLoaded', function() {
     mainContent.addEventListener('click', function(e) {
         if (e.target.classList.contains('tuid-link')) {
             e.preventDefault();
+            e.stopPropagation(); // Stop event from bubbling
             const tuid = e.target.dataset.tuid;
             
             if (tuid) {
