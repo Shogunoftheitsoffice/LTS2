@@ -152,7 +152,22 @@ if ($result && $result->num_rows > 0) {
                 </div>
         </div>
     </div>
+<div id="search-modal" class="modal-overlay">
+        </div>
 
+    <div id="checkout-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h2>Checkout Book</h2>
+            <form id="checkout-form" onsubmit="return false;">
+                <p>Please enter the 9-digit TUID to check out this item.</p>
+                <label for="checkout-tuid-input">TUID:</label>
+                <input type="text" id="checkout-tuid-input" placeholder="e.g., 912345678" autocomplete="off" maxlength="9">
+                <div id="checkout-message" class="checkout-message"></div>
+                <button type="submit" id="checkout-submit-btn">Checkout</button>
+            </form>
+        </div>
+    </div>
     <script src="scripts.js"></script>
 
 </body>
