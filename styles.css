@@ -123,9 +123,9 @@
     box-shadow: 0 3px 6px rgba(0, 123, 255, 0.4);
 }
 
-/* --- ADDED: MODAL AND SEARCH STYLES --- */
+/* --- MODAL AND SEARCH STYLES --- */
 .modal-overlay {
-    display: none; /* Hidden by default */
+    display: none;
     position: fixed;
     z-index: 1000;
     left: 0;
@@ -133,7 +133,7 @@
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0,0,0,0.5); /* Black w/ opacity */
+    background-color: rgba(0,0,0,0.5);
     justify-content: center;
     align-items: center;
     animation: fadeIn 0.3s;
@@ -228,10 +228,18 @@
 #search-results li {
     padding: 15px 10px;
     border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
 }
 
 #search-results li:last-child {
     border-bottom: none;
+}
+
+.result-main-content {
+    flex-grow: 1;
 }
 
 .result-title {
@@ -258,3 +266,30 @@
     color: #777;
     padding: 20px;
 }
+
+.go-to-item-btn {
+    padding: 8px 12px;
+    font-size: 0.9em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    white-space: nowrap;
+}
+
+.go-to-item-btn:hover {
+    background-color: #e0e0e0;
+    border-color: #bbb;
+}
+
+@keyframes highlight-fade {
+    from { background-color: #fff8c4; }
+    to { background-color: transparent; }
+}
+
+.highlight {
+    animation: highlight-fade 2.5s ease-out;
+}
+
