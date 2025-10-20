@@ -152,8 +152,6 @@ if ($result && $result->num_rows > 0) {
                 </div>
         </div>
     </div>
-<div id="search-modal" class="modal-overlay">
-        </div>
 
     <div id="checkout-modal" class="modal-overlay">
         <div class="modal-content">
