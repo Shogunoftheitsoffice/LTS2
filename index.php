@@ -24,7 +24,7 @@ if ($result && $result->num_rows > 0) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-AR">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Textbook Management</title>
     <link rel="stylesheet" href="styles.css">
@@ -35,7 +35,8 @@ if ($result && $result->num_rows > 0) {
         <div class="sidebar">
             <nav class="sidebar-nav">
                 <a href="#" class="nav-button"><img src="Assets/checkout.png" alt="" class="nav-icon"><span>Checkout</span></a>
-                <a href="#" class="nav-button"><img src="Assets/search.png" alt="" class="nav-icon"><span>Search</span></a>
+                <!-- ADDED id="search-btn" to the search button -->
+                <a href="#" id="search-btn" class="nav-button"><img src="Assets/search.png" alt="" class="nav-icon"><span>Search</span></a>
                 <a href="#" class="nav-button"><img src="Assets/add.png" alt="" class="nav-icon"><span>Add</span></a>
                 <a href="#" class="nav-button"><img src="Assets/edit.png" alt="" class="nav-icon"><span>Edit</span></a>
                 <a href="#" class="nav-button"><img src="Assets/remove.png" alt="" class="nav-icon"><span>Delete</span></a>
@@ -115,7 +116,7 @@ if ($result && $result->num_rows > 0) {
                                 <td colspan="4" class="details-cell">
                                     <div class="details-container">
                                         <div class="details-grid">
-                                             <div class="detail-item"><strong>TUID:</strong> <?php echo htmlspecialchars($row['tuid'] ?? 'N/A'); ?></div>
+                                            <div class="detail-item"><strong>TUID:</strong> <?php echo htmlspecialchars($row['tuid'] ?? 'N/A'); ?></div>
                                             <div class="detail-item"><strong>Barcode:</strong> <?php echo htmlspecialchars($row['barcode'] ?? 'N/A'); ?></div>
                                             <div class="detail-item"><strong>Checked Out To:</strong> <?php echo htmlspecialchars($row['name'] ?? 'N/A'); ?></div>
                                             <div class="detail-item"><strong>Last Checkout:</strong> <?php echo htmlspecialchars($row['last checkout'] ?? 'N/A'); ?></div>
@@ -135,18 +136,23 @@ if ($result && $result->num_rows > 0) {
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.main-row').forEach(row => {
-                row.addEventListener('click', () => {
-                    const detailsRow = row.nextElementSibling;
-                    if (detailsRow && detailsRow.classList.contains('details-row')) {
-                        detailsRow.style.display = (detailsRow.style.display === 'table-row') ? 'none' : 'table-row';
-                    }
-                });
-            });
-        });
-    </script>
+    <!-- ADDED: Search Modal HTML Structure -->
+    <div id="search-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h2>Search Textbooks</h2>
+            <form id="search-form" onsubmit="return false;">
+                <input type="text" id="search-input" placeholder="Search by Title, TUID, Course, Barcode..." autocomplete="off">
+                <button type="submit">Search</button>
+            </form>
+            <div id="search-results">
+                <!-- Search results will be injected here by scripts.js -->
+            </div>
+        </div>
+    </div>
+
+    <!-- REPLACED old script block with a link to our new file -->
+    <script src="scripts.js"></script>
 
 </body>
 </html>
