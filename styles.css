@@ -52,7 +52,6 @@
             border-right: 1px solid #eef0f2;
         }
         .book-table th:first-child, .book-table td:first-child {
-            /* Center align the button column */
             text-align: center;
         }
         .book-table th:last-child, .book-table td:last-child {
@@ -65,7 +64,13 @@
             letter-spacing: 0.5px;
             color: #6c757d;
         }
-        .book-table tbody tr.main-row:hover { background-color: #f8f9fa; }
+        /* ADDED: Alternating row color */
+        .book-table tbody tr.main-row:nth-child(even) {
+            background-color: #fcfcfc;
+        }
+        .book-table tbody tr.main-row:hover { 
+            background-color: #f5f7f8; /* Lightened hover for better contrast */
+        }
         .main-row { cursor: pointer; }
         .item-title { font-weight: 600; color: #333; }
         .status-available { color: #28a745; font-weight: 500; }
@@ -73,7 +78,12 @@
 
         .details-row { display: none; }
         .details-cell { padding: 0 !important; border-right: none; }
-        .details-container { background-color: #fafafa; padding: 20px 25px; }
+        .details-container { 
+            background-color: #fafafa; 
+            padding: 20px 25px; 
+            /* ADDED: Fix for text alignment */
+            text-align: left; 
+        }
         .details-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -83,7 +93,7 @@
         .detail-item strong { display: inline-block; width: 120px; color: #6c757d; }
 
 
-/* --- NEW BUTTON STYLES --- */
+/* --- UPDATED BUTTON STYLES --- */
 .action-btn {
     padding: 5px 10px;
     font-family: 'Lato', sans-serif;
@@ -92,22 +102,31 @@
     border-radius: 5px;
     cursor: pointer;
     font-size: 0.9em;
-    transition: background-color 0.2s;
-    width: 80px; /* Give them a uniform width */
+    transition: all 0.2s ease-in-out; /* Changed to 'all' for gradient transition */
+    width: 80px;
+    color: white;
 }
 
 .checkout-btn {
-    background-color: #28a745; /* Green */
-    color: white;
+    /* CHANGED: Replaced background-color with gradient */
+    background-image: linear-gradient(135deg, #34d058 0%, #28a745 100%);
+    box-shadow: 0 2px 4px rgba(40, 167, 69, 0.3);
 }
 .checkout-btn:hover {
-    background-color: #218838;
+    /* CHANGED: Replaced background-color with gradient */
+    background-image: linear-gradient(135deg, #2fc050 0%, #218838 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(40, 167, 69, 0.4);
 }
 
 .return-btn {
-    background-color: #007bff; /* Blue */
-    color: white;
+    /* CHANGED: Replaced background-color with gradient */
+    background-image: linear-gradient(135deg, #0d8eff 0%, #007bff 100%);
+    box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
 }
 .return-btn:hover {
-    background-color: #0069d9;
+    /* CHANGED: Replaced background-color with gradient */
+    background-image: linear-gradient(135deg, #007efc 0%, #0069d9 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0, 123, 255, 0.4);
 }
