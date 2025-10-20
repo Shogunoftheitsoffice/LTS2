@@ -82,7 +82,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let html = '<ul>';
         results.forEach(item => {
-            // *** UPDATED: Added "Professor" to the status text ***
             const status = (item.checkedout && item.checkedout.toLowerCase() === 'yes') 
                 ? `<span class="status-out">Checked Out</span> to Professor ${item.name || 'N/A'}` 
                 : '<span class="status-available">Available</span>';
@@ -132,8 +131,10 @@ document.addEventListener('DOMContentLoaded', function() {
         checkoutMessage.className = 'checkout-message';
     };
 
-    // Event Delegation for all "Checkout" buttons
+    // --- UPDATED: Event Delegation for "Checkout" AND "Return" buttons ---
     mainContent.addEventListener('click', function(e) {
+        
+        // Handle Checkout Button
         if (e.target.classList.contains('checkout-btn')) {
             e.stopPropagation(); // Stop the row-click event
             e.preventDefault();
@@ -143,6 +144,39 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (bookId) {
                 openCheckoutModal(bookId);
+            }
+        }
+
+        // --- NEW: Handle Return Button ---
+        if (e.target.classList.contains('return-btn')) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            // Show a confirmation dialog
+            if (confirm('Are you sure you want to return this book?')) {
+                const mainRow = e.target.closest('.main-row');
+                const bookId = mainRow.dataset.id;
+                
+                const formData = new FormData();
+                formData.append('bookId', bookId);
+
+                fetch('return.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Easiest way to update the lists is to reload
+                        location.reload(); 
+                    } else {
+                        alert('Error returning book: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error during return:', error);
+                    alert('A network error occurred. Please try again.');
+                });
             }
         }
     });
