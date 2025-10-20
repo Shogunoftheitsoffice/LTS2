@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- Search Modal Logic ---
     const searchBtn = document.getElementById('search-btn');
     const searchModal = document.getElementById('search-modal');
-    const closeModalBtn = document.querySelector('.modal-close');
+    const closeModalBtn = searchModal.querySelector('.modal-close'); // Corrected selector
     const searchForm = document.getElementById('search-form');
     const searchInput = document.getElementById('search-input');
     const searchResultsContainer = document.getElementById('search-results');
@@ -82,8 +82,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let html = '<ul>';
         results.forEach(item => {
+            // *** UPDATED: Added "Professor" to the status text ***
             const status = (item.checkedout && item.checkedout.toLowerCase() === 'yes') 
-                ? `<span class="status-out">Checked Out</span> to ${item.name || 'N/A'}` 
+                ? `<span class="status-out">Checked Out</span> to Professor ${item.name || 'N/A'}` 
                 : '<span class="status-available">Available</span>';
 
             html += `
@@ -108,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 
-    // --- NEW: Checkout Modal Logic ---
+    // --- Checkout Modal Logic ---
     const checkoutModal = document.getElementById('checkout-modal');
     const checkoutForm = document.getElementById('checkout-form');
     const checkoutTuidInput = document.getElementById('checkout-tuid-input');
@@ -214,7 +215,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- END: Checkout Modal Logic ---
 
 
-    // --- Existing: Event listener for "Go to Item" buttons ---
+    // --- Event listener for "Go to Item" buttons ---
     searchResultsContainer.addEventListener('click', function(e) {
         // Check if a 'go-to-item-btn' was clicked
         if (e.target && e.target.classList.contains('go-to-item-btn')) {
@@ -241,4 +242,54 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
+
+    // --- NEW: Countdown Logic ---
+    
+    /**
+     * Formats remaining milliseconds into HH:MM:SS string
+     * @param {number} ms - Milliseconds remaining
+     */
+    function formatTime(ms) {
+        let totalSeconds = Math.floor(ms / 1000);
+        let hours = Math.floor(totalSeconds / 3600);
+        totalSeconds %= 3600;
+        let minutes = Math.floor(totalSeconds / 60);
+        let seconds = totalSeconds % 60;
+
+        // Pad with leading zeros
+        const pad = (num) => String(num).padStart(2, '0');
+        return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+    }
+
+    /**
+     * Starts a countdown timer in a given table cell
+     * @param {HTMLElement} cell - The <td> element for the countdown
+     */
+    function startCountdown(cell) {
+        const returnTimeStr = cell.dataset.returnTime;
+        if (!returnTimeStr) {
+            cell.innerHTML = 'N/A';
+            return;
+        }
+
+        // Note: PHP/MySQL datetime format is "YYYY-MM-DD HH:MM:SS"
+        // JS Date() constructor can parse this, but it's safer to replace space with 'T'
+        const returnTime = new Date(returnTimeStr.replace(' ', 'T'));
+
+        const timer = setInterval(() => {
+            const now = new Date();
+            const timeRemaining = returnTime - now;
+
+            if (timeRemaining <= 0) {
+                clearInterval(timer);
+                cell.innerHTML = '<span class="status-out">OVERDUE</span>';
+            } else {
+                cell.innerHTML = formatTime(timeRemaining);
+            }
+        }, 1000);
+    }
+
+    // Initialize all countdowns on page load
+    document.querySelectorAll('.countdown-cell').forEach(startCountdown);
+
 });
