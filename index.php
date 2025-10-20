@@ -57,9 +57,6 @@ if ($result && $result->num_rows > 0) {
                     <thead>
                         <tr>
                             <th style="width: 100px;">Action</th>
-                            <!-- ADDED: New headers -->
-                            <th style="width: 80px;">Book ID</th>
-                            <th style="width: 120px;">Barcode</th>
                             <th>Book Title</th>
                             <th>TUID</th>
                             <th>Checked Out To</th>
@@ -68,27 +65,24 @@ if ($result && $result->num_rows > 0) {
                     </thead>
                     <tbody>
                         <?php foreach ($checkedOutBooks as $row): ?>
+                            <!-- ADDED: data-id attribute to the row -->
                             <tr class="main-row" data-id="<?php echo htmlspecialchars($row['id']); ?>">
                                 <td onclick="event.stopPropagation()"><button class="action-btn return-btn">Return</button></td>
-                                <!-- ADDED: New data cells -->
-                                <td class="id-cell"><?php echo htmlspecialchars($row['book'] ?? 'N/A'); ?></td>
-                                <td class="id-cell"><?php echo htmlspecialchars($row['barcode'] ?? 'N/A'); ?></td>
                                 <td class="item-title"><?php echo htmlspecialchars($row['book title'] ?? 'N/A'); ?></td>
                                 <td><?php echo htmlspecialchars($row['tuid'] ?? 'N/A'); ?></td>
                                 <td><?php echo htmlspecialchars($row['name'] ?? 'N/A'); ?></td>
                                 <td><?php echo htmlspecialchars($row['last checkout'] ?? 'N/A'); ?></td>
                             </tr>
                             <tr class="details-row">
-                                <!-- CHANGED: Colspan updated to 7 -->
-                                <td colspan="7" class="details-cell">
+                                <td colspan="5" class="details-cell">
                                     <div class="details-container">
                                         <div class="details-grid">
                                             <div class="detail-item"><strong>Course:</strong> <?php echo htmlspecialchars($row['course'] ?? 'N/A'); ?></div>
                                             <div class="detail-item"><strong>Course Title:</strong> <?php echo htmlspecialchars($row['course title'] ?? 'N/A'); ?></div>
-                                            <!-- REMOVED: Barcode -->
+                                            <div class="detail-item"><strong>Barcode:</strong> <?php echo htmlspecialchars($row['barcode'] ?? 'N/A'); ?></div>
                                             <div class="detail-item"><strong>Expected Return:</strong> <?php echo htmlspecialchars($row['expected return'] ?? 'N/A'); ?></div>
                                             <div class="detail-item"><strong>Database ID:</strong> <?php echo htmlspecialchars($row['id'] ?? 'N/A'); ?></div>
-                                            <!-- REMOVED: Book ID -->
+                                            <div class="detail-item"><strong>Book ID:</strong> <?php echo htmlspecialchars($row['book'] ?? 'N/A'); ?></div>
                                         </div>
                                     </div>
                                 </td>
@@ -106,9 +100,6 @@ if ($result && $result->num_rows > 0) {
                     <thead>
                         <tr>
                             <th style="width: 100px;">Action</th>
-                            <!-- ADDED: New headers -->
-                            <th style="width: 80px;">Book ID</th>
-                            <th style="width: 120px;">Barcode</th>
                             <th>Book Title</th>
                             <th>Course</th>
                             <th>Course Title</th>
@@ -116,26 +107,23 @@ if ($result && $result->num_rows > 0) {
                     </thead>
                     <tbody>
                         <?php foreach ($availableBooks as $row): ?>
+                             <!-- ADDED: data-id attribute to the row -->
                             <tr class="main-row" data-id="<?php echo htmlspecialchars($row['id']); ?>">
                                 <td onclick="event.stopPropagation()"><button class="action-btn checkout-btn">Checkout</button></td>
-                                <!-- ADDED: New data cells -->
-                                <td class="id-cell"><?php echo htmlspecialchars($row['book'] ?? 'N/A'); ?></td>
-                                <td class="id-cell"><?php echo htmlspecialchars($row['barcode'] ?? 'N/A'); ?></td>
                                 <td class="item-title"><?php echo htmlspecialchars($row['book title'] ?? 'N/A'); ?></td>
                                 <td><?php echo htmlspecialchars($row['course'] ?? 'N/A'); ?></td>
                                 <td><?php echo htmlspecialchars($row['course title'] ?? 'N/A'); ?></td>
                             </tr>
                             <tr class="details-row">
-                                <!-- CHANGED: Colspan updated to 6 -->
-                                <td colspan="6" class="details-cell">
+                                <td colspan="4" class="details-cell">
                                     <div class="details-container">
                                         <div class="details-grid">
                                             <div class="detail-item"><strong>TUID:</strong> <?php echo htmlspecialchars($row['tuid'] ?? 'N/A'); ?></div>
-                                            <!-- REMOVED: Barcode -->
+                                            <div class="detail-item"><strong>Barcode:</strong> <?php echo htmlspecialchars($row['barcode'] ?? 'N/A'); ?></div>
                                             <div class="detail-item"><strong>Checked Out To:</strong> <?php echo htmlspecialchars($row['name'] ?? 'N/A'); ?></div>
                                             <div class="detail-item"><strong>Last Checkout:</strong> <?php echo htmlspecialchars($row['last checkout'] ?? 'N/A'); ?></div>
                                             <div class="detail-item"><strong>Database ID:</strong> <?php echo htmlspecialchars($row['id'] ?? 'N/A'); ?></div>
-                                            <!-- REMOVED: Book ID -->
+                                            <div class="detail-item"><strong>Book ID:</strong> <?php echo htmlspecialchars($row['book'] ?? 'N/A'); ?></div>
                                         </div>
                                     </div>
                                 </td>
