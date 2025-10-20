@@ -57,6 +57,8 @@ if ($result && $result->num_rows > 0) {
                     <thead>
                         <tr>
                             <th style="width: 100px;">Action</th>
+                            <th>Book ID</th>
+                            <th>Barcode</th>
                             <th>Book Title</th>
                             <th>TUID</th>
                             <th>Checked Out To</th>
@@ -65,25 +67,24 @@ if ($result && $result->num_rows > 0) {
                     </thead>
                     <tbody>
                         <?php foreach ($checkedOutBooks as $row): ?>
-                            <!-- ADDED: data-id attribute to the row -->
                             <tr class="main-row" data-id="<?php echo htmlspecialchars($row['id']); ?>">
                                 <td onclick="event.stopPropagation()"><button class="action-btn return-btn">Return</button></td>
+                                <td><?php echo htmlspecialchars($row['book'] ?? 'N/A'); ?></td>
+                                <td><?php echo htmlspecialchars($row['barcode'] ?? 'N/A'); ?></td>
                                 <td class="item-title"><?php echo htmlspecialchars($row['book title'] ?? 'N/A'); ?></td>
                                 <td><?php echo htmlspecialchars($row['tuid'] ?? 'N/A'); ?></td>
                                 <td><?php echo htmlspecialchars($row['name'] ?? 'N/A'); ?></td>
                                 <td><?php echo htmlspecialchars($row['last checkout'] ?? 'N/A'); ?></td>
                             </tr>
                             <tr class="details-row">
-                                <td colspan="5" class="details-cell">
+                                <td colspan="7" class="details-cell">
                                     <div class="details-container">
                                         <div class="details-grid">
                                             <div class="detail-item"><strong>Course:</strong> <?php echo htmlspecialchars($row['course'] ?? 'N/A'); ?></div>
                                             <div class="detail-item"><strong>Course Title:</strong> <?php echo htmlspecialchars($row['course title'] ?? 'N/A'); ?></div>
-                                            <div class="detail-item"><strong>Barcode:</strong> <?php echo htmlspecialchars($row['barcode'] ?? 'N/A'); ?></div>
                                             <div class="detail-item"><strong>Expected Return:</strong> <?php echo htmlspecialchars($row['expected return'] ?? 'N/A'); ?></div>
                                             <div class="detail-item"><strong>Database ID:</strong> <?php echo htmlspecialchars($row['id'] ?? 'N/A'); ?></div>
-                                            <div class="detail-item"><strong>Book ID:</strong> <?php echo htmlspecialchars($row['book'] ?? 'N/A'); ?></div>
-                                        </div>
+                                            </div>
                                     </div>
                                 </td>
                             </tr>
@@ -100,6 +101,8 @@ if ($result && $result->num_rows > 0) {
                     <thead>
                         <tr>
                             <th style="width: 100px;">Action</th>
+                            <th>Book ID</th>
+                            <th>Barcode</th>
                             <th>Book Title</th>
                             <th>Course</th>
                             <th>Course Title</th>
@@ -107,24 +110,23 @@ if ($result && $result->num_rows > 0) {
                     </thead>
                     <tbody>
                         <?php foreach ($availableBooks as $row): ?>
-                             <!-- ADDED: data-id attribute to the row -->
-                            <tr class="main-row" data-id="<?php echo htmlspecialchars($row['id']); ?>">
+                             <tr class="main-row" data-id="<?php echo htmlspecialchars($row['id']); ?>">
                                 <td onclick="event.stopPropagation()"><button class="action-btn checkout-btn">Checkout</button></td>
+                                <td><?php echo htmlspecialchars($row['book'] ?? 'N/A'); ?></td>
+                                <td><?php echo htmlspecialchars($row['barcode'] ?? 'N/A'); ?></td>
                                 <td class="item-title"><?php echo htmlspecialchars($row['book title'] ?? 'N/A'); ?></td>
                                 <td><?php echo htmlspecialchars($row['course'] ?? 'N/A'); ?></td>
                                 <td><?php echo htmlspecialchars($row['course title'] ?? 'N/A'); ?></td>
                             </tr>
                             <tr class="details-row">
-                                <td colspan="4" class="details-cell">
+                                <td colspan="6" class="details-cell">
                                     <div class="details-container">
                                         <div class="details-grid">
                                             <div class="detail-item"><strong>TUID:</strong> <?php echo htmlspecialchars($row['tuid'] ?? 'N/A'); ?></div>
-                                            <div class="detail-item"><strong>Barcode:</strong> <?php echo htmlspecialchars($row['barcode'] ?? 'N/A'); ?></div>
                                             <div class="detail-item"><strong>Checked Out To:</strong> <?php echo htmlspecialchars($row['name'] ?? 'N/A'); ?></div>
                                             <div class="detail-item"><strong>Last Checkout:</strong> <?php echo htmlspecialchars($row['last checkout'] ?? 'N/A'); ?></div>
                                             <div class="detail-item"><strong>Database ID:</strong> <?php echo htmlspecialchars($row['id'] ?? 'N/A'); ?></div>
-                                            <div class="detail-item"><strong>Book ID:</strong> <?php echo htmlspecialchars($row['book'] ?? 'N/A'); ?></div>
-                                        </div>
+                                            </div>
                                     </div>
                                 </td>
                             </tr>
@@ -138,7 +140,6 @@ if ($result && $result->num_rows > 0) {
         </div>
     </div>
 
-    <!-- Search Modal HTML Structure -->
     <div id="search-modal" class="modal-overlay">
         <div class="modal-content">
             <button class="modal-close">&times;</button>
@@ -148,8 +149,7 @@ if ($result && $result->num_rows > 0) {
                 <button type="submit">Search</button>
             </form>
             <div id="search-results">
-                <!-- Search results will be injected here by scripts.js -->
-            </div>
+                </div>
         </div>
     </div>
 
