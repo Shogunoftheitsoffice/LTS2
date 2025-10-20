@@ -55,7 +55,7 @@ if ($result && $result->num_rows > 0) {
                 <table class="book-table">
                     <thead>
                         <tr>
-                            <th style="width: 40px;"></th>
+                            <th style="width: 100px;">Action</th>
                             <th>Book Title</th>
                             <th>TUID</th>
                             <th>Checked Out To</th>
@@ -65,7 +65,7 @@ if ($result && $result->num_rows > 0) {
                     <tbody>
                         <?php foreach ($checkedOutBooks as $row): ?>
                             <tr class="main-row">
-                                <td onclick="event.stopPropagation()"><input type="checkbox" class="item-checkbox"></td>
+                                <td onclick="event.stopPropagation()"><button class="action-btn return-btn">Return</button></td>
                                 <td class="item-title"><?php echo htmlspecialchars($row['book title'] ?? 'N/A'); ?></td>
                                 <td><?php echo htmlspecialchars($row['tuid'] ?? 'N/A'); ?></td>
                                 <td><?php echo htmlspecialchars($row['name'] ?? 'N/A'); ?></td>
@@ -97,7 +97,7 @@ if ($result && $result->num_rows > 0) {
                 <table class="book-table">
                     <thead>
                         <tr>
-                            <th style="width: 40px;"></th>
+                            <th style="width: 100px;">Action</th>
                             <th>Book Title</th>
                             <th>Course</th>
                         </tr>
@@ -105,7 +105,7 @@ if ($result && $result->num_rows > 0) {
                     <tbody>
                         <?php foreach ($availableBooks as $row): ?>
                              <tr class="main-row">
-                                <td onclick="event.stopPropagation()"><input type="checkbox" class="item-checkbox"></td>
+                                <td onclick="event.stopPropagation()"><button class="action-btn checkout-btn">Checkout</button></td>
                                 <td class="item-title"><?php echo htmlspecialchars($row['book title'] ?? 'N/A'); ?></td>
                                 <td><?php echo htmlspecialchars($row['course'] ?? 'N/A'); ?></td>
                             </tr>
