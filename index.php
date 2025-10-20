@@ -44,7 +44,8 @@ if ($result && $result->num_rows > 0) {
                 <a href="#" class="nav-button"><img src="Assets/settings.png" alt="" class="nav-icon"><span>Settings</span></a>
                 <a href="#" class="nav-button"><img src="Assets/help.png" alt="" class="nav-icon"><span>Help</span></a>
                 <a href="#" class="nav-button"><img src="Assets/stats.png" alt="" class="nav-icon"><span>Stats</span></a>
-                <a href="#" class="nav-button"><img src="Assets/uncheck.png" alt="" class="nav-icon"><span>Uncheck</span></a>
+                <a href="#" class="nav-button"><img src="Assets/select.png" alt="" class="nav-icon"><span>Select</span></a>
+                <a href="#" class="nav-button"><img src="Assets/uncheck.png" alt="" class="nav-icon"><span>Deselect</span></a>
                 <a href="#" class="nav-button"><img src="Assets/exit.png" alt="" class="nav-icon"><span>Exit</span></a>
             </nav>
         </div>
@@ -81,7 +82,7 @@ if ($result && $result->num_rows > 0) {
                                             <div class="detail-item"><strong>Barcode:</strong> <?php echo htmlspecialchars($row['barcode'] ?? 'N/A'); ?></div>
                                             <div class="detail-item"><strong>Expected Return:</strong> <?php echo htmlspecialchars($row['expected return'] ?? 'N/A'); ?></div>
                                             <div class="detail-item"><strong>Database ID:</strong> <?php echo htmlspecialchars($row['id'] ?? 'N/A'); ?></div>
-                                            <div class="detail-item"><strong>Book Type:</strong> <?php echo htmlspecialchars($row['book'] ?? 'N/A'); ?></div>
+                                            <div class="detail-item"><strong>Book ID:</strong> <?php echo htmlspecialchars($row['book'] ?? 'N/A'); ?></div>
                                         </div>
                                     </div>
                                 </td>
