@@ -51,6 +51,10 @@
             border-bottom: 1px solid #eef0f2;
             border-right: 1px solid #eef0f2;
         }
+        .book-table th:first-child, .book-table td:first-child {
+            /* Center align the button column */
+            text-align: center;
+        }
         .book-table th:last-child, .book-table td:last-child {
             border-right: none;
         }
@@ -77,3 +81,33 @@
         }
         .detail-item { font-size: 0.9em; }
         .detail-item strong { display: inline-block; width: 120px; color: #6c757d; }
+
+
+/* --- NEW BUTTON STYLES --- */
+.action-btn {
+    padding: 5px 10px;
+    font-family: 'Lato', sans-serif;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.2s;
+    width: 80px; /* Give them a uniform width */
+}
+
+.checkout-btn {
+    background-color: #28a745; /* Green */
+    color: white;
+}
+.checkout-btn:hover {
+    background-color: #218838;
+}
+
+.return-btn {
+    background-color: #007bff; /* Blue */
+    color: white;
+}
+.return-btn:hover {
+    background-color: #0069d9;
+}
