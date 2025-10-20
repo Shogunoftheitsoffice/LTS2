@@ -29,13 +29,13 @@ if (!preg_match('/^\d{9}$/', $tuid)) {
 }
 
 // --- Prepare and execute the database update ---
-// We set checkedout, tuid, and the last checkout date.
-// We also add a condition to ensure we're only checking out an available book.
+// *** UPDATED: Using DATE_ADD() for better compatibility ***
 $sql = "UPDATE textbooks 
         SET 
             `checkedout` = 'Yes', 
             `tuid` = ?, 
-            `last checkout` = NOW() 
+            `last checkout` = NOW(),
+            `expected return` = DATE_ADD(NOW(), INTERVAL 2 HOUR)
         WHERE 
             `id` = ? AND 
             (`checkedout` IS NULL OR `checkedout` = 'No' OR `checkedout` = '')";
