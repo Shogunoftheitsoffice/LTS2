@@ -293,3 +293,69 @@
     animation: highlight-fade 2.5s ease-out;
 }
 
+/* ... (all your existing styles) ... */
+
+/* --- NEW: Checkout Modal Message Styles --- */
+#checkout-form {
+    display: flex;
+    flex-direction: column;
+}
+
+#checkout-form label {
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+#checkout-form input[type="text"] {
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+#checkout-form button {
+    padding: 10px 20px;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#checkout-form button:hover {
+    background-color: #0056b3;
+}
+
+.checkout-message {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: 500;
+    display: none; /* Hidden by default */
+}
+
+.checkout-message.processing {
+    display: block;
+    background-color: #e6f7ff;
+    border: 1px solid #b3e0ff;
+    color: #0056b3;
+}
+
+.checkout-message.success {
+    display: block;
+    background-color: #e6ffed;
+    border: 1px solid #b3ffc6;
+    color: #218838;
+}
+
+.checkout-message.error {
+    display: block;
+    background-color: #ffe6e6;
+    border: 1px solid #ffb3b3;
+    color: #dc3545;
+}
