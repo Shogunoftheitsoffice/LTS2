@@ -79,7 +79,8 @@ if ($result && $result->num_rows > 0) {
                                 </td>
                             </tr>
                             <tr class="details-row">
-                                <td colspan="7" class="details-cell"> <div class="details-container">
+                                <td colspan="7" class="details-cell">
+                                    <div class="details-container">
                                         <div class="details-grid">
                                             <div class="detail-item"><strong>Professor:</strong> <?php echo htmlspecialchars($row['name'] ?? 'N/A'); ?></div> 
                                             <div class="detail-item"><strong>Course:</strong> <?php echo htmlspecialchars($row['course'] ?? 'N/A'); ?></div>
@@ -117,7 +118,7 @@ if ($result && $result->num_rows > 0) {
                                 <td><?php echo htmlspecialchars($row['book'] ?? 'N/A'); ?></td>
                                 <td><?php echo htmlspecialchars($row['barcode'] ?? 'N/A'); ?></td>
                                 <td class="item-title"><?php echo htmlspecialchars($row['book title'] ?? 'N/A'); ?></td>
-                                F<td><?php echo htmlspecialchars($row['course'] ?? 'N/A'); ?></td>
+                                <td><?php echo htmlspecialchars($row['course'] ?? 'N/A'); ?></td>
                                 <td><?php echo htmlspecialchars($row['course title'] ?? 'N/A'); ?></td>
                             </tr>
                             <tr class="details-row">
