@@ -293,9 +293,7 @@
     animation: highlight-fade 2.5s ease-out;
 }
 
-/* ... (all your existing styles) ... */
-
-/* --- NEW: Checkout Modal Message Styles --- */
+/* --- Checkout Modal Message Styles --- */
 #checkout-form {
     display: flex;
     flex-direction: column;
@@ -358,4 +356,12 @@
     background-color: #ffe6e6;
     border: 1px solid #ffb3b3;
     color: #dc3545;
+}
+
+/* --- NEW COUNTDOWN STYLE --- */
+.countdown-cell {
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    font-size: 1.1em;
+    color: #333;
 }
