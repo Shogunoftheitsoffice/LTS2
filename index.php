@@ -100,9 +100,7 @@ if ($result && $result->num_rows > 0) {
                         <tr>
                             <th style="width: 40px;"></th>
                             <th>Book Title</th>
-                            <th>TUID</th>
                             <th>Course</th>
-                            <th>Barcode</th>
                             <th>Status</th>
                         </tr>
                     </thead>
@@ -111,16 +109,16 @@ if ($result && $result->num_rows > 0) {
                              <tr class="main-row">
                                 <td onclick="event.stopPropagation()"><input type="checkbox" class="item-checkbox"></td>
                                 <td class="item-title"><?php echo htmlspecialchars($row['book title'] ?? 'N/A'); ?></td>
-                                <td><?php echo htmlspecialchars($row['tuid'] ?? 'N/A'); ?></td>
                                 <td><?php echo htmlspecialchars($row['course'] ?? 'N/A'); ?></td>
-                                <td><?php echo htmlspecialchars($row['barcode'] ?? 'N/A'); ?></td>
                                 <td><span class="status-available">Available</span></td>
                             </tr>
                             <tr class="details-row">
-                                <td colspan="6" class="details-cell">
+                                <td colspan="4" class="details-cell">
                                     <div class="details-container">
                                         <div class="details-grid">
                                              <div class="detail-item"><strong>Course Title:</strong> <?php echo htmlspecialchars($row['course title'] ?? 'N/A'); ?></div>
+                                            <div class="detail-item"><strong>TUID:</strong> <?php echo htmlspecialchars($row['tuid'] ?? 'N/A'); ?></div>
+                                            <div class="detail-item"><strong>Barcode:</strong> <?php echo htmlspecialchars($row['barcode'] ?? 'N/A'); ?></div>
                                             <div class="detail-item"><strong>Checked Out To:</strong> <?php echo htmlspecialchars($row['name'] ?? 'N/A'); ?></div>
                                             <div class="detail-item"><strong>Last Checkout:</strong> <?php echo htmlspecialchars($row['last checkout'] ?? 'N/A'); ?></div>
                                             <div class="detail-item"><strong>Database ID:</strong> <?php echo htmlspecialchars($row['id'] ?? 'N/A'); ?></div>
