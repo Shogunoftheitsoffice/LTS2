@@ -35,7 +35,6 @@ if ($result && $result->num_rows > 0) {
         <div class="sidebar">
             <nav class="sidebar-nav">
                 <a href="#" class="nav-button"><img src="Assets/checkout.png" alt="" class="nav-icon"><span>Checkout</span></a>
-                <!-- ADDED id="search-btn" to the search button -->
                 <a href="#" id="search-btn" class="nav-button"><img src="Assets/search.png" alt="" class="nav-icon"><span>Search</span></a>
                 <a href="#" class="nav-button"><img src="Assets/add.png" alt="" class="nav-icon"><span>Add</span></a>
                 <a href="#" class="nav-button"><img src="Assets/edit.png" alt="" class="nav-icon"><span>Edit</span></a>
@@ -65,7 +64,8 @@ if ($result && $result->num_rows > 0) {
                     </thead>
                     <tbody>
                         <?php foreach ($checkedOutBooks as $row): ?>
-                            <tr class="main-row">
+                            <!-- ADDED: data-id attribute to the row -->
+                            <tr class="main-row" data-id="<?php echo htmlspecialchars($row['id']); ?>">
                                 <td onclick="event.stopPropagation()"><button class="action-btn return-btn">Return</button></td>
                                 <td class="item-title"><?php echo htmlspecialchars($row['book title'] ?? 'N/A'); ?></td>
                                 <td><?php echo htmlspecialchars($row['tuid'] ?? 'N/A'); ?></td>
@@ -106,7 +106,8 @@ if ($result && $result->num_rows > 0) {
                     </thead>
                     <tbody>
                         <?php foreach ($availableBooks as $row): ?>
-                             <tr class="main-row">
+                             <!-- ADDED: data-id attribute to the row -->
+                            <tr class="main-row" data-id="<?php echo htmlspecialchars($row['id']); ?>">
                                 <td onclick="event.stopPropagation()"><button class="action-btn checkout-btn">Checkout</button></td>
                                 <td class="item-title"><?php echo htmlspecialchars($row['book title'] ?? 'N/A'); ?></td>
                                 <td><?php echo htmlspecialchars($row['course'] ?? 'N/A'); ?></td>
@@ -136,7 +137,7 @@ if ($result && $result->num_rows > 0) {
         </div>
     </div>
 
-    <!-- ADDED: Search Modal HTML Structure -->
+    <!-- Search Modal HTML Structure -->
     <div id="search-modal" class="modal-overlay">
         <div class="modal-content">
             <button class="modal-close">&times;</button>
@@ -151,7 +152,6 @@ if ($result && $result->num_rows > 0) {
         </div>
     </div>
 
-    <!-- REPLACED old script block with a link to our new file -->
     <script src="scripts.js"></script>
 
 </body>
@@ -160,3 +160,4 @@ if ($result && $result->num_rows > 0) {
 // --- Close Connection ---
 $conn->close();
 ?>
+
