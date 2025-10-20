@@ -58,10 +58,9 @@ if ($result && $result->num_rows > 0) {
                             <th style="width: 40px;"></th>
                             <th>Book Title</th>
                             <th>TUID</th>
-                            <th>Course</th>
-                            <th>Barcode</th>
-                            <th>Status</th>
-                        </tr>
+                            <th>Checked Out To</th>
+                            <th>Last Checkout</th>
+                            </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($checkedOutBooks as $row): ?>
@@ -69,17 +68,17 @@ if ($result && $result->num_rows > 0) {
                                 <td onclick="event.stopPropagation()"><input type="checkbox" class="item-checkbox"></td>
                                 <td class="item-title"><?php echo htmlspecialchars($row['book title'] ?? 'N/A'); ?></td>
                                 <td><?php echo htmlspecialchars($row['tuid'] ?? 'N/A'); ?></td>
-                                <td><?php echo htmlspecialchars($row['course'] ?? 'N/A'); ?></td>
-                                <td><?php echo htmlspecialchars($row['barcode'] ?? 'N/A'); ?></td>
-                                <td><span class="status-out">Checked Out</span><?php if (!empty($row['expected return'])) { echo ' (' . htmlspecialchars($row['expected return']) . ')'; } ?></td>
-                            </tr>
+                                <td><?php echo htmlspecialchars($row['name'] ?? 'N/A'); ?></td>
+                                <td><?php echo htmlspecialchars($row['last checkout'] ?? 'N/A'); ?></td>
+                                </tr>
                             <tr class="details-row">
-                                <td colspan="6" class="details-cell">
+                                <td colspan="5" class="details-cell">
                                     <div class="details-container">
                                         <div class="details-grid">
+                                            <div class="detail-item"><strong>Course:</strong> <?php echo htmlspecialchars($row['course'] ?? 'N/A'); ?></div>
                                             <div class="detail-item"><strong>Course Title:</strong> <?php echo htmlspecialchars($row['course title'] ?? 'N/A'); ?></div>
-                                            <div class="detail-item"><strong>Checked Out To:</strong> <?php echo htmlspecialchars($row['name'] ?? 'N/A'); ?></div>
-                                            <div class="detail-item"><strong>Last Checkout:</strong> <?php echo htmlspecialchars($row['last checkout'] ?? 'N/A'); ?></div>
+                                            <div class="detail-item"><strong>Barcode:</strong> <?php echo htmlspecialchars($row['barcode'] ?? 'N/A'); ?></div>
+                                            <div class="detail-item"><strong>Expected Return:</strong> <?php echo htmlspecialchars($row['expected return'] ?? 'N/A'); ?></div>
                                             <div class="detail-item"><strong>Database ID:</strong> <?php echo htmlspecialchars($row['id'] ?? 'N/A'); ?></div>
                                             <div class="detail-item"><strong>Book Type:</strong> <?php echo htmlspecialchars($row['book'] ?? 'N/A'); ?></div>
                                         </div>
@@ -101,19 +100,17 @@ if ($result && $result->num_rows > 0) {
                             <th style="width: 40px;"></th>
                             <th>Book Title</th>
                             <th>Course</th>
-                            <th>Status</th>
-                        </tr>
+                            </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($availableBooks as $row): ?>
                              <tr class="main-row">
                                 <td onclick="event.stopPropagation()"><input type="checkbox" class="item-checkbox"></td>
                                 <td class="item-title"><?php echo htmlspecialchars($row['book title'] ?? 'N/A'); ?></td>
-                                <td><?php echo htmlspecialchars($row['course'] ?? 'N/A'); ?></td>
-                                <td><span class="status-available">Available</span></td>
-                            </tr>
+                                Dtd><?php echo htmlspecialchars($row['course'] ?? 'N/A'); ?></td>
+                                </tr>
                             <tr class="details-row">
-                                <td colspan="4" class="details-cell">
+                                <td colspan="3" class="details-cell">
                                     <div class="details-container">
                                         <div class="details-grid">
                                              <div class="detail-item"><strong>Course Title:</strong> <?php echo htmlspecialchars($row['course title'] ?? 'N/A'); ?></div>
@@ -121,7 +118,7 @@ if ($result && $result->num_rows > 0) {
                                             <div class="detail-item"><strong>Barcode:</strong> <?php echo htmlspecialchars($row['barcode'] ?? 'N/A'); ?></div>
                                             <div class="detail-item"><strong>Checked Out To:</strong> <?php echo htmlspecialchars($row['name'] ?? 'N/A'); ?></div>
                                             <div class="detail-item"><strong>Last Checkout:</strong> <?php echo htmlspecialchars($row['last checkout'] ?? 'N/A'); ?></div>
-                                            <div class="detail-item"><strong>Database ID:</strong> <?php echo htmlspecialchars($row['id'] ?? 'N/A'); ?></div>
+                                            <div class="detail-item"><strong>Database ID:</strong> <?php echo htmlspecialchars($row['id']_ ?? 'N/A'); ?></div>
                                             <div class="detail-item"><strong>Book Type:</strong> <?php echo htmlspecialchars($row['book'] ?? 'N/A'); ?></div>
                                         </div>
                                     </div>
