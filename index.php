@@ -123,7 +123,7 @@ if ($result && $result->num_rows > 0) {
                                             <div class="detail-item"><strong>Checked Out To:</strong> <?php echo htmlspecialchars($row['name'] ?? 'N/A'); ?></div>
                                             <div class="detail-item"><strong>Last Checkout:</strong> <?php echo htmlspecialchars($row['last checkout'] ?? 'N/A'); ?></div>
                                             <div class="detail-item"><strong>Database ID:</strong> <?php echo htmlspecialchars($row['id'] ?? 'N/A'); ?></div>
-                                            <div class="detail-item"><strong>Book Type:</strong> <?php echo htmlspecialchars($row['book'] ?? 'N/A'); ?></div>
+                                            <div class="detail-item"><strong>Book ID:</strong> <?php echo htmlspecialchars($row['book'] ?? 'N/A'); ?></div>
                                         </div>
                                     </div>
                                 </td>
