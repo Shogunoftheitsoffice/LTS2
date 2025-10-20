@@ -68,7 +68,7 @@ if ($result && $result->num_rows > 0) {
                     <tbody>
                         <?php foreach ($checkedOutBooks as $row): ?>
                             <tr class="main-row" data-id="<?php echo htmlspecialchars($row['id']); ?>">
-                                <td onclick="event.stopPropagation()"><button class="action-btn return-btn">Return</button></td>
+                                <td><button class="action-btn return-btn">Return</button></td>
                                 <td><?php echo htmlspecialchars($row['book'] ?? 'N/A'); ?></td>
                                 <td><?php echo htmlspecialchars($row['barcode'] ?? 'N/A'); ?></td>
                                 <td class="item-title"><?php echo htmlspecialchars($row['book title'] ?? 'N/A'); ?></td>
@@ -111,7 +111,7 @@ if ($result && $result->num_rows > 0) {
                     <tbody>
                         <?php foreach ($availableBooks as $row): ?>
                              <tr class="main-row" data-id="<?php echo htmlspecialchars($row['id']); ?>">
-                                <td onclick="event.stopPropagation()"><button class="action-btn checkout-btn">Checkout</button></td>
+                                <td><button class="action-btn checkout-btn">Checkout</button></td>
                                 <td><?php echo htmlspecialchars($row['book'] ?? 'N/A'); ?></td>
                                 <td><?php echo htmlspecialchars($row['barcode'] ?? 'N/A'); ?></td>
                                 <td class="item-title"><?php echo htmlspecialchars($row['book title'] ?? 'N/A'); ?></td>
