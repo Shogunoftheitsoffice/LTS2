@@ -71,7 +71,15 @@ if ($result && $result->num_rows > 0) {
                                 <td><?php echo htmlspecialchars($row['book'] ?? 'N/A'); ?></td>
                                 <td><?php echo htmlspecialchars($row['barcode'] ?? 'N/A'); ?></td>
                                 <td class="item-title"><?php echo htmlspecialchars($row['book title'] ?? 'N/A'); ?></td>
-                                <td><?php echo htmlspecialchars($row['tuid'] ?? 'N/A'); ?></td>
+                                <td>
+                                    <?php if (!empty($row['tuid'])): ?>
+                                        <a href="#" class="tuid-link" data-tuid="<?php echo htmlspecialchars($row['tuid']); ?>">
+                                            <?php echo htmlspecialchars($row['tuid']); ?>
+                                        </a>
+                                    <?php else: ?>
+                                        N/A
+                                    <?php endif; ?>
+                                </td>
                                 <td><?php echo htmlspecialchars($row['last checkout'] ?? 'N/A'); ?></td>
                                 <td class="countdown-cell" data-return-time="<?php echo htmlspecialchars($row['expected return'] ?? ''); ?>">
                                     --:--:--
@@ -168,6 +176,19 @@ if ($result && $result->num_rows > 0) {
             </form>
         </div>
     </div>
+    
+    <!-- === NEW AD INFO MODAL === -->
+    <div id="ad-info-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h2>Active Directory Information</h2>
+            <div id="ad-info-content">
+                <p>Loading...</p>
+            </div>
+        </div>
+    </div>
+    <!-- === END NEW MODAL === -->
+    
     <script src="scripts.js"></script>
 
 </body>
