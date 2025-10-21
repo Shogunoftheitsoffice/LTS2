@@ -56,12 +56,12 @@ if ($result && $result->num_rows > 0) {
                     <thead>
                         <tr>
                             <th style="width: 100px;">Action</th>
-                            <th>Book ID</th>
-                            <th>Barcode</th>
-                            <th>Book Title</th>
-                            <th>TUID</th>
-                            <th>Last Checkout</th>
-                            <th>Time Remaining</th>
+                            <th class="sortable" data-sort="book-id">Book ID</th>
+                            <th class="sortable" data-sort="barcode">Barcode</th>
+                            <th class="sortable" data-sort="book-title">Book Title</th>
+                            <th class="sortable" data-sort="tuid">TUID</th>
+                            <th class="sortable" data-sort="last-checkout">Last Checkout</th>
+                            <th class="sortable" data-sort="time-remaining">Time Remaining</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -111,11 +111,11 @@ if ($result && $result->num_rows > 0) {
                     <thead>
                         <tr>
                             <th style="width: 100px;">Action</th>
-                            <th>Book ID</th>
-                            <th>Barcode</th>
-                            <th>Book Title</th>
-                            <th>Course</th>
-                            <th>Course Title</th>
+                            <th class="sortable" data-sort="book-id">Book ID</th>
+                            <th class="sortable" data-sort="barcode">Barcode</th>
+                            <th class="sortable" data-sort="book-title">Book Title</th>
+                            <th class="sortable" data-sort="course">Course</th>
+                            <th class="sortable" data-sort="course-title">Course Title</th>
                         </tr>
                     </thead>
                     <tbody>
