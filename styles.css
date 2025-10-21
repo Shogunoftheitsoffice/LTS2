@@ -574,3 +574,47 @@ body.select-mode-active .main-row {
     font-style: italic;
     color: #666;
 }
+
+/* === NEW TABLE SORTING STYLES === */
+
+.sortable {
+    cursor: pointer;
+    position: relative; /* Needed to position the arrow */
+    -webkit-user-select: none; /* Prevents text selection on click */
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.sortable:hover {
+    background-color: #f0f0f0;
+}
+
+/* Base style for the arrow (hidden by default) */
+.sortable::after {
+    content: '';
+    display: inline-block;
+    opacity: 0.4;
+    position: absolute;
+    right: 5px; /* Position to the right */
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Show a light up/down arrow on hover */
+.sortable:hover::after {
+    content: '\2195'; /* Up/Down arrow */
+    opacity: 0.3;
+}
+
+/* Style for ASCENDING arrow */
+.sortable[data-order="asc"]::after {
+    content: '\25B2'; /* Solid Up arrow */
+    opacity: 0.8;
+}
+
+/* Style for DESCENDING arrow */
+.sortable[data-order="desc"]::after {
+    content: '\25BC'; /* Solid Down arrow */
+    opacity: 0.8;
+}
