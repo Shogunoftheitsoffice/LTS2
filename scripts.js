@@ -438,15 +438,39 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // --- Countdown Timer Logic ---
+// --- Countdown Timer Logic ---
     function formatTime(ms) {
-        // ... (this function is already in your file)
+        let totalSeconds = Math.floor(ms / 1000);
+        let hours = Math.floor(totalSeconds / 3600);
+        totalSeconds %= 3600;
+        let minutes = Math.floor(totalSeconds / 60);
+        let seconds = totalSeconds % 60;
+        const pad = (num) => String(num).padStart(2, '0');
+        return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
     }
 
     function startCountdown(cell) {
-        // ... (this function is already in your file)
+        const returnTimeStr = cell.dataset.returnTime;
+        if (!returnTimeStr) {
+            cell.innerHTML = 'N/A';
+            return;
+        }
+        // Fix for date parsing (replace space with 'T')
+        const returnTime = new Date(returnTimeStr.replace(' ', 'T'));
+        const timer = setInterval(() => {
+            const now = new Date();
+            const timeRemaining = returnTime - now;
+
+            if (timeRemaining <= 0) {
+                clearInterval(timer);
+                cell.innerHTML = '<span class="status-out">OVERDUE</span>';
+            } else {
+                cell.innerHTML = formatTime(timeRemaining);
+            }
+        }, 1000);
     }
 
+    // This line finds all countdown cells and starts them
     document.querySelectorAll('.countdown-cell').forEach(startCountdown);
 
-}); // This is the single, correct closing bracket for the entire file.
+}); // This should be the VERY LAST line of your file
