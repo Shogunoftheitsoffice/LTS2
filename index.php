@@ -43,8 +43,8 @@ if ($result && $result->num_rows > 0) {
                 <a href="#" class="nav-button"><img src="Assets/settings.png" alt="" class="nav-icon"><span>Settings</span></a>
                 <a href="#" class="nav-button"><img src="Assets/help.png" alt="" class="nav-icon"><span>Help</span></a>
                 <a href="#" class="nav-button"><img src="Assets/stats.png" alt="" class="nav-icon"><span>Stats</span></a>
-                <a href="#" class="nav-button"><img src="Assets/select.png" alt="" class="nav-icon"><span>Select</span></a>
-                <a href="#" class="nav-button"><img src="Assets/uncheck.png" alt="" class="nav-icon"><span>Deselect</span></a>
+                <a href="#" id="select-btn" class="nav-button"><img src="Assets/select.png" alt="" class="nav-icon"><span>Select</span></a>
+                <a href="#" id="deselect-btn" class="nav-button"><img src="Assets/uncheck.png" alt="" class="nav-icon"><span>Deselect</span></a>
                 <a href="#" class="nav-button"><img src="Assets/exit.png" alt="" class="nav-icon"><span>Exit</span></a>
             </nav>
         </div>
