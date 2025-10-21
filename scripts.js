@@ -1,23 +1,56 @@
 document.addEventListener('DOMContentLoaded', function() {
     
     // --- UPDATED: script for details row ---
+// --- UPDATED: script for details row (now with selection) ---
     document.querySelectorAll('.main-row').forEach(row => {
-        row.addEventListener('click', (e) => { // <-- Get the event object 'e'
+        row.addEventListener('click', (e) => { // Get the event object 'e'
             
-            // --- NEW: Check if the click was on a button or link ---
-            // .closest() checks the clicked element and its parents
+            // --- First, always ignore clicks on buttons or links ---
             if (e.target.closest('button, a')) {
-                return; // If so, do nothing and don't expand the row
+                return; // Do nothing
             }
-            // --- END OF CHANGE ---
 
-            // If the click was not on a button or link, expand the row
+            // --- NEW: Handle selection if in select mode ---
+            if (document.body.classList.contains('select-mode-active')) {
+                row.classList.toggle('row-selected');
+                return; // Stop here, don't expand the row
+            }
+            // --- END NEW ---
+
+            // If not in select mode, and not a button, expand the row
             const detailsRow = row.nextElementSibling;
             if (detailsRow && detailsRow.classList.contains('details-row')) {
                 detailsRow.style.display = (detailsRow.style.display === 'table-row') ? 'none' : 'table-row';
             }
         });
     });
+
+    // --- NEW: Select / Deselect All Logic ---
+    const selectBtn = document.getElementById('select-btn');
+    const deselectBtn = document.getElementById('deselect-btn');
+
+    // 1. Logic for the 'Select' button (toggles select mode)
+    selectBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        // Toggle the 'select-mode-active' class on the whole page
+        document.body.classList.toggle('select-mode-active');
+
+        // If we just *turned off* select mode, also clear all selections
+        if (!document.body.classList.contains('select-mode-active')) {
+            document.querySelectorAll('.main-row.row-selected').forEach(row => {
+                row.classList.remove('row-selected');
+            });
+        }
+    });
+
+    // 2. Logic for the 'Deselect' button (clears all selections)
+    deselectBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.querySelectorAll('.main-row.row-selected').forEach(row => {
+            row.classList.remove('row-selected');
+        });
+    });
+    // --- END NEW: Select / Deselect ---
 
     // --- Search Modal Logic ---
     const searchBtn = document.getElementById('search-btn');
