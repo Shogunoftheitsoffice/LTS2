@@ -133,7 +133,7 @@ if ($result && $result->num_rows > 0) {
                                 <td colspan="6" class="details-cell">
                                     <div class="details-container">
                                         <div class="details-grid">
-                                            <div class="detail-item"><strong>Times Checked Out:</strong> <?php echo htmlspecialchars($row['TimesCO'] ?? '0'); ?></div>
+                                            <div class="detail-item"><strong>C/O #:</strong> <?php echo htmlspecialchars($row['TimesCO'] ?? '0'); ?></div>
                                             <div class="detail-item"><strong>TUID:</strong> <?php echo htmlspecialchars($row['tuid'] ?? 'N/A'); ?></div>
                                             <div class="detail-item"><strong>Professor:</strong> <?php echo htmlspecialchars($row['name'] ?? 'N/A'); ?></div>
                                             <div class="detail-item"><strong>Last Checkout:</strong> <?php echo htmlspecialchars($row['last checkout'] ?? 'N/A'); ?></div>
