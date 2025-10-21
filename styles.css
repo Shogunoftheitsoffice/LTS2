@@ -522,3 +522,22 @@
 #add-form .form-grid input[type="text"] {
     margin-bottom: 0;
 }
+
+/* === NEW SELECTION STYLES === */
+
+/* 1. Changes cursor to a pointer when in select mode and hovering over a row */
+body.select-mode-active .main-row {
+    cursor: pointer;
+}
+
+/* 2. Style for the selected row */
+.main-row.row-selected {
+    /* Uses !important to override the alternating row color and hover effect */
+    background-color: #d6eaff !important; 
+    color: #004a99;
+}
+
+/* 3. A slightly different hover for an already-selected row */
+.main-row.row-selected:hover {
+    background-color: #cce0ff !important;
+}
