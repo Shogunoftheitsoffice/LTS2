@@ -618,3 +618,49 @@ body.select-mode-active .main-row {
     content: '\25BC'; /* Solid Down arrow */
     opacity: 0.8;
 }
+
+/* === NEW MANUAL CHECKOUT FORM === */
+
+.manual-checkout-box {
+    background-color: #ffffff;
+    padding: 20px 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    margin-bottom: 30px;
+}
+
+.manual-checkout-box h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+#manual-checkout-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr 200px;
+    gap: 20px;
+    align-items: flex-end; /* Aligns button with inputs */
+}
+
+#manual-checkout-form .form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Remove default margins from modal styles */
+#manual-checkout-form .form-group label {
+    margin-bottom: 5px;
+}
+#manual-checkout-form .form-group input {
+    margin-bottom: 0;
+}
+#manual-checkout-form .modal-submit-btn {
+    width: 100%;
+    margin-bottom: 0;
+    padding: 10px; /* Match input height */
+}
+
+#manual-checkout-message {
+    margin-top: 15px;
+    margin-bottom: 0; /* No extra space at bottom */
+}
