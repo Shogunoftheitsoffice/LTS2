@@ -385,4 +385,59 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.querySelectorAll('.countdown-cell').forEach(startCountdown);
 
+    // --- NEW: Delete Logic ---
+    const deleteBtn = document.getElementById('delete-btn');
+
+    deleteBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        // 1. Find all selected rows
+        const selectedRows = document.querySelectorAll('.main-row.row-selected');
+
+        // 2. Check if any rows are selected
+        if (selectedRows.length === 0) {
+            alert('Please select one or more items to delete.');
+            return;
+        }
+
+        // 3. Create an array of their database IDs
+        const idsToDelete = [];
+        selectedRows.forEach(row => {
+            idsToDelete.push(row.dataset.id);
+        });
+
+        // 4. Show the confirmation dialog
+        const itemText = selectedRows.length === 1 ? 'item' : 'items';
+        if (confirm(`Are you sure you want to permanently delete these ${selectedRows.length} ${itemText}?`)) {
+            
+            // 5. If confirmed, prepare data for the server
+            const formData = new FormData();
+            idsToDelete.forEach(id => {
+                // Append each ID as part of an array
+                formData.append('ids[]', id);
+            });
+
+            // 6. Send the delete request to delete.php
+            fetch('delete.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                    location.reload(); // Reload the page to see changes
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error during deletion:', error);
+                alert('A network error occurred. Please try again.');
+            });
+        }
+    });
+
+}); // Make sure this is *before* the existing closing bracket (if any)
+
 });
