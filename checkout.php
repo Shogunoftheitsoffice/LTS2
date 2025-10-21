@@ -13,11 +13,18 @@ $response = [
 
 // --- Get data from the POST request ---
 $bookId = $_POST['bookId'] ?? null;
+$barcode = $_POST['barcode'] ?? null;
 $tuid = $_POST['tuid'] ?? null;
 
 // --- Validate input ---
-if (empty($bookId) || empty($tuid)) {
-    $response['message'] = 'Error: Missing Book ID or TUID.';
+if (empty($tuid)) {
+    $response['message'] = 'Error: Missing TUID.';
+    echo json_encode($response);
+    exit;
+}
+
+if (empty($bookId) && empty($barcode)) {
+    $response['message'] = 'Error: Missing Item ID or Barcode.';
     echo json_encode($response);
     exit;
 }
@@ -29,7 +36,21 @@ if (!preg_match('/^\d{9}$/', $tuid)) {
 }
 
 // --- Prepare and execute the database update ---
-// *** UPDATED: Using DATE_ADD() for better compatibility ***
+// We build the query based on whether we have an ID or a barcode
+$whereField = '';
+$paramType = '';
+$paramValue = '';
+
+if (!empty($bookId)) {
+    $whereField = '`id` = ?';
+    $paramType = 'i'; // integer
+    $paramValue = $bookId;
+} else {
+    $whereField = '`barcode` = ?';
+    $paramType = 's'; // string
+    $paramValue = $barcode;
+}
+
 $sql = "UPDATE textbooks 
         SET 
             `checkedout` = 'Yes', 
@@ -38,14 +59,14 @@ $sql = "UPDATE textbooks
             `expected return` = DATE_ADD(NOW(), INTERVAL 2 HOUR),
             `TimesCO` = IFNULL(`TimesCO`, 0) + 1
         WHERE 
-            `id` = ? AND 
+            $whereField AND 
             (`checkedout` IS NULL OR `checkedout` = 'No' OR `checkedout` = '')";
 
 $stmt = $conn->prepare($sql);
 
 if ($stmt) {
-    // 's' for tuid (safer as a string), 'i' for id (integer)
-    $stmt->bind_param('si', $tuid, $bookId);
+    // Bind 's' for tuid, then either 'i' or 's' for the item identifier
+    $stmt->bind_param('s' . $paramType, $tuid, $paramValue);
     
     if ($stmt->execute()) {
         if ($stmt->affected_rows > 0) {
