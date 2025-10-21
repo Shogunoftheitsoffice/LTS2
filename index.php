@@ -52,14 +52,11 @@ if ($result && $result->num_rows > 0) {
 
         <div class="main-content">
             <div class="manual-checkout-box">
-                <h2>Manual Checkout</h2>
                 <form id="manual-checkout-form" onsubmit="return false;">
                     <div class="form-group">
-                        <label for="manual-tuid-input">Scan TUID:</label>
                         <input type="text" id="manual-tuid-input" placeholder="Scan 9-digit TUID" autocomplete="off" maxlength="9">
                     </div>
                     <div class="form-group">
-                        <label for="manual-barcode-input">Scan Barcode:</label>
                         <input type="text" id="manual-barcode-input" placeholder="Scan item barcode" autocomplete="off">
                     </div>
                     <button type="submit" id="manual-checkout-btn" class="modal-submit-btn">Checkout</button>
