@@ -52,6 +52,93 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     // --- END NEW: Select / Deselect ---
 
+    // --- NEW: Table Sorting Logic ---
+
+    /**
+     * Gets the value from a row cell for sorting.
+     * @param {HTMLElement} row - The <tr> element.
+     * @param {number} colIndex - The column index to get data from.
+     * @param {string} sortKey - The data-sort attribute (for special cases).
+     * @returns {string|number|Date} - The value to be compared.
+     */
+    function getSortValue(row, colIndex, sortKey) {
+        // Special case: Time Remaining (sorts by data-return-time attribute)
+        if (sortKey === 'time-remaining') {
+            const cell = row.querySelector('.countdown-cell');
+            return new Date(cell.dataset.returnTime.replace(' ', 'T') || 0);
+        }
+        
+        // Special case: Last Checkout (sorts as a date)
+        if (sortKey === 'last-checkout') {
+            const val = row.children[colIndex].textContent;
+            return new Date(val.replace(' ', 'T') || 0);
+        }
+
+        // Default case: Get text content from the correct cell
+        const val = row.children[colIndex].textContent.toLowerCase().trim();
+
+        // Check if it's a number (for sorting TUID, Book ID, etc.)
+        const num = parseFloat(val);
+        if (!isNaN(num) && val.length === String(num).length) {
+            return num;
+        }
+
+        // Otherwise, return as lowercase text
+        return val;
+    }
+
+    /**
+     * Sorts an HTML table.
+     * @param {HTMLElement} table - The <table> element.
+     * @param {HTMLElement} th - The <th> element that was clicked.
+     * @param {number} colIndex - The index of the column to sort.
+     */
+    function sortTable(table, th, colIndex) {
+        const tbody = table.querySelector('tbody');
+        const sortKey = th.dataset.sort;
+        
+        // 1. Determine sort direction (toggle from last state)
+        const isAscending = th.dataset.order === 'desc';
+        th.dataset.order = isAscending ? 'asc' : 'desc';
+
+        // 2. Clear arrows from all *other* headers in this table
+        table.querySelectorAll('.sortable').forEach(header => {
+            if (header !== th) {
+                delete header.dataset.order;
+            }
+        });
+
+        // 3. Get all row pairs (main-row + details-row)
+        const rows = Array.from(tbody.querySelectorAll('tr.main-row'));
+        const rowGroups = rows.map(row => [row, row.nextElementSibling]);
+
+        // 4. Sort the row groups
+        rowGroups.sort((groupA, groupB) => {
+            const valA = getSortValue(groupA[0], colIndex, sortKey);
+            const valB = getSortValue(groupB[0], colIndex, sortKey);
+
+            if (valA < valB) return isAscending ? -1 : 1;
+            if (valA > valB) return isAscending ? 1 : -1;
+            return 0;
+        });
+
+        // 5. Re-append all rows (in pairs) to the tbody
+        rowGroups.forEach(group => {
+            tbody.appendChild(group[0]); // Append main row
+            tbody.appendChild(group[1]); // Append details row
+        });
+    }
+
+    // --- Add click listeners to all sortable headers ---
+    document.querySelectorAll('.sortable').forEach(header => {
+        header.addEventListener('click', () => {
+            const table = header.closest('table');
+            const colIndex = Array.from(header.parentNode.children).indexOf(header);
+            sortTable(table, header, colIndex);
+        });
+    });
+    // --- END: Table Sorting Logic ---
+
     // --- Search Modal Logic ---
     const searchBtn = document.getElementById('search-btn');
     const searchModal = document.getElementById('search-modal');
