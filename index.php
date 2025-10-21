@@ -102,7 +102,7 @@ if ($result && $result->num_rows > 0) {
                     </tbody>
                 </table>
             <?php else: ?>
-                <div class="no-results">No checked out books.</div>
+                <div class="no-results">No checked out books at the moment.</div>
             <?php endif; ?>
 
             <h2 class="list-header">Available</h2>
