@@ -1,7 +1,75 @@
 document.addEventListener('DOMContentLoaded', function() {
     
-    // --- UPDATED: script for details row ---
-// --- UPDATED: script for details row (now with selection) ---
+    // --- NEW: Manual Checkout Form Logic ---
+    const manualForm = document.getElementById('manual-checkout-form');
+    const tuidInput = document.getElementById('manual-tuid-input');
+    const barcodeInput = document.getElementById('manual-barcode-input');
+    const checkoutMessage = document.getElementById('manual-checkout-message');
+    const checkoutBtn = document.getElementById('manual-checkout-btn');
+
+    if (manualForm) {
+        manualForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const tuid = tuidInput.value.trim();
+            const barcode = barcodeInput.value.trim();
+
+            // --- Validation ---
+            if (!/^\d{9}$/.test(tuid)) {
+                checkoutMessage.textContent = 'Error: TUID must be exactly 9 digits.';
+                checkoutMessage.className = 'modal-message error';
+                return;
+            }
+            if (barcode.length === 0) {
+                checkoutMessage.textContent = 'Error: Barcode cannot be empty.';
+                checkoutMessage.className = 'modal-message error';
+                return;
+            }
+
+            // --- Processing ---
+            checkoutMessage.textContent = 'Processing...';
+            checkoutMessage.className = 'modal-message processing';
+            checkoutBtn.disabled = true;
+
+            const formData = new FormData();
+            formData.append('tuid', tuid);
+            formData.append('barcode', barcode);
+
+            fetch('checkout.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    checkoutMessage.textContent = data.message;
+                    checkoutMessage.className = 'modal-message success';
+                    setTimeout(() => {
+                        location.reload(); // Reload to see the change
+                    }, 1500);
+                } else {
+                    checkoutMessage.textContent = data.message || 'An unknown error occurred.';
+                    checkoutMessage.className = 'modal-message error';
+                    checkoutBtn.disabled = false;
+                }
+            })
+            .catch(error => {
+                console.error('Error during checkout:', error);
+                checkoutMessage.textContent = 'A network error occurred. Please try again.';
+                checkoutMessage.className = 'modal-message error';
+                checkoutBtn.disabled = false;
+            });
+        });
+
+        // Auto-focus barcode after TUID is entered
+        tuidInput.addEventListener('input', function() {
+            if (tuidInput.value.length === 9) {
+                barcodeInput.focus();
+            }
+        });
+    }
+    // --- END: Manual Checkout ---
+
+    // --- UPDATED: script for details row (now with selection) ---
     document.querySelectorAll('.main-row').forEach(row => {
         row.addEventListener('click', (e) => { // Get the event object 'e'
             
@@ -235,26 +303,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 
-    // --- Checkout Modal Logic ---
-    const checkoutModal = document.getElementById('checkout-modal');
-    const checkoutForm = document.getElementById('checkout-form');
-    const checkoutTuidInput = document.getElementById('checkout-tuid-input');
-    const checkoutMessage = document.getElementById('checkout-message');
-    const checkoutCloseBtn = checkoutModal.querySelector('.modal-close');
+    // --- OLD CHECKOUT MODAL LOGIC HAS BEEN REMOVED ---
+
+
+    // --- Return Button Logic ---
     const mainContent = document.querySelector('.main-content'); 
-
-    const openCheckoutModal = (bookId) => {
-        checkoutModal.dataset.bookId = bookId; 
-        checkoutModal.style.display = 'flex';
-        checkoutTuidInput.focus();
-    };
-
-    const closeCheckoutModal = () => {
-        checkoutModal.style.display = 'none';
-        checkoutTuidInput.value = '';
-        checkoutMessage.textContent = '';
-        checkoutMessage.className = 'checkout-message';
-    };
 
     mainContent.addEventListener('click', function(e) {
         // --- THIS PART WAS REMOVED ---
@@ -292,63 +345,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    checkoutForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const tuid = checkoutTuidInput.value.trim();
-        const bookId = checkoutModal.dataset.bookId;
+    // --- OLD CHECKOUT FORM SUBMIT LOGIC HAS BEEN REMOVED ---
 
-        if (!/^\d{9}$/.test(tuid)) {
-            checkoutMessage.textContent = 'Error: TUID must be exactly 9 digits.';
-            checkoutMessage.className = 'checkout-message error';
-            return;
-        }
-
-        checkoutMessage.textContent = 'Processing...';
-        checkoutMessage.className = 'checkout-message processing';
-
-        const formData = new FormData();
-        formData.append('bookId', bookId);
-        formData.append('tuid', tuid);
-
-        fetch('checkout.php', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                checkoutMessage.textContent = data.message;
-                checkoutMessage.className = 'checkout-message success';
-                setTimeout(() => {
-                    closeCheckoutModal();
-                    location.reload(); 
-                }, 1500);
-
-            } else {
-                checkoutMessage.textContent = data.message || 'An unknown error occurred.';
-                checkoutMessage.className = 'checkout-message error';
-            }
-        })
-        .catch(error => {
-            console.error('Error during checkout:', error);
-            checkoutMessage.textContent = 'A network error occurred. Please try again.';
-            checkoutMessage.className = 'checkout-message error';
-        });
-    });
-
-    checkoutCloseBtn.addEventListener('click', closeCheckoutModal);
-
-    checkoutModal.addEventListener('click', (e) => {
-        if (e.target === checkoutModal) {
-            closeCheckoutModal();
-        }
-    });
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && checkoutModal.style.display === 'flex') {
-            closeCheckoutModal();
-        }
-    });
 
     // --- AD Info Modal Logic ---
     const adInfoModal = document.getElementById('ad-info-modal');
@@ -519,39 +517,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-// --- Countdown Timer Logic ---
-    function formatTime(ms) {
-        let totalSeconds = Math.floor(ms / 1000);
-        let hours = Math.floor(totalSeconds / 3600);
-        totalSeconds %= 3600;
-        let minutes = Math.floor(totalSeconds / 60);
-        let seconds = totalSeconds % 60;
-        const pad = (num) => String(num).padStart(2, '0');
-        return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
-    }
-
-    function startCountdown(cell) {
-        const returnTimeStr = cell.dataset.returnTime;
-        if (!returnTimeStr) {
-            cell.innerHTML = 'N/A';
-            return;
-        }
-        // Fix for date parsing (replace space with 'T')
-        const returnTime = new Date(returnTimeStr.replace(' ', 'T'));
-        const timer = setInterval(() => {
-            const now = new Date();
-            const timeRemaining = returnTime - now;
-
-            if (timeRemaining <= 0) {
-                clearInterval(timer);
-                cell.innerHTML = '<span class="status-out">OVERDUE</span>';
-            } else {
-                cell.innerHTML = formatTime(timeRemaining);
-            }
-        }, 1000);
-    }
-
-    // This line finds all countdown cells and starts them
-    document.querySelectorAll('.countdown-cell').forEach(startCountdown);
+    // --- DUPLICATE COUNTDOWN LOGIC REMOVED ---
 
 }); // This should be the VERY LAST line of your file
