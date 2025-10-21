@@ -1,5 +1,7 @@
 <?php
-// --- Use the standard database connection ---
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 require_once 'db_connect.php';
 
 // --- Include the PhpSpreadsheet library ---
