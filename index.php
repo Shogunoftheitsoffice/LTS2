@@ -50,6 +50,21 @@ if ($result && $result->num_rows > 0) {
         </div>
 
         <div class="main-content">
+            <div class="manual-checkout-box">
+                <h2>Manual Checkout</h2>
+                <form id="manual-checkout-form" onsubmit="return false;">
+                    <div class="form-group">
+                        <label for="manual-tuid-input">Scan TUID:</label>
+                        <input type="text" id="manual-tuid-input" placeholder="Scan 9-digit TUID" autocomplete="off" maxlength="9">
+                    </div>
+                    <div class="form-group">
+                        <label for="manual-barcode-input">Scan Barcode:</label>
+                        <input type="text" id="manual-barcode-input" placeholder="Scan item barcode" autocomplete="off">
+                    </div>
+                    <button type="submit" id="manual-checkout-btn" class="modal-submit-btn">Checkout</button>
+                </form>
+                <div id="manual-checkout-message" class="modal-message"></div>
+            </div>
             <h2 class="list-header">Checked Out</h2>
             <?php if (!empty($checkedOutBooks)): ?>
                 <table class="book-table">
@@ -111,7 +126,6 @@ if ($result && $result->num_rows > 0) {
                 <table class="book-table">
                     <thead>
                         <tr>
-                            <th style="width: 100px;">Action</th>
                             <th class="sortable" data-sort="book-id">Book ID</th>
                             <th class="sortable" data-sort="barcode">Barcode</th>
                             <th class="sortable" data-sort="book-title">Book Title</th>
@@ -122,7 +136,6 @@ if ($result && $result->num_rows > 0) {
                     <tbody>
                         <?php foreach ($availableBooks as $row): ?>
                              <tr class="main-row" data-id="<?php echo htmlspecialchars($row['id']); ?>">
-                                <td><button class="action-btn checkout-btn">Checkout</button></td>
                                 <td><?php echo htmlspecialchars($row['book'] ?? 'N/A'); ?></td>
                                 <td><?php echo htmlspecialchars($row['barcode'] ?? 'N/A'); ?></td>
                                 <td class="item-title"><?php echo htmlspecialchars($row['book title'] ?? 'N/A'); ?></td>
@@ -130,7 +143,7 @@ if ($result && $result->num_rows > 0) {
                                 <td><?php echo htmlspecialchars($row['course title'] ?? 'N/A'); ?></td>
                             </tr>
                             <tr class="details-row">
-                                <td colspan="6" class="details-cell">
+                                <td colspan="5" class="details-cell">
                                     <div class="details-container">
                                         <div class="details-grid">
                                             <div class="detail-item"><strong>C/O #:</strong> <?php echo htmlspecialchars($row['TimesCO'] ?? '0'); ?></div>
