@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const checkoutBtn = document.getElementById('manual-checkout-btn');
 
     if (manualForm) {
+        tuidInput.focus();
         manualForm.addEventListener('submit', function(e) {
             e.preventDefault();
             const tuid = tuidInput.value.trim();
