@@ -438,6 +438,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-}); // Make sure this is *before* the existing closing bracket (if any)
+    // --- Countdown Timer Logic ---
+    function formatTime(ms) {
+        // ... (this function is already in your file)
+    }
 
-});
+    function startCountdown(cell) {
+        // ... (this function is already in your file)
+    }
+
+    document.querySelectorAll('.countdown-cell').forEach(startCountdown);
+
+}); // This is the single, correct closing bracket for the entire file.
