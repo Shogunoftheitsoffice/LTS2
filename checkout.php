@@ -35,7 +35,8 @@ $sql = "UPDATE textbooks
             `checkedout` = 'Yes', 
             `tuid` = ?, 
             `last checkout` = NOW(),
-            `expected return` = DATE_ADD(NOW(), INTERVAL 2 HOUR)
+            `expected return` = DATE_ADD(NOW(), INTERVAL 2 HOUR),
+            `TimesCO` = IFNULL(`TimesCO`, 0) + 1
         WHERE 
             `id` = ? AND 
             (`checkedout` IS NULL OR `checkedout` = 'No' OR `checkedout` = '')";
