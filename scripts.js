@@ -138,9 +138,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     // --- END NEW: Select / Deselect ---
 
-    // --- NEW: Table Sorting Logic ---
-
-    /**
+     /**
      * Gets the value from a row cell for sorting.
      * @param {HTMLElement} row - The <tr> element.
      * @param {number} colIndex - The column index to get data from.
@@ -151,26 +149,38 @@ document.addEventListener('DOMContentLoaded', function() {
         // Special case: Time Remaining (sorts by data-return-time attribute)
         if (sortKey === 'time-remaining') {
             const cell = row.querySelector('.countdown-cell');
-            return new Date(cell.dataset.returnTime.replace(' ', 'T') || 0);
+            // Use 0 if the time is invalid, so it sorts consistently
+            const time = new Date(cell.dataset.returnTime.replace(' ', 'T') || 0).getTime();
+            return isNaN(time) ? 0 : time;
         }
         
         // Special case: Last Checkout (sorts as a date)
         if (sortKey === 'last-checkout') {
             const val = row.children[colIndex].textContent;
-            return new Date(val.replace(' ', 'T') || 0);
+            // Use 0 if the date is invalid
+            const time = new Date(val.replace(' ', 'T') || 0).getTime();
+            return isNaN(time) ? 0 : time;
         }
 
-        // Default case: Get text content from the correct cell
-        const val = row.children[colIndex].textContent.toLowerCase().trim();
+        // Get the raw text from the cell
+        const val = row.children[colIndex].textContent.trim();
 
-        // Check if it's a number (for sorting TUID, Book ID, etc.)
-        const num = parseFloat(val);
-        if (!isNaN(num) && val.length === String(num).length) {
+        // --- UPDATED: Numeric Sort Logic ---
+        // Check if this column is meant to be sorted numerically
+        if (sortKey === 'book-id' || sortKey === 'barcode' || sortKey === 'tuid') {
+            const num = parseFloat(val);
+            
+            // If it's not a valid number (e.g., "N/A"), return Infinity 
+            // so it always goes to the end of an ascending sort.
+            if (isNaN(num)) {
+                return Infinity; 
+            }
             return num;
         }
+        // --- END: Numeric Sort ---
 
-        // Otherwise, return as lowercase text
-        return val;
+        // Default case: return as lowercase text for alphabetical sorting
+        return val.toLowerCase();
     }
 
     /**
