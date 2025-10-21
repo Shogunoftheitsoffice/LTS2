@@ -189,14 +189,16 @@ if ($result && $result->num_rows > 0) {
     </div>
     <!-- === END NEW MODAL === -->
     
-<?php require_once '_add_modal.php'; ?>
-
+    <?php require_once '_add_modal.php'; ?>
     <?php require_once '_edit_modal.php'; ?>
+
+    <?php require_once '_import_modal.php'; ?>
     
     <script src="scripts.js"></script>
     <script src="add.js"></script>
-    
     <script src="edit.js"></script>
+
+    <script src="import.js"></script>
 
 </body>
 <?php
