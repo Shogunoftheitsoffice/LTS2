@@ -257,15 +257,9 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     mainContent.addEventListener('click', function(e) {
-        if (e.target.classList.contains('checkout-btn')) {
-            e.stopPropagation(); 
-            e.preventDefault();
-            const mainRow = e.target.closest('.main-row');
-            const bookId = mainRow.dataset.id;
-            if (bookId) {
-                openCheckoutModal(bookId);
-            }
-        }
+        // --- THIS PART WAS REMOVED ---
+        // if (e.target.classList.contains('checkout-btn')) { ... }
+        // --- END REMOVAL ---
 
         if (e.target.classList.contains('return-btn')) {
             e.stopPropagation();
