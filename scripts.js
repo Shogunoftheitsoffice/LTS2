@@ -119,6 +119,23 @@ document.addEventListener('DOMContentLoaded', function() {
             row.classList.remove('row-selected');
         });
     });
+
+    // --- NEW: Close All Details Logic ---
+    const closeAllBtn = document.getElementById('close-all-btn');
+
+    if (closeAllBtn) {
+        closeAllBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            // Find all expanded details rows
+            const allDetailsRows = document.querySelectorAll('.details-row');
+            
+            // Loop through them and hide them
+            allDetailsRows.forEach(row => {
+                row.style.display = 'none';
+            });
+        });
+    }
     // --- END NEW: Select / Deselect ---
 
     // --- NEW: Table Sorting Logic ---
