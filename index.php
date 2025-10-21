@@ -26,7 +26,7 @@ if ($result && $result->num_rows > 0) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Textbook Management</title>
+    <title>LTS2</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
