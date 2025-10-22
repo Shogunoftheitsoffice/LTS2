@@ -775,3 +775,43 @@ body:not(.admin-mode-active) .admin-only {
 body:not(.admin-mode-active) .user-only {
     display: flex; /* Show the 'user-only' (Admin Login) button */
 }
+
+/* === NEW SETTINGS MODAL STYLES === */
+
+.settings-section {
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+    margin-top: 15px;
+}
+
+.settings-section:first-child {
+    border-top: none;
+    padding-top: 0;
+    margin-top: 0;
+}
+
+.settings-section h3 {
+    color: #dc3545; /* Red for danger */
+    margin-top: 0;
+}
+
+.settings-section p {
+    font-size: 0.9em;
+    color: #666;
+    line-height: 1.5;
+}
+
+.delete-all-btn {
+    width: auto !important; /* Override full-width modal button */
+    padding: 10px 15px !important;
+    font-family: 'Lato', sans-serif !important;
+    /* Red gradient to match your other action buttons */
+    background-image: linear-gradient(135deg, #ff4d4d 0%, #dc3545 100%) !important;
+    box-shadow: 0 2px 4px rgba(220, 53, 69, 0.3) !important;
+}
+
+.delete-all-btn:hover {
+    background-image: linear-gradient(135deg, #ff3636 0%, #c82333 100%) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 3px 6px rgba(220, 53, 69, 0.4) !important;
+}
