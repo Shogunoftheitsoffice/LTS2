@@ -70,15 +70,16 @@ if ($result && $result->num_rows > 0) {
             <?php if (!empty($checkedOutBooks)): ?>
                 <table class="book-table">
                     <thead>
-                        <tr>
-                            <th style="width: 100px;">Action</th>
-                            <th class="sortable" data-sort="book-id">Book ID</th>
-                            <th class="sortable" data-sort="barcode">Barcode</th>
-                            <th class="sortable" data-sort="book-title">Book Title</th>
-                            <th class="sortable" data-sort="tuid">TUID</th>
-                            <th class="sortable" data-sort="last-checkout">Last Checkout</th>
-                            <th class="sortable" data-sort="time-remaining">Time Remaining</th>
-                        </tr>
+                       <tr>
+                        <th style="width: 100px;">Action</th>
+                        <th class="sortable" data-sort="book-id">Book ID</th>
+                        <th class="sortable" data-sort="barcode">Barcode</th>
+                        <th class="sortable" data-sort="book-title">Book Title</th>
+                        <th class="sortable" data-sort="tuid">TUID</th>
+                        <th class="sortable" data-sort="last-checkout">Last Checkout</th>
+                        <th class="sortable" data-sort="time-remaining">Time Remaining</th>
+                        <th class="sortable" data-sort="expected-return">Expected Return</th>
+                    </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($checkedOutBooks as $row): ?>
@@ -100,9 +101,10 @@ if ($result && $result->num_rows > 0) {
                                 <td class="countdown-cell" data-return-time="<?php echo htmlspecialchars($row['expected return'] ?? ''); ?>">
                                     --:--:--
                                 </td>
+                                <td><?php echo htmlspecialchars($row['expected return'] ?? 'N/A'); ?></td>
                             </tr>
                             <tr class="details-row">
-                                <td colspan="7" class="details-cell">
+                                <td colspan="8" class="details-cell">
                                     <div class="details-container">
                                         <div class="details-grid">
                                             <div class="detail-item"><strong>C/O #:</strong> <?php echo htmlspecialchars($row['TimesCO'] ?? '0'); ?></div>
