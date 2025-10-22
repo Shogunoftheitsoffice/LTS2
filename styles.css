@@ -815,3 +815,35 @@ body:not(.admin-mode-active) .user-only {
     transform: translateY(-1px) !important;
     box-shadow: 0 3px 6px rgba(220, 53, 69, 0.4) !important;
 }
+
+/* === NEW AD MODAL COPY BUTTON === */
+
+.ad-info-with-button {
+    display: flex;
+    justify-content: space-between; /* Puts space between email and button */
+    align-items: center;
+}
+
+.copy-email-btn {
+    padding: 4px 10px;
+    font-size: 0.85em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-left: 15px; /* Space from email */
+}
+
+.copy-email-btn:hover {
+    background-color: #e0e0e0;
+    border-color: #bbb;
+}
+
+.copy-email-btn:disabled {
+    background-color: #d4edda; /* Light green for success */
+    border-color: #c3e6cb;
+    color: #155724;
+    cursor: not-allowed;
+}
