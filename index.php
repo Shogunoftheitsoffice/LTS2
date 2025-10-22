@@ -35,18 +35,21 @@ if ($result && $result->num_rows > 0) {
         <div class="sidebar">
             <nav class="sidebar-nav">
                 <a href="#" id="search-btn" class="nav-button"><img src="Assets/search.png" alt="" class="nav-icon"><span>Search</span></a>
-                <a href="#" id="add-btn" class="nav-button"><img src="Assets/add.png" alt="" class="nav-icon"><span>Add</span></a>
-                <a href="#" id="edit-btn" class="nav-button"><img src="Assets/edit.png" alt="" class="nav-icon"><span>Edit</span></a>
-                <a href="#" id="delete-btn" class="nav-button"><img src="Assets/remove.png" alt="" class="nav-icon"><span>Delete</span></a>
-                <a href="#" id="import-btn" class="nav-button"><img src="Assets/import.png" alt="" class="nav-icon"><span>Import</span></a>
-                <a href="#" id="export-btn" class="nav-button"><img src="Assets/export.png" alt="" class="nav-icon"><span>Export</span></a>
-                <a href="#" class="nav-button"><img src="Assets/settings.png" alt="" class="nav-icon"><span>Settings</span></a>
-                <a href="#" class="nav-button"><img src="Assets/help.png" alt="" class="nav-icon"><span>Help</span></a>
                 <a href="#" id="stats-btn" class="nav-button"><img src="Assets/stats.png" alt="" class="nav-icon"><span>Stats</span></a>
+                <a href="#" class="nav-button"><img src="Assets/help.png" alt="" class="nav-icon"><span>Help</span></a>
                 <a href="#" id="select-btn" class="nav-button"><img src="Assets/select.png" alt="" class="nav-icon"><span>Select</span></a>
                 <a href="#" id="deselect-btn" class="nav-button"><img src="Assets/uncheck.png" alt="" class="nav-icon"><span>Deselect</span></a>
                 <a href="#" id="close-all-btn" class="nav-button"><img src="Assets/close.png" alt="" class="nav-icon"><span>Close All</span></a>
-                <a href="#" class="nav-button"><img src="Assets/exit.png" alt="" class="nav-icon"><span>Exit</span></a>
+
+                <a href="#" id="add-btn" class="nav-button admin-only"><img src="Assets/add.png" alt="" class="nav-icon"><span>Add</span></a>
+                <a href="#" id="edit-btn" class="nav-button admin-only"><img src="Assets/edit.png" alt="" class="nav-icon"><span>Edit</span></a>
+                <a href="#" id="delete-btn" class="nav-button admin-only"><img src="Assets/remove.png" alt="" class="nav-icon"><span>Delete</span></a>
+                <a href="#" id="import-btn" class="nav-button admin-only"><img src="Assets/import.png" alt="" class="nav-icon"><span>Import</span></a>
+                <a href="#" id="export-btn" class="nav-button admin-only"><img src="Assets/export.png" alt="" class="nav-icon"><span>Export</span></a>
+                <a href="#" class="nav-button admin-only"><img src="Assets/settings.png" alt="" class="nav-icon"><span>Settings</span></a>
+                <a href="#" id="exit-btn" class="nav-button admin-only"><img src="Assets/exit.png" alt="" class="nav-icon"><span>Exit</span></a>
+                
+                <a href="#" id="admin-login-btn" class="nav-button user-only"><img src="Assets/settings.png" alt="" class="nav-icon"><span>Admin Login</span></a>
             </nav>
         </div>
 
