@@ -545,6 +545,33 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // --- DUPLICATE COUNTDOWN LOGIC REMOVED ---
+// --- NEW: Admin/User Mode Toggle ---
+    const exitBtn = document.getElementById('exit-btn');
+    const adminLoginBtn = document.getElementById('admin-login-btn');
+
+    if (exitBtn) {
+        exitBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            // This switches to User Mode
+            document.body.classList.remove('admin-mode-active');
+        });
+    }
+
+    if (adminLoginBtn) {
+        adminLoginBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            // This brings up a password prompt to re-enter admin mode
+            const password = prompt('Please enter the admin password:');
+            
+            // You can change this password
+            if (password === 'admin') { 
+                document.body.classList.add('admin-mode-active');
+            } else if (password !== null) { // null means they hit 'Cancel'
+                alert('Incorrect password.');
+            }
+        });
+    }
+    // --- END: Admin/User Mode ---
 
 }); // This should be the VERY LAST line of your file
