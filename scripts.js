@@ -155,7 +155,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         // Special case: Last Checkout (sorts as a date)
-        if (sortKey === 'last-checkout') {
+        // Special case: Last Checkout / Expected Return (sorts as a date)
+    if (sortKey === 'last-checkout' || sortKey === 'expected-return') {
             const val = row.children[colIndex].textContent;
             // Use 0 if the date is invalid
             const time = new Date(val.replace(' ', 'T') || 0).getTime();
@@ -404,16 +405,20 @@ document.addEventListener('DOMContentLoaded', function() {
                     .then(response => response.json())
                     .then(res => {
                         if (res.success && res.data) {
-                            adInfoContent.innerHTML = `
-                                <div class="ad-info-box">
-                                    <div class="ad-info-item"><strong>TUID:</strong> ${res.data.employeeID}</div>
-                                    <div class="ad-info-item"><strong>Name:</strong> ${res.data.name}</div>
-                                    <div class="ad-info-item"><strong>Email:</strong> ${res.data.email}</div>
-                                </div>
-                            `;
-                        } else {
-                             adInfoContent.innerHTML = `<p class="ad-message error">${res.message}</p>`;
-                        }
+                    const email = res.data.email || 'N/A'; // Get email
+                    adInfoContent.innerHTML = `
+                        <div class="ad-info-box">
+                            <div class="ad-info-item"><strong>TUID:</strong> ${res.data.employeeID}</div>
+                            <div class="ad-info-item"><strong>Name:</strong> ${res.data.name}</div>
+                            <div class="ad-info-item ad-info-with-button">
+                                <span><strong>Email:</strong> ${email}</span>
+                                ${email !== 'N/A' ? `<button class="copy-email-btn" data-email="${email}">Copy</button>` : ''}
+                            </div>
+                        </div>
+                    `;
+                } else {
+                     adInfoContent.innerHTML = `<p class="ad-message error">${res.message}</p>`;
+                }
                     })
                     .catch(error => {
                         console.error('Error fetching AD info:', error);
@@ -423,11 +428,28 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    adInfoCloseBtn.addEventListener('click', closeAdModal);
     adInfoModal.addEventListener('click', (e) => {
+        // This part closes the modal if you click the background
         if (e.target === adInfoModal) {
             closeAdModal();
         }
+
+        // --- NEW: Copy Email Button Logic ---
+        if (e.target.classList.contains('copy-email-btn')) {
+            const email = e.target.dataset.email;
+            navigator.clipboard.writeText(email).then(() => {
+                e.target.textContent = 'Copied!';
+                e.target.disabled = true;
+                setTimeout(() => {
+                    e.target.textContent = 'Copy';
+                    e.target.disabled = false;
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy email: ', err);
+                alert('Failed to copy email.');
+            });
+        }
+        // --- END: Copy Email ---
     });
      document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && adInfoModal.style.display === 'flex') {
