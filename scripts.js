@@ -539,7 +539,7 @@ document.addEventListener('DOMContentLoaded', function() {
         adminLoginBtn.addEventListener('click', (e) => {
             e.preventDefault();
             const password = prompt('Please enter the admin password:');
-            if (password === 'admin') { 
+            if (password === 'admin123') { 
                 document.body.classList.add('admin-mode-active');
             } else if (password !== null) {
                 alert('Incorrect password.');
