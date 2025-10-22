@@ -49,7 +49,7 @@ if ($result && $result->num_rows > 0) {
                 <a href="#" class="nav-button admin-only"><img src="Assets/settings.png" alt="" class="nav-icon"><span>Settings</span></a>
                 <a href="#" id="exit-btn" class="nav-button admin-only"><img src="Assets/exit.png" alt="" class="nav-icon"><span>Exit</span></a>
                 
-                <a href="#" id="admin-login-btn" class="nav-button user-only"><img src="Assets/settings.png" alt="" class="nav-icon"><span>Admin Login</span></a>
+                <a href="#" id="admin-login-btn" class="nav-button user-only"><img src="Assets/admin.png" alt="" class="nav-icon"><span>Admin</span></a>
             </nav>
         </div>
 
