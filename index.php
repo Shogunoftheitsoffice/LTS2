@@ -110,7 +110,6 @@ if ($result && $result->num_rows > 0) {
                                             <div class="detail-item"><strong>Professor:</strong> <?php echo htmlspecialchars($row['name'] ?? 'N/A'); ?></div> 
                                             <div class="detail-item"><strong>Course:</strong> <?php echo htmlspecialchars($row['course'] ?? 'N/A'); ?></div>
                                             <div class="detail-item"><strong>Course Title:</strong> <?php echo htmlspecialchars($row['course title'] ?? 'N/A'); ?></div>
-                                            <div class="detail-item"><strong>Expected Return:</strong> <?php echo htmlspecialchars($row['expected return'] ?? 'N/A'); ?></div>
                                             <div class="detail-item"><strong>Database ID:</strong> <?php echo htmlspecialchars($row['id'] ?? 'N/A'); ?></div>
                                             </div>
                                     </div>
