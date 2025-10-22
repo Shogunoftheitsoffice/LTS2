@@ -684,3 +684,57 @@ body.select-mode-active .main-row {
     border-radius: 5px;
     box-sizing: border-box; /* Ensures padding doesn't break layout */
 }
+
+/* === NEW STATS MODAL STYLES === */
+
+.stats-grid {
+    display: grid;
+    /* Creates 3 responsive columns */
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    text-align: center;
+}
+
+.stat-item {
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+}
+
+.stat-value {
+    font-size: 2.5em;
+    font-weight: 600;
+    color: #007bff;
+    line-height: 1.1;
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    font-size: 1em;
+    font-weight: 600;
+    color: #555;
+}
+
+/* Special style for the full-width item */
+.stat-item.wide {
+    grid-column: 1 / -1; /* Span all columns */
+    background-color: #f0f5fb;
+    border-color: #cce0ff;
+}
+
+.stat-value-small {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 3px;
+}
+
+.stat-label-small {
+    font-size: 0.9em;
+    color: #666;
+}
