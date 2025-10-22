@@ -375,7 +375,37 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // --- OLD CHECKOUT FORM SUBMIT LOGIC HAS BEEN REMOVED ---
+// --- Fallback function to copy text to clipboard ---
+function copyEmailFallback(text) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    
+    // --- Make it invisible ---
+    textArea.style.position = 'fixed';
+    textArea.style.top = 0;
+    textArea.style.left = 0;
+    textArea.style.width = '2em';
+    textArea.style.height = '2em';
+    textArea.style.padding = 0;
+    textArea.style.border = 'none';
+    textArea.style.outline = 'none';
+    textArea.style.boxShadow = 'none';
+    textArea.style.background = 'transparent';
 
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+
+    let success = false;
+    try {
+        success = document.execCommand('copy');
+    } catch (err) {
+        console.error('Fallback copy failed', err);
+    }
+
+    document.body.removeChild(textArea);
+    return success;
+}
 
     // --- AD Info Modal Logic ---
     const adInfoModal = document.getElementById('ad-info-modal');
@@ -428,26 +458,45 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    adInfoModal.addEventListener('click', (e) => {
+adInfoModal.addEventListener('click', (e) => {
         // This part closes the modal if you click the background
         if (e.target === adInfoModal) {
             closeAdModal();
         }
 
-        // --- NEW: Copy Email Button Logic ---
+        // --- UPDATED: Copy Email Button Logic with Fallback ---
         if (e.target.classList.contains('copy-email-btn')) {
             const email = e.target.dataset.email;
-            navigator.clipboard.writeText(email).then(() => {
-                e.target.textContent = 'Copied!';
-                e.target.disabled = true;
-                setTimeout(() => {
-                    e.target.textContent = 'Copy';
-                    e.target.disabled = false;
-                }, 2000);
-            }).catch(err => {
-                console.error('Failed to copy email: ', err);
-                alert('Failed to copy email.');
-            });
+            const button = e.target;
+
+            // Helper function to update the button's state
+            const updateButton = (success) => {
+                if (success) {
+                    button.textContent = 'Copied!';
+                    button.disabled = true;
+                    setTimeout(() => {
+                        button.textContent = 'Copy';
+                        button.disabled = false;
+                    }, 2000);
+                } else {
+                    alert('Failed to copy email.');
+                }
+            };
+
+            // Check if modern Clipboard API is available (is secure)
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(email).then(() => {
+                    updateButton(true);
+                }).catch(err => {
+                    console.error('Failed to copy email: ', err);
+                    updateButton(false);
+                });
+            } else {
+                // Use the deprecated fallback
+                console.warn('Using fallback copy method. Consider using HTTPS.');
+                const success = copyEmailFallback(email);
+                updateButton(success);
+            }
         }
         // --- END: Copy Email ---
     });
