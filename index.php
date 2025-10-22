@@ -46,7 +46,7 @@ if ($result && $result->num_rows > 0) {
                 <a href="#" id="delete-btn" class="nav-button admin-only"><img src="Assets/remove.png" alt="" class="nav-icon"><span>Delete</span></a>
                 <a href="#" id="import-btn" class="nav-button admin-only"><img src="Assets/import.png" alt="" class="nav-icon"><span>Import</span></a>
                 <a href="#" id="export-btn" class="nav-button admin-only"><img src="Assets/export.png" alt="" class="nav-icon"><span>Export</span></a>
-                <a href="#" class="nav-button admin-only"><img src="Assets/settings.png" alt="" class="nav-icon"><span>Settings</span></a>
+                <a href="#" id="settings-btn" class="nav-button admin-only"><img src="Assets/settings.png" alt="" class="nav-icon"><span>Settings</span></a>
                 <a href="#" id="exit-btn" class="nav-button admin-only"><img src="Assets/exit.png" alt="" class="nav-icon"><span>Exit</span></a>
                 
                 <a href="#" id="admin-login-btn" class="nav-button user-only"><img src="Assets/admin.png" alt="" class="nav-icon"><span>Admin</span></a>
@@ -208,14 +208,14 @@ if ($result && $result->num_rows > 0) {
     <?php require_once '_add_modal.php'; ?>
     <?php require_once '_edit_modal.php'; ?>
     <?php require_once '_import_modal.php'; ?>
-    
+    <?php require_once '_settings_modal.php'; ?>
     <?php require_once '_stats_modal.php'; ?>
     
     <script src="scripts.js"></script>
     <script src="add.js"></script>
     <script src="edit.js"></script>
     <script src="import.js"></script>
-
+    <script src="settings.js"></script>
     <script src="stats.js"></script>
 
 </body>
