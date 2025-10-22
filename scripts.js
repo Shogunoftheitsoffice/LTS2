@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     
-    // --- NEW: Manual Checkout Form Logic ---
+    // --- Manual Checkout Form Logic ---
     const manualForm = document.getElementById('manual-checkout-form');
     const tuidInput = document.getElementById('manual-tuid-input');
     const barcodeInput = document.getElementById('manual-barcode-input');
@@ -8,13 +8,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const checkoutBtn = document.getElementById('manual-checkout-btn');
 
     if (manualForm) {
-        tuidInput.focus();
+        tuidInput.focus(); // Auto-focus on page load
+
         manualForm.addEventListener('submit', function(e) {
             e.preventDefault();
             const tuid = tuidInput.value.trim();
             const barcode = barcodeInput.value.trim();
 
-            // --- Validation ---
             if (!/^\d{9}$/.test(tuid)) {
                 checkoutMessage.textContent = 'Error: TUID must be exactly 9 digits.';
                 checkoutMessage.className = 'modal-message error';
@@ -26,7 +26,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            // --- Processing ---
             checkoutMessage.textContent = 'Processing...';
             checkoutMessage.className = 'modal-message processing';
             checkoutBtn.disabled = true;
@@ -44,9 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (data.success) {
                     checkoutMessage.textContent = data.message;
                     checkoutMessage.className = 'modal-message success';
-                    setTimeout(() => {
-                        location.reload(); // Reload to see the change
-                    }, 1500);
+                    setTimeout(() => { location.reload(); }, 1500);
                 } else {
                     checkoutMessage.textContent = data.message || 'An unknown error occurred.';
                     checkoutMessage.className = 'modal-message error';
@@ -68,25 +65,17 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-    // --- END: Manual Checkout ---
 
-    // --- UPDATED: script for details row (now with selection) ---
+    // --- Row Click (Expand / Select) Logic ---
     document.querySelectorAll('.main-row').forEach(row => {
-        row.addEventListener('click', (e) => { // Get the event object 'e'
-            
-            // --- First, always ignore clicks on buttons or links ---
+        row.addEventListener('click', (e) => {
             if (e.target.closest('button, a')) {
-                return; // Do nothing
+                return; 
             }
-
-            // --- NEW: Handle selection if in select mode ---
             if (document.body.classList.contains('select-mode-active')) {
                 row.classList.toggle('row-selected');
-                return; // Stop here, don't expand the row
+                return; 
             }
-            // --- END NEW ---
-
-            // If not in select mode, and not a button, expand the row
             const detailsRow = row.nextElementSibling;
             if (detailsRow && detailsRow.classList.contains('details-row')) {
                 detailsRow.style.display = (detailsRow.style.display === 'table-row') ? 'none' : 'table-row';
@@ -94,17 +83,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // --- NEW: Select / Deselect All Logic ---
+    // --- Select / Deselect All Logic ---
     const selectBtn = document.getElementById('select-btn');
     const deselectBtn = document.getElementById('deselect-btn');
 
-    // 1. Logic for the 'Select' button (toggles select mode)
     selectBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        // Toggle the 'select-mode-active' class on the whole page
         document.body.classList.toggle('select-mode-active');
-
-        // If we just *turned off* select mode, also clear all selections
         if (!document.body.classList.contains('select-mode-active')) {
             document.querySelectorAll('.main-row.row-selected').forEach(row => {
                 row.classList.remove('row-selected');
@@ -112,7 +97,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // 2. Logic for the 'Deselect' button (clears all selections)
     deselectBtn.addEventListener('click', (e) => {
         e.preventDefault();
         document.querySelectorAll('.main-row.row-selected').forEach(row => {
@@ -120,113 +104,72 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // --- NEW: Close All Details Logic ---
+    // --- Close All Details Logic ---
     const closeAllBtn = document.getElementById('close-all-btn');
-
     if (closeAllBtn) {
         closeAllBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            
-            // Find all expanded details rows
-            const allDetailsRows = document.querySelectorAll('.details-row');
-            
-            // Loop through them and hide them
-            allDetailsRows.forEach(row => {
+            document.querySelectorAll('.details-row').forEach(row => {
                 row.style.display = 'none';
             });
         });
     }
-    // --- END NEW: Select / Deselect ---
-
-     /**
-     * Gets the value from a row cell for sorting.
-     * @param {HTMLElement} row - The <tr> element.
-     * @param {number} colIndex - The column index to get data from.
-     * @param {string} sortKey - The data-sort attribute (for special cases).
-     * @returns {string|number|Date} - The value to be compared.
-     */
+    
+    // --- Table Sorting Logic ---
     function getSortValue(row, colIndex, sortKey) {
-        // Special case: Time Remaining (sorts by data-return-time attribute)
         if (sortKey === 'time-remaining') {
             const cell = row.querySelector('.countdown-cell');
-            // Use 0 if the time is invalid, so it sorts consistently
             const time = new Date(cell.dataset.returnTime.replace(' ', 'T') || 0).getTime();
             return isNaN(time) ? 0 : time;
         }
         
-        // Special case: Last Checkout (sorts as a date)
-        // Special case: Last Checkout / Expected Return (sorts as a date)
-    if (sortKey === 'last-checkout' || sortKey === 'expected-return') {
+        if (sortKey === 'last-checkout' || sortKey === 'expected-return') {
             const val = row.children[colIndex].textContent;
-            // Use 0 if the date is invalid
             const time = new Date(val.replace(' ', 'T') || 0).getTime();
             return isNaN(time) ? 0 : time;
         }
 
-        // Get the raw text from the cell
         const val = row.children[colIndex].textContent.trim();
 
-        // --- UPDATED: Numeric Sort Logic ---
-        // Check if this column is meant to be sorted numerically
         if (sortKey === 'book-id' || sortKey === 'barcode' || sortKey === 'tuid') {
             const num = parseFloat(val);
-            
-            // If it's not a valid number (e.g., "N/A"), return Infinity 
-            // so it always goes to the end of an ascending sort.
             if (isNaN(num)) {
                 return Infinity; 
             }
             return num;
         }
-        // --- END: Numeric Sort ---
-
-        // Default case: return as lowercase text for alphabetical sorting
         return val.toLowerCase();
     }
 
-    /**
-     * Sorts an HTML table.
-     * @param {HTMLElement} table - The <table> element.
-     * @param {HTMLElement} th - The <th> element that was clicked.
-     * @param {number} colIndex - The index of the column to sort.
-     */
     function sortTable(table, th, colIndex) {
         const tbody = table.querySelector('tbody');
         const sortKey = th.dataset.sort;
-        
-        // 1. Determine sort direction (toggle from last state)
         const isAscending = th.dataset.order === 'desc';
         th.dataset.order = isAscending ? 'asc' : 'desc';
 
-        // 2. Clear arrows from all *other* headers in this table
         table.querySelectorAll('.sortable').forEach(header => {
             if (header !== th) {
                 delete header.dataset.order;
             }
         });
 
-        // 3. Get all row pairs (main-row + details-row)
         const rows = Array.from(tbody.querySelectorAll('tr.main-row'));
         const rowGroups = rows.map(row => [row, row.nextElementSibling]);
 
-        // 4. Sort the row groups
         rowGroups.sort((groupA, groupB) => {
             const valA = getSortValue(groupA[0], colIndex, sortKey);
             const valB = getSortValue(groupB[0], colIndex, sortKey);
-
             if (valA < valB) return isAscending ? -1 : 1;
             if (valA > valB) return isAscending ? 1 : -1;
             return 0;
         });
 
-        // 5. Re-append all rows (in pairs) to the tbody
         rowGroups.forEach(group => {
-            tbody.appendChild(group[0]); // Append main row
-            tbody.appendChild(group[1]); // Append details row
+            tbody.appendChild(group[0]);
+            tbody.appendChild(group[1]);
         });
     }
 
-    // --- Add click listeners to all sortable headers ---
     document.querySelectorAll('.sortable').forEach(header => {
         header.addEventListener('click', () => {
             const table = header.closest('table');
@@ -234,7 +177,6 @@ document.addEventListener('DOMContentLoaded', function() {
             sortTable(table, header, colIndex);
         });
     });
-    // --- END: Table Sorting Logic ---
 
     // --- Search Modal Logic ---
     const searchBtn = document.getElementById('search-btn');
@@ -244,13 +186,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('search-input');
     const searchResultsContainer = document.getElementById('search-results');
 
-    // Function to open the modal
     const openSearchModal = () => {
         searchModal.style.display = 'flex';
         searchInput.focus();
     }
-
-    // Function to close the modal
     const closeSearchModal = () => {
         searchModal.style.display = 'none';
         searchResultsContainer.innerHTML = '';
@@ -261,17 +200,9 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         openSearchModal();
     });
-    
     closeModalBtn.addEventListener('click', closeSearchModal);
-    
     searchModal.addEventListener('click', (e) => {
         if (e.target === searchModal) {
-            closeSearchModal();
-        }
-    });
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && searchModal.style.display === 'flex') {
             closeSearchModal();
         }
     });
@@ -279,14 +210,11 @@ document.addEventListener('DOMContentLoaded', function() {
     searchForm.addEventListener('submit', function(e) {
         e.preventDefault();
         const searchTerm = searchInput.value.trim();
-
         if (searchTerm.length < 2) {
             searchResultsContainer.innerHTML = '<p class="search-message">Please enter at least 2 characters.</p>';
             return;
         }
-
         searchResultsContainer.innerHTML = '<p class="search-message">Searching...</p>';
-
         fetch(`search.php?term=${encodeURIComponent(searchTerm)}`)
             .then(response => response.json())
             .then(data => {
@@ -303,13 +231,11 @@ document.addEventListener('DOMContentLoaded', function() {
             searchResultsContainer.innerHTML = '<p class="search-message">No results found.</p>';
             return;
         }
-
         let html = '<ul>';
         results.forEach(item => {
             const status = (item.checkedout && item.checkedout.toLowerCase() === 'yes') 
                 ? `<span class="status-out">Checked Out</span> to Professor ${item.name || 'N/A'}` 
                 : '<span class="status-available">Available</span>';
-
             html += `
                 <li>
                     <div class="result-main-content">
@@ -331,26 +257,110 @@ document.addEventListener('DOMContentLoaded', function() {
         searchResultsContainer.innerHTML = html;
     }
 
+    searchResultsContainer.addEventListener('click', function(e) {
+        if (e.target && e.target.classList.contains('go-to-item-btn')) {
+            const bookId = e.target.dataset.id;
+            const targetRow = document.querySelector(`.main-row[data-id='${bookId}']`);
+            if (targetRow) {
+                closeSearchModal();
+                targetRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                targetRow.classList.add('highlight');
+                setTimeout(() => {
+                    targetRow.classList.remove('highlight');
+                }, 2500);
+            } else {
+                alert('Could not find the item in the list.');
+            }
+        }
+    });
+    
+    // --- Clipboard Fallback Function ---
+    function copyEmailFallback(text) {
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        textArea.style.position = 'fixed';
+        textArea.style.top = 0;
+        textArea.style.left = 0;
+        textArea.style.opacity = 0;
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        let success = false;
+        try {
+            success = document.execCommand('copy');
+        } catch (err) {
+            console.error('Fallback copy failed', err);
+        }
+        document.body.removeChild(textArea);
+        return success;
+    }
 
-    // --- OLD CHECKOUT MODAL LOGIC HAS BEEN REMOVED ---
+    // --- AD Info Modal Logic ---
+    const adInfoModal = document.getElementById('ad-info-modal');
+    const adInfoContent = document.getElementById('ad-info-content');
+    const adInfoCloseBtn = adInfoModal.querySelector('.modal-close');
 
+    const openAdModal = () => {
+        adInfoModal.style.display = 'flex';
+        adInfoContent.innerHTML = '<p class="ad-message">Fetching information...</p>';
+    };
+    const closeAdModal = () => {
+        adInfoModal.style.display = 'none';
+        adInfoContent.innerHTML = '';
+    };
 
-    // --- Return Button Logic ---
+    // This is the close button click
+    adInfoCloseBtn.addEventListener('click', closeAdModal);
+
+    // This is for clicking the modal background
+    adInfoModal.addEventListener('click', (e) => {
+        if (e.target === adInfoModal) {
+            closeAdModal();
+        }
+        // Copy Email Button Logic (with fallback)
+        if (e.target.classList.contains('copy-email-btn')) {
+            const email = e.target.dataset.email;
+            const button = e.target;
+
+            const updateButton = (success) => {
+                if (success) {
+                    button.textContent = 'Copied!';
+                    button.disabled = true;
+                    setTimeout(() => {
+                        button.textContent = 'Copy';
+                        button.disabled = false;
+                    }, 2000);
+                } else {
+                    alert('Failed to copy email.');
+                }
+            };
+
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(email).then(() => {
+                    updateButton(true);
+                }).catch(err => {
+                    console.error('Failed to copy email: ', err);
+                    updateButton(false);
+                });
+            } else {
+                console.warn('Using fallback copy method. Consider using HTTPS.');
+                const success = copyEmailFallback(email);
+                updateButton(success);
+            }
+        }
+    });
+     
+    // --- Main Content Click Handler (Return Button + TUID Link) ---
     const mainContent = document.querySelector('.main-content'); 
-
     mainContent.addEventListener('click', function(e) {
-        // --- THIS PART WAS REMOVED ---
-        // if (e.target.classList.contains('checkout-btn')) { ... }
-        // --- END REMOVAL ---
-
+        
+        // Return Button Logic
         if (e.target.classList.contains('return-btn')) {
             e.stopPropagation();
             e.preventDefault();
-
             if (confirm('Are you sure you want to return this book?')) {
                 const mainRow = e.target.closest('.main-row');
                 const bookId = mainRow.dataset.id;
-                
                 const formData = new FormData();
                 formData.append('bookId', bookId);
 
@@ -372,83 +382,33 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             }
         }
-    });
 
-    // --- OLD CHECKOUT FORM SUBMIT LOGIC HAS BEEN REMOVED ---
-// --- Fallback function to copy text to clipboard ---
-function copyEmailFallback(text) {
-    const textArea = document.createElement('textarea');
-    textArea.value = text;
-    
-    // --- Make it invisible ---
-    textArea.style.position = 'fixed';
-    textArea.style.top = 0;
-    textArea.style.left = 0;
-    textArea.style.width = '2em';
-    textArea.style.height = '2em';
-    textArea.style.padding = 0;
-    textArea.style.border = 'none';
-    textArea.style.outline = 'none';
-    textArea.style.boxShadow = 'none';
-    textArea.style.background = 'transparent';
-
-    document.body.appendChild(textArea);
-    textArea.focus();
-    textArea.select();
-
-    let success = false;
-    try {
-        success = document.execCommand('copy');
-    } catch (err) {
-        console.error('Fallback copy failed', err);
-    }
-
-    document.body.removeChild(textArea);
-    return success;
-}
-
-    // --- AD Info Modal Logic ---
-    const adInfoModal = document.getElementById('ad-info-modal');
-    const adInfoContent = document.getElementById('ad-info-content');
-    const adInfoCloseBtn = adInfoModal.querySelector('.modal-close');
-
-    const openAdModal = () => {
-        adInfoModal.style.display = 'flex';
-        adInfoContent.innerHTML = '<p class="ad-message">Fetching information...</p>';
-    };
-
-    const closeAdModal = () => {
-        adInfoModal.style.display = 'none';
-        adInfoContent.innerHTML = '';
-    };
-
-    mainContent.addEventListener('click', function(e) {
+        // TUID Link Logic
         if (e.target.classList.contains('tuid-link')) {
             e.preventDefault();
-            e.stopPropagation(); // Stop event from bubbling
+            e.stopPropagation();
             const tuid = e.target.dataset.tuid;
             
             if (tuid) {
                 openAdModal();
-
                 fetch(`activearchive.php?tuid=${encodeURIComponent(tuid)}`)
                     .then(response => response.json())
                     .then(res => {
                         if (res.success && res.data) {
-                    const email = res.data.email || 'N/A'; // Get email
-                    adInfoContent.innerHTML = `
-                        <div class="ad-info-box">
-                            <div class="ad-info-item"><strong>TUID:</strong> ${res.data.employeeID}</div>
-                            <div class="ad-info-item"><strong>Name:</strong> ${res.data.name}</div>
-                            <div class="ad-info-item ad-info-with-button">
-                                <span><strong>Email:</strong> ${email}</span>
-                                ${email !== 'N/A' ? `<button class="copy-email-btn" data-email="${email}">Copy</button>` : ''}
-                            </div>
-                        </div>
-                    `;
-                } else {
-                     adInfoContent.innerHTML = `<p class="ad-message error">${res.message}</p>`;
-                }
+                            const email = res.data.email || 'N/A';
+                            adInfoContent.innerHTML = `
+                                <div class="ad-info-box">
+                                    <div class="ad-info-item"><strong>TUID:</strong> ${res.data.employeeID}</div>
+                                    <div class="ad-info-item"><strong>Name:</strong> ${res.data.name}</div>
+                                    <div class="ad-info-item ad-info-with-button">
+                                        <span><strong>Email:</strong> ${email}</span>
+                                        ${email !== 'N/A' ? `<button class="copy-email-btn" data-email="${email}">Copy</button>` : ''}
+                                    </div>
+                                </div>
+                            `;
+                        } else {
+                             adInfoContent.innerHTML = `<p class="ad-message error">${res.message}</p>`;
+                        }
                     })
                     .catch(error => {
                         console.error('Error fetching AD info:', error);
@@ -458,79 +418,40 @@ function copyEmailFallback(text) {
         }
     });
 
-adInfoModal.addEventListener('click', (e) => {
-        // This part closes the modal if you click the background
-        if (e.target === adInfoModal) {
-            closeAdModal();
-        }
-
-        // --- UPDATED: Copy Email Button Logic with Fallback ---
-        if (e.target.classList.contains('copy-email-btn')) {
-            const email = e.target.dataset.email;
-            const button = e.target;
-
-            // Helper function to update the button's state
-            const updateButton = (success) => {
-                if (success) {
-                    button.textContent = 'Copied!';
-                    button.disabled = true;
-                    setTimeout(() => {
-                        button.textContent = 'Copy';
-                        button.disabled = false;
-                    }, 2000);
-                } else {
-                    alert('Failed to copy email.');
-                }
-            };
-
-            // Check if modern Clipboard API is available (is secure)
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(email).then(() => {
-                    updateButton(true);
-                }).catch(err => {
-                    console.error('Failed to copy email: ', err);
-                    updateButton(false);
-                });
-            } else {
-                // Use the deprecated fallback
-                console.warn('Using fallback copy method. Consider using HTTPS.');
-                const success = copyEmailFallback(email);
-                updateButton(success);
-            }
-        }
-        // --- END: Copy Email ---
-    });
-     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && adInfoModal.style.display === 'flex') {
-            closeAdModal();
-        }
-    });
-    // --- END: AD Info Modal Logic ---
-
-
-    searchResultsContainer.addEventListener('click', function(e) {
-        if (e.target && e.target.classList.contains('go-to-item-btn')) {
-            const bookId = e.target.dataset.id;
-            const targetRow = document.querySelector(`.main-row[data-id='${bookId}']`);
-
-            if (targetRow) {
+    // --- Global Keydown Listener (for all modals) ---
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            if (searchModal.style.display === 'flex') {
                 closeSearchModal();
-                
-                targetRow.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'center'
-                });
-
-                targetRow.classList.add('highlight');
-                setTimeout(() => {
-                    targetRow.classList.remove('highlight');
-                }, 2500);
-            } else {
-                alert('Could not find the item in the list.');
+            }
+            if (adInfoModal.style.display === 'flex') {
+                closeAdModal();
+            }
+            // Add other modals here if they exist
+            const addModal = document.getElementById('add-modal');
+            if (addModal && addModal.style.display === 'flex') {
+                addModal.querySelector('.modal-close').click(); // Triggers its own close logic
+            }
+            const editModal = document.getElementById('edit-modal');
+            if (editModal && editModal.style.display === 'flex') {
+                editModal.querySelector('.modal-close').click();
+            }
+            const importModal = document.getElementById('import-modal');
+            if (importModal && importModal.style.display === 'flex') {
+                importModal.querySelector('.modal-close').click();
+            }
+            const statsModal = document.getElementById('stats-modal');
+            if (statsModal && statsModal.style.display === 'flex') {
+                statsModal.querySelector('.modal-close').click();
+            }
+            const settingsModal = document.getElementById('settings-modal');
+            if (settingsModal && settingsModal.style.display === 'flex') {
+                settingsModal.querySelector('.modal-close').click();
             }
         }
     });
     
+    // --- Countdown Timer Logic ---
     function formatTime(ms) {
         let totalSeconds = Math.floor(ms / 1000);
         let hours = Math.floor(totalSeconds / 3600);
@@ -551,7 +472,6 @@ adInfoModal.addEventListener('click', (e) => {
         const timer = setInterval(() => {
             const now = new Date();
             const timeRemaining = returnTime - now;
-
             if (timeRemaining <= 0) {
                 clearInterval(timer);
                 cell.innerHTML = '<span class="status-out">OVERDUE</span>';
@@ -560,70 +480,57 @@ adInfoModal.addEventListener('click', (e) => {
             }
         }, 1000);
     }
-
     document.querySelectorAll('.countdown-cell').forEach(startCountdown);
 
-    // --- NEW: Delete Logic ---
+    // --- Delete Logic ---
     const deleteBtn = document.getElementById('delete-btn');
+    if (deleteBtn) {
+        deleteBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const selectedRows = document.querySelectorAll('.main-row.row-selected');
+            if (selectedRows.length === 0) {
+                alert('Please select one or more items to delete.');
+                return;
+            }
+            const idsToDelete = [];
+            selectedRows.forEach(row => {
+                idsToDelete.push(row.dataset.id);
+            });
 
-    deleteBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-
-        // 1. Find all selected rows
-        const selectedRows = document.querySelectorAll('.main-row.row-selected');
-
-        // 2. Check if any rows are selected
-        if (selectedRows.length === 0) {
-            alert('Please select one or more items to delete.');
-            return;
-        }
-
-        // 3. Create an array of their database IDs
-        const idsToDelete = [];
-        selectedRows.forEach(row => {
-            idsToDelete.push(row.dataset.id);
+            const itemText = selectedRows.length === 1 ? 'item' : 'items';
+            if (confirm(`Are you sure you want to permanently delete these ${selectedRows.length} ${itemText}?`)) {
+                const formData = new FormData();
+                idsToDelete.forEach(id => {
+                    formData.append('ids[]', id);
+                });
+                fetch('delete.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message);
+                        location.reload(); 
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error during deletion:', error);
+                    alert('A network error occurred. Please try again.');
+                });
+            }
         });
+    }
 
-        // 4. Show the confirmation dialog
-        const itemText = selectedRows.length === 1 ? 'item' : 'items';
-        if (confirm(`Are you sure you want to permanently delete these ${selectedRows.length} ${itemText}?`)) {
-            
-            // 5. If confirmed, prepare data for the server
-            const formData = new FormData();
-            idsToDelete.forEach(id => {
-                // Append each ID as part of an array
-                formData.append('ids[]', id);
-            });
-
-            // 6. Send the delete request to delete.php
-            fetch('delete.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert(data.message);
-                    location.reload(); // Reload the page to see changes
-                } else {
-                    alert('Error: ' + data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error during deletion:', error);
-                alert('A network error occurred. Please try again.');
-            });
-        }
-    });
-
-// --- NEW: Admin/User Mode Toggle ---
+    // --- Admin/User Mode Toggle ---
     const exitBtn = document.getElementById('exit-btn');
     const adminLoginBtn = document.getElementById('admin-login-btn');
 
     if (exitBtn) {
         exitBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            // This switches to User Mode
             document.body.classList.remove('admin-mode-active');
         });
     }
@@ -631,18 +538,13 @@ adInfoModal.addEventListener('click', (e) => {
     if (adminLoginBtn) {
         adminLoginBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            
-            // This brings up a password prompt to re-enter admin mode
             const password = prompt('Please enter the admin password:');
-            
-            // You can change this password
             if (password === 'admin') { 
                 document.body.classList.add('admin-mode-active');
-            } else if (password !== null) { // null means they hit 'Cancel'
+            } else if (password !== null) {
                 alert('Incorrect password.');
             }
         });
     }
-    // --- END: Admin/User Mode ---
 
-}); // This should be the VERY LAST line of your file
+}); // This is the VERY LAST line of your file
