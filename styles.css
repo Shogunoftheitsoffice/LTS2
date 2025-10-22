@@ -752,3 +752,28 @@ body.select-mode-active #select-btn {
 body.select-mode-active #select-btn .nav-icon {
     filter: brightness(0) invert(1);
 }
+
+/* === NEW Admin/User Mode Toggle Styles === */
+
+/* When in Admin Mode (default), hide the 'user-only' button */
+body.admin-mode-active .user-only {
+    display: none;
+}
+
+/* Style for the Admin Login button */
+#admin-login-btn {
+    background-color: #d4edda; /* Light green */
+    color: #155724; /* Dark green */
+}
+#admin-login-btn:hover {
+    background-color: #c3e6cb;
+}
+
+/* When in USER mode (body class is removed) */
+body:not(.admin-mode-active) .admin-only {
+    display: none; /* Hide all admin buttons */
+}
+
+body:not(.admin-mode-active) .user-only {
+    display: flex; /* Show the 'user-only' (Admin Login) button */
+}
