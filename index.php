@@ -29,7 +29,7 @@ if ($result && $result->num_rows > 0) {
     <title>LTS2</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body class="admin-mode-active"> <div class="container">
+<body> <div class="container">
         <div class="sidebar">
             <nav class="sidebar-nav">
                 <a href="#" id="search-btn" class="nav-button"><img src="Assets/search.png" alt="" class="nav-icon"><span>Search</span></a>
@@ -46,7 +46,7 @@ if ($result && $result->num_rows > 0) {
                 <a href="#" id="settings-btn" class="nav-button admin-only"><img src="Assets/settings.png" alt="" class="nav-icon"><span>Settings</span></a>
                 <a href="#" id="exit-btn" class="nav-button admin-only"><img src="Assets/exit.png" alt="" class="nav-icon"><span>Exit</span></a>
                 
-                <a href="#" id="admin-login-btn" class="nav-button user-only"><img src="Assets/admin.png" alt="" class="nav-icon"><span>Admin</span></a>
+                <a href="#" id="admin-login-btn" class="nav-button user-only"><img src="AssetsSame as in: "Assets/admin.png" alt="" class="nav-icon"><span>Admin</span></a>
             </nav>
         </div>
 
@@ -73,7 +73,8 @@ if ($result && $result->num_rows > 0) {
                         <th class="sortable" data-sort="book-id">Book ID</th>
                         <th class="sortable" data-sort="barcode">Barcode</th>
                         <th class="sortable" data-sort="book-title">Book Title</th>
-                        <th class="sortable" data-sort="professor">Professor</th> <th class="sortable" data-sort="tuid">TUID</th>
+                        <th class="sortable" data-sort="professor">Professor</th>
+                        <th class="sortable" data-sort="tuid">TUID</th>
                         <th class="sortable" data-sort="last-checkout">Last Checkout</th>
                         <th class="sortable" data-sort="time-remaining">Time Remaining</th>
                         <th class="sortable" data-sort="expected-return">Expected Return</th>
@@ -86,7 +87,8 @@ if ($result && $result->num_rows > 0) {
                                 <td><?php echo htmlspecialchars($row['book'] ?? 'N/A'); ?></td>
                                 <td><?php echo htmlspecialchars($row['barcode'] ?? 'N/A'); ?></td>
                                 <td class="item-title"><?php echo htmlspecialchars($row['book title'] ?? 'N/A'); ?></td>
-                                <td><?php echo htmlspecialchars($row['name'] ?? 'N/A'); ?></td> <td>
+                                <td><?php echo htmlspecialchars($row['name'] ?? 'N/A'); ?></td>
+                                <td>
                                     <?php if (!empty($row['tuid'])): ?>
                                         <a href="#" class="tuid-link" data-tuid="<?php echo htmlspecialchars($row['tuid']); ?>">
                                             <?php echo htmlspecialchars($row['tuid']); ?>
@@ -94,7 +96,7 @@ if ($result && $result->num_rows > 0) {
                                     <?php else: ?>
                                         N/A
                                     <?php endif; ?>
-                                </td>
+                                t</td>
                                 <td><?php echo htmlspecialchars($row['last checkout'] ?? 'N/A'); ?></td>
                                 <td class="countdown-cell" data-return-time="<?php echo htmlspecialchars($row['expected return'] ?? ''); ?>">
                                     --:--:--
@@ -102,7 +104,8 @@ if ($result && $result->num_rows > 0) {
                                 <td><?php echo htmlspecialchars($row['expected return'] ?? 'N/A'); ?></td>
                             </tr>
                             <tr class="details-row">
-                                <td colspan="9" class="details-cell"> <div class="details-container">
+                                <td colspan="9" class="details-cell">
+                                    <div class="details-container">
                                         <div class="details-grid">
                                             <div class="detail-item"><strong>C/O #:</strong> <?php echo htmlspecialchars($row['TimesCO'] ?? '0'); ?></div>
                                             <div class="detail-item"><strong>Course:</strong> <?php echo htmlspecialchars($row['course'] ?? 'N/A'); ?></div>
@@ -127,7 +130,8 @@ if ($result && $result->num_rows > 0) {
                             <th class="sortable" data-sort="book-id">Book ID</th>
                             <th class="sortable" data-sort="barcode">Barcode</th>
                             <th class="sortable" data-sort="book-title">Book Title</th>
-                            <th class="sortable" data-sort="professor">Professor</th> <th class="sortable" data-sort="course">Course</th>
+                            <th class="sortable" data-sort="professor">Professor</th>
+                            <th class="sortable" data-sort="course">Course</th>
                             <th class="sortable" data-sort="course-title">Course Title</th>
                         </tr>
                     </thead>
@@ -137,11 +141,13 @@ if ($result && $result->num_rows > 0) {
                                 <td><?php echo htmlspecialchars($row['book'] ?? 'N/A'); ?></td>
                                 <td><?php echo htmlspecialchars($row['barcode'] ?? 'N/A'); ?></td>
                                 <td class="item-title"><?php echo htmlspecialchars($row['book title'] ?? 'N/A'); ?></td>
-                                <td><?php echo htmlspecialchars($row['name'] ?? 'N/A'); ?></td> <td><?php echo htmlspecialchars($row['course'] ?? 'N/A'); ?></td>
+                                <td><?php echo htmlspecialchars($row['name'] ?? 'N/A'); ?></td>
+                                <td><?php echo htmlspecialchars($row['course'] ?? 'N/A'); ?></td>
                                 <td><?php echo htmlspecialchars($row['course title'] ?? 'N/A'); ?></td>
                             </tr>
                             <tr class="details-row">
-                                <td colspan="6" class="details-cell"> <div class="details-container">
+                                <td colspan="6" class="details-cell">
+                                    <div class="details-container">
                                         <div class="details-grid">
                                             <div class="detail-item"><strong>C/O #:</strong> <?php echo htmlspecialchars($row['TimesCO'] ?? '0'); ?></div>
                                             <div class="detail-item"><strong>TUID:</strong> <?php echo htmlspecialchars($row['tuid'] ?? 'N/A'); ?></div>
