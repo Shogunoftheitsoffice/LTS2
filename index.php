@@ -46,7 +46,7 @@ if ($result && $result->num_rows > 0) {
                 <a href="#" id="settings-btn" class="nav-button admin-only"><img src="Assets/settings.png" alt="" class="nav-icon"><span>Settings</span></a>
                 <a href="#" id="exit-btn" class="nav-button admin-only"><img src="Assets/exit.png" alt="" class="nav-icon"><span>Exit</span></a>
                 
-                <a href="#" id="admin-login-btn" class="nav-button user-only"><img src="AssetsSame as in: "Assets/admin.png" alt="" class="nav-icon"><span>Admin</span></a>
+                <a href="#" id="admin-login-btn" class="nav-button user-only"><img src="Assets/admin.png" alt="" class="nav-icon"><span>Admin</span></a>
             </nav>
         </div>
 
@@ -96,7 +96,7 @@ if ($result && $result->num_rows > 0) {
                                     <?php else: ?>
                                         N/A
                                     <?php endif; ?>
-                                t</td>
+                                </td>
                                 <td><?php echo htmlspecialchars($row['last checkout'] ?? 'N/A'); ?></td>
                                 <td class="countdown-cell" data-return-time="<?php echo htmlspecialchars($row['expected return'] ?? ''); ?>">
                                     --:--:--
@@ -204,7 +204,7 @@ if ($result && $result->num_rows > 0) {
         </div>
     </div>
     <?php require_once '_add_modal.php'; ?>
-    <?php require_once '_edit_modal.php'; ?>
+    <?php require_canal.php'; ?>
     <?php require_once '_import_modal.php'; ?>
     <?php require_once '_settings_modal.php'; ?>
     <?php require_once '_stats_modal.php'; ?>
