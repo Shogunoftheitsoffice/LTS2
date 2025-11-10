@@ -22,14 +22,17 @@ if (empty($bookId)) {
 }
 
 // --- Prepare and execute the database update ---
-// We reset all checkout-related fields to NULL or 'No'
+// We only reset the 'checkedout' and 'expected return' fields.
+// We will LEAVE tuid, name, and last checkout to preserve the history.
 $sql = "UPDATE textbooks 
         SET 
             `checkedout` = 'No', 
-            `tuid` = NULL, 
-            `name` = NULL,
-            `last checkout` = NULL,
             `expected return` = NULL
+            /* REMOVED THE FOLLOWING LINES:
+               `tuid` = NULL, 
+               `name` = NULL,
+               `last checkout` = NULL,
+            */
         WHERE 
             `id` = ? AND 
             `checkedout` = 'Yes'";
