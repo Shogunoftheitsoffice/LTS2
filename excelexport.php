@@ -11,7 +11,8 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 // --- Fetch data from MySQL ---
-$sql = "SELECT barcode, `book title`, course, `course title`, name, book, `last checkout`, tuid, `expected return` 
+// Added TimesCO to the selection list
+$sql = "SELECT barcode, `book title`, course, `course title`, name, book, `last checkout`, tuid, `expected return`, TimesCO 
         FROM textbooks";
 $result = $conn->query($sql);
 
@@ -29,6 +30,7 @@ $sheet->setCellValue('F1', 'Book');
 $sheet->setCellValue('G1', 'Last Checkout');
 $sheet->setCellValue('H1', 'TUID');
 $sheet->setCellValue('I1', 'Expected Return');
+$sheet->setCellValue('J1', 'TimesCO');
 
 // Add data from MySQL
 if ($result && $result->num_rows > 0) {
@@ -43,6 +45,7 @@ if ($result && $result->num_rows > 0) {
         $sheet->setCellValue('G' . $rowIndex, $row['last checkout']);
         $sheet->setCellValue('H' . $rowIndex, $row['tuid']);
         $sheet->setCellValue('I' . $rowIndex, $row['expected return']);
+        $sheet->setCellValue('J' . $rowIndex, $row['TimesCO']);
         $rowIndex++;
     }
 }
