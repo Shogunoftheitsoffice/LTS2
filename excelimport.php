@@ -38,18 +38,20 @@ try {
     $checkStmt = $conn->prepare($checkSql);
 
     // 2. Update existing row
+    // Added TimesCO = ? to the set list
     $updateSql = "UPDATE textbooks SET 
-                    `book title` = ?, 
-                    course = ?, 
-                    `course title` = ?, 
-                    name = ?, 
-                    book = ?
-                  WHERE barcode = ?";
+                `book title` = ?, 
+                course = ?, 
+                `course title` = ?, 
+                name = ?, 
+                book = ?,
+                TimesCO = ?
+              WHERE barcode = ?";
     $updateStmt = $conn->prepare($updateSql);
 
-    // 3. Insert new row
-    $insertSql = "INSERT INTO textbooks (barcode, `book title`, course, `course title`, name, book) 
-                  VALUES (?, ?, ?, ?, ?, ?)";
+    // Added TimesCO to columns and ? to values
+    $insertSql = "INSERT INTO textbooks (barcode, `book title`, course, `course title`, name, book, TimesCO) 
+              VALUES (?, ?, ?, ?, ?, ?, ?)";
     $insertStmt = $conn->prepare($insertSql);
 
     if (!$checkStmt || !$updateStmt || !$insertStmt) {
@@ -81,6 +83,9 @@ try {
         $courseTitle = trim($rowData[3] ?? null);
         $name = trim($rowData[4] ?? null);
         $book = trim($rowData[5] ?? null);
+        // TimesCO is now expected in the 10th column (index 9)
+        // We default to 0 if it's missing or empty
+        $timesCO = isset($rowData[9]) ? (int)trim($rowData[9]) : 0;
         
         // Skip row if barcode or title is missing
         if (empty($barcode) || empty($bookTitle)) {
@@ -100,7 +105,7 @@ try {
             $response['updated']++;
         } else {
             // 3. Barcode does not exist -> INSERT
-            $insertStmt->bind_param('ssssss', $barcode, $bookTitle, $course, $courseTitle, $name, $book);
+            $insertStmt->bind_param('ssssssi', $barcode, $bookTitle, $course, $courseTitle, $name, $book, $timesCO);
             $insertStmt->execute();
             $response['inserted']++;
         }
